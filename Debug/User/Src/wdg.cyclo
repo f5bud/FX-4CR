@@ -1,0 +1,5 @@
+wdg.c:26:6:IWDG_Init	1
+wdg.c:35:6:IWDG_Feed	1
+wdg.c:50:6:WWDG_Init	1
+wdg.c:65:6:WWDG_Set_Counter	1
+wdg.c:70:6:WWDG_IRQHandler	2

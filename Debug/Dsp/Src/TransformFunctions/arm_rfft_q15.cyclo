@@ -1,0 +1,3 @@
+arm_rfft_q15.c:127:6:arm_split_rfft_q15	5
+arm_rfft_q15.c:73:6:arm_rfft_q15	8
+arm_rfft_q15.c:285:6:arm_split_rifft_q15	5

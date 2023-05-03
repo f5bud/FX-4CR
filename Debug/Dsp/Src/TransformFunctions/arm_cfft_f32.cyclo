@@ -1,0 +1,3 @@
+arm_cfft_f32.c:195:6:arm_cfft_radix8by2_f32	3
+arm_cfft_f32.c:309:6:arm_cfft_radix8by4_f32	3
+arm_cfft_f32.c:570:6:arm_cfft_f32	21

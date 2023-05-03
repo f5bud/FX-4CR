@@ -1,0 +1,1 @@
+../Dsp/Src/FilteringFunctions/arm_lms_norm_q15.c:65:6:arm_lms_norm_q15	80	static,ignoring_inline_asm

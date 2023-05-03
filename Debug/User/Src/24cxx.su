@@ -1,0 +1,10 @@
+../User/Src/24cxx.c:11:6:AT24CXX_Init	0	static
+../User/Src/24cxx.c:18:4:AT24CXX_ReadOneByte	16	static
+../User/Src/24cxx.c:41:6:AT24CXX_WriteOneByte	16	static
+../User/Src/24cxx.c:60:5:AT24C02_Read	24	static
+../User/Src/24cxx.c:73:6:AT24C02_Write	16	static
+../User/Src/24cxx.c:87:6:AT24CXX_WriteLenByte	24	static
+../User/Src/24cxx.c:101:5:AT24CXX_ReadLenByte	24	static
+../User/Src/24cxx.c:117:4:AT24CXX_Check	16	static
+../User/Src/24cxx.c:135:6:AT24CXX_Read	24	static
+../User/Src/24cxx.c:147:6:AT24CXX_Write	24	static

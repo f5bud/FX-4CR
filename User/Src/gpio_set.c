@@ -1,0 +1,116 @@
+#include "gpio_set.h"
+
+
+/*
+*
+*/
+/*
+***************************************************
+*	
+***************************************************
+*/
+void GPIO_Init()
+{
+	RCC->AHB4ENR|=1<<0;     //使能PORT A时钟 
+	RCC->AHB4ENR|=1<<1;     //使能PORT B时钟 
+	RCC->AHB4ENR|=1<<2;     //使能PORT C时钟 
+	RCC->AHB4ENR|=1<<3;     //使能PORT D时钟
+	RCC->AHB4ENR|=1<<4;     //使能PORT D时钟
+	SYSCFG->PMCR =0;
+	//SYSCFG->PMCR |=1<<27;
+	SYSCFG->PMCR |=1<<26;
+	//
+	//	电源控制
+	//
+	GPIO_Set(GPIOB,PIN5,GPIO_MODE_OUT,0,0,GPIO_PUPD_PU);   /* POWER_SET */
+	//
+	// 收发控制键 PTT
+	//
+	GPIO_Set(GPIOB,PIN14,GPIO_MODE_IN,1,0,GPIO_PUPD_PU);   /* PTT */
+	//
+	// 收发转换控制IO
+	//
+	GPIO_Set(GPIOD,PIN7,GPIO_MODE_OUT,0,0,GPIO_PUPD_PU);   // TX/RX
+	//
+	// 按键背光
+	//
+	GPIO_Set(GPIOD,PIN15,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD);   // KEY_BL
+	//
+	// AMP高放
+	//
+	GPIO_Set(GPIOB,PIN8,GPIO_MODE_OUT,0,0,GPIO_PUPD_PU);   //LIF ATT
+	//
+	// IF ATT
+	//
+	GPIO_Set(GPIOC,PIN1,GPIO_MODE_OUT,0,0,GPIO_PUPD_PU);   //LIF ATT
+	//
+	// 静音控制 SQL
+	//
+	//GPIO_Set(GPIOB,PIN0,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD);   //SQL
+	//
+	// CW 电键
+	//
+	GPIO_Set(GPIOD,PIN10,GPIO_MODE_IN,0,0,GPIO_PUPD_PU);   // CWK_A
+	GPIO_Set(GPIOD,PIN11,GPIO_MODE_IN,0,0,GPIO_PUPD_PU);   // CWK_B
+	// 
+	//	蓝牙供电
+	//
+	GPIO_Set(GPIOD,PIN14,GPIO_MODE_OUT,0,0,GPIO_PUPD_PU);
+	//
+	//	蓝牙音频连接指示
+	//
+	GPIO_Set(GPIOC,PIN8,GPIO_MODE_IN,0,0,GPIO_PUPD_PD);
+	//
+	//	蓝牙连接指示
+	//
+	GPIO_Set(GPIOC,PIN9,GPIO_MODE_IN,0,0,GPIO_PUPD_PD);
+	//
+	//	MIC供电
+	//
+	GPIO_Set(GPIOA,PIN13,GPIO_MODE_OUT,0,0,GPIO_PUPD_PU);
+	//
+	// 声卡供电
+	//
+	//GPIO_Set(GPIOB,PIN3,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD);   // CWK_B
+	//
+	//输入带通波段控制
+	//
+	GPIO_Set(GPIOD,PIN3,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD); // 80M
+	GPIO_Set(GPIOD,PIN4,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD); // 60M
+	GPIO_Set(GPIOD,PIN5,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD); // 40M
+	GPIO_Set(GPIOD,PIN6,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD); // 30M
+	//GPIO_Set(GPIOD,PIN11,GPIO_MODE_OUT,0,0,GPIO_PUPD_PU); // 20M
+	//GPIO_Set(GPIOD,PIN10,GPIO_MODE_OUT,0,0,GPIO_PUPD_PU); // 17M/15
+	//GPIO_Set(GPIOD,PIN9,GPIO_MODE_OUT, 0,0,GPIO_PUPD_PU); // 12M/10M
+	//GPIO_Set(GPIOD,PIN8,GPIO_MODE_OUT, 0,0,GPIO_PUPD_PU); // Radio
+	//
+	// 输出低通波段控制
+	//
+	GPIO_Set(GPIOD,PIN0,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD); // 80M
+	GPIO_Set(GPIOC,PIN12,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD); // 60M/40M
+	GPIO_Set(GPIOD,PIN1,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD); // 30M/20
+	GPIO_Set(GPIOC,PIN10,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD); // 17M/15M
+	GPIO_Set(GPIOD,PIN2,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD); // 12M/10M
+	GPIO_Set(GPIOA,PIN14,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD); // 6M
+/*
+******************************************************************************
+*	空闲IO
+******************************************************************************
+*/
+	//GPIO_Set(GPIOA,PIN3,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA4,模拟输入,下拉   
+//	GPIO_Set(GPIOA,PIN14,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA5,模拟输入,下拉 
+//	GPIO_Set(GPIOA,PIN13,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA4,模拟输入,下拉   
+//	GPIO_Set(GPIOB,PIN2,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA5,模拟输入,下拉
+//	GPIO_Set(GPIOE,PIN7,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA4,模拟输入,下拉   
+//	GPIO_Set(GPIOE,PIN8,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA5,模拟输入,下拉 
+//	GPIO_Set(GPIOE,PIN9,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA4,模拟输入,下拉   
+//	GPIO_Set(GPIOE,PIN10,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA5,模拟输入,下拉
+//	GPIO_Set(GPIOE,PIN15,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA4,模拟输入,下拉   
+//	GPIO_Set(GPIOE,PIN5,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA5,模拟输入,下拉 
+//	GPIO_Set(GPIOE,PIN6,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA4,模拟输入,下拉   
+//	GPIO_Set(GPIOC,PIN13,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA5,模拟输入,下拉
+//	GPIO_Set(GPIOC,PIN14,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA4,模拟输入,下拉   
+//	GPIO_Set(GPIOC,PIN15,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA5,模拟输入,下拉 
+	//GPIO_Set(GPIOA,PIN13,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA4,模拟输入,下拉   
+	//GPIO_Set(GPIOB,PIN2,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PA5,模拟输入,下拉
+}

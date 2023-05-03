@@ -1,0 +1,3 @@
+../Dsp/Src/TransformFunctions/arm_cfft_radix4_q31.c:145:6:arm_radix4_butterfly_q31	144	static
+../Dsp/Src/TransformFunctions/arm_cfft_radix4_q31.c:517:6:arm_radix4_butterfly_inverse_q31	144	static
+../Dsp/Src/TransformFunctions/arm_cfft_radix4_q31.c:75:6:arm_cfft_radix4_q31	16	static

@@ -1,0 +1,6 @@
+../User/Src/mpu.c:22:6:MPU_Disable	0	static
+../User/Src/mpu.c:29:6:MPU_Enable	0	static
+../User/Src/mpu.c:38:4:MPU_Convert_Bytes_To_POT	0	static
+../User/Src/mpu.c:67:4:MPU_Set_Protection	16	static
+../User/Src/mpu.c:93:6:MPU_Memory_Protection	4	static
+../User/Src/mpu.c:108:6:MemManage_Handler	8	static

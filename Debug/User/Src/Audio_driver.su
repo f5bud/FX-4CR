@@ -1,0 +1,7 @@
+../User/Src/Audio_driver.c:182:6:Audio_Filter_init	64	static
+../User/Src/Audio_driver.c:151:6:Audio_hardware_init	8	static
+../User/Src/Audio_driver.c:400:6:DMA2_Stream5_IRQHandler	880	static
+../User/Src/Audio_driver.c:1958:6:DMA1_Stream0_IRQHandler	8	static
+../User/Src/Audio_driver.c:2016:6:Power_Phase_Radians	64	static
+../User/Src/Audio_driver.c:2062:6:Spectrum_Dispaly	112	static
+../User/Src/Audio_driver.c:2285:6:EXTI15_10_IRQHandler	8	static

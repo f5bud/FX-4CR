@@ -1,0 +1,1 @@
+../Dsp/Src/FilteringFunctions/arm_fir_interpolate_q15.c:57:6:arm_fir_interpolate_q15	64	static,ignoring_inline_asm

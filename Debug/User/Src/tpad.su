@@ -1,0 +1,6 @@
+../User/Src/tpad.c:55:6:TPAD_Reset	24	static
+../User/Src/tpad.c:67:5:TPAD_Get_Val	24	static
+../User/Src/tpad.c:79:5:TPAD_Get_MaxVal	56	static
+../User/Src/tpad.c:97:4:TPAD_Scan	16	static
+../User/Src/tpad.c:124:6:TIM2_CH1_Cap_Init	32	static
+../User/Src/tpad.c:23:4:TPAD_Init	72	static

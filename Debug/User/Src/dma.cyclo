@@ -1,0 +1,7 @@
+dma.c:38:6:ADC1_DMA_Config	7
+dma.c:101:6:ADC3_DMA_Config	7
+dma.c:164:6:DAC1_DMA_Config	7
+dma.c:226:6:DAC2_DMA_Config	7
+dma.c:284:6:USART1_TXDMA_Config	7
+dma.c:331:6:MYDMA_Enable	2
+dma.c:346:6:USART3_TXDMA_Config	7

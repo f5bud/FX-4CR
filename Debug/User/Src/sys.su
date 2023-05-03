@@ -1,0 +1,17 @@
+../User/Src/sys.c:23:6:MY_NVIC_SetVectorTable	0	static
+../User/Src/sys.c:29:6:MY_NVIC_PriorityGroupConfig	4	static
+../User/Src/sys.c:53:6:MY_NVIC_Init	12	static
+../User/Src/sys.c:70:6:Ex_NVIC_Config	8	static
+../User/Src/sys.c:90:6:GPIO_AF_Set	0	static
+../User/Src/sys.c:103:6:GPIO_Set	48	static
+../User/Src/sys.c:130:6:GPIO_Pin_Set	0	static
+../User/Src/sys.c:139:4:GPIO_Pin_Get	0	static
+../User/Src/sys.c:146:6:WFI_SET	0	static,ignoring_inline_asm
+../User/Src/sys.c:151:6:INTX_DISABLE	0	static,ignoring_inline_asm
+../User/Src/sys.c:156:6:INTX_ENABLE	0	static,ignoring_inline_asm
+../User/Src/sys.c:162:6:MSR_MSP	0	static,ignoring_inline_asm
+../User/Src/sys.c:168:6:Sys_Standby	0	static,ignoring_inline_asm
+../User/Src/sys.c:180:6:Sys_Soft_Reset	0	static
+../User/Src/sys.c:185:6:Cache_Enable	8	static,ignoring_inline_asm
+../User/Src/sys.c:218:4:Sys_Clock_Set	12	static
+../User/Src/sys.c:286:6:Stm32_Clock_Init	32	static

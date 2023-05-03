@@ -1,0 +1,1 @@
+../Dsp/Src/FilteringFunctions/arm_fir_fast_q15.c:60:6:arm_fir_fast_q15	48	static,ignoring_inline_asm

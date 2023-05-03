@@ -1,0 +1,11 @@
+adc.c:18:7:Adc2_Init	2
+adc.c:88:5:Get_Adc1	2
+adc.c:102:5:Get_Adc1_Average	4
+adc.c:120:7:Adc1_Init	2
+adc.c:190:6:Adc1_Channel_Selection	1
+adc.c:205:5:Get_Adc2	2
+adc.c:219:5:Get_Adc2_Average	4
+adc.c:236:7:Adc3_Init	2
+adc.c:299:6:Adc3_Channel_Selection	1
+adc.c:311:6:Adc2_Channel_Selection	1
+adc.c:328:5:Get_Adc3	2

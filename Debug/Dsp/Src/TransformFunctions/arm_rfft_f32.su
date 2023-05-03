@@ -1,0 +1,3 @@
+../Dsp/Src/TransformFunctions/arm_rfft_f32.c:145:6:arm_split_rfft_f32	24	static
+../Dsp/Src/TransformFunctions/arm_rfft_f32.c:88:6:arm_rfft_f32	32	static
+../Dsp/Src/TransformFunctions/arm_rfft_f32.c:241:6:arm_split_rifft_f32	12	static

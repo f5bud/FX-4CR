@@ -1,0 +1,2 @@
+../User/Src/dsp_filter.c:393:9:GetFilterModeFromDemodMode	0	static
+../User/Src/dsp_filter.c:425:9:DSP_ApplicableFilterPath	0	static
