@@ -1,3 +1,0 @@
-../Dsp/Src/TransformFunctions/arm_cfft_radix2_q15.c:87:6:arm_radix2_butterfly_q15	80	static,ignoring_inline_asm
-../Dsp/Src/TransformFunctions/arm_cfft_radix2_q15.c:397:6:arm_radix2_butterfly_inverse_q15	72	static,ignoring_inline_asm
-../Dsp/Src/TransformFunctions/arm_cfft_radix2_q15.c:66:6:arm_cfft_radix2_q15	16	static

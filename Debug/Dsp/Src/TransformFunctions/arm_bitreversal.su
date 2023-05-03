@@ -1,3 +1,0 @@
-../Dsp/Src/TransformFunctions/arm_bitreversal.c:41:6:arm_bitreversal_f32	56	static
-../Dsp/Src/TransformFunctions/arm_bitreversal.c:112:6:arm_bitreversal_q31	48	static
-../Dsp/Src/TransformFunctions/arm_bitreversal.c:183:6:arm_bitreversal_q15	36	static

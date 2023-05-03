@@ -1,9 +1,0 @@
-../User/Src/sai.c:29:6:SAIA_Init	8	static
-../User/Src/sai.c:69:6:SAIB_Init	8	static
-../User/Src/sai.c:162:4:SAIA_SampleRate_Set	12	static
-../User/Src/sai.c:203:6:SAIA_TX_DMA_Init	16	static
-../User/Src/sai.c:244:6:SAIB_RX_DMA_Init	12	static
-../User/Src/sai.c:305:6:SAI_Play_Start	0	static
-../User/Src/sai.c:310:6:SAI_Play_Stop	0	static
-../User/Src/sai.c:315:6:SAI_Rec_Start	0	static
-../User/Src/sai.c:320:6:SAI_Rec_Stop	0	static

@@ -1,7 +1,0 @@
-Audio_driver.c:182:6:Audio_Filter_init	7
-Audio_driver.c:151:6:Audio_hardware_init	1
-Audio_driver.c:400:6:DMA2_Stream5_IRQHandler	220
-Audio_driver.c:1958:6:DMA1_Stream0_IRQHandler	4
-Audio_driver.c:2016:6:Power_Phase_Radians	7
-Audio_driver.c:2062:6:Spectrum_Dispaly	39
-Audio_driver.c:2285:6:EXTI15_10_IRQHandler	4

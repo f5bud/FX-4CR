@@ -1,3 +1,0 @@
-arm_cfft_q15.c:137:6:arm_cfft_radix4by2_q15	4
-arm_cfft_q15.c:236:6:arm_cfft_radix4by2_inverse_q15	4
-arm_cfft_q15.c:80:6:arm_cfft_q15	27

@@ -1,6 +1,0 @@
-tpad.c:55:6:TPAD_Reset	1
-tpad.c:67:5:TPAD_Get_Val	3
-tpad.c:79:5:TPAD_Get_MaxVal	6
-tpad.c:97:4:TPAD_Scan	5
-tpad.c:124:6:TIM2_CH1_Cap_Init	1
-tpad.c:23:4:TPAD_Init	21

@@ -1,3 +1,0 @@
-../User/Src/dwt.c:30:6:bsp_InitDWT	0	static
-../User/Src/dwt.c:45:6:delay_ms	0	static
-../User/Src/dwt.c:87:6:delay_us	0	static

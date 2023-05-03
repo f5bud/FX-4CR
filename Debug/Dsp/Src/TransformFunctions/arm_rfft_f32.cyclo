@@ -1,3 +1,0 @@
-arm_rfft_f32.c:145:6:arm_split_rfft_f32	5
-arm_rfft_f32.c:88:6:arm_rfft_f32	8
-arm_rfft_f32.c:241:6:arm_split_rifft_f32	5

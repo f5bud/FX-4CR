@@ -1,3 +1,0 @@
-../Dsp/Src/TransformFunctions/arm_rfft_q15.c:127:6:arm_split_rfft_q15	48	static,ignoring_inline_asm
-../Dsp/Src/TransformFunctions/arm_rfft_q15.c:73:6:arm_rfft_q15	48	static,ignoring_inline_asm
-../Dsp/Src/TransformFunctions/arm_rfft_q15.c:285:6:arm_split_rifft_q15	32	static,ignoring_inline_asm

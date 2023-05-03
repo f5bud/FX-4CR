@@ -1,3 +1,0 @@
-../Dsp/Src/TransformFunctions/arm_cfft_radix2_f32.c:113:6:arm_radix2_butterfly_f32	48	static
-../Dsp/Src/TransformFunctions/arm_cfft_radix2_f32.c:281:6:arm_radix2_butterfly_inverse_f32	48	static
-../Dsp/Src/TransformFunctions/arm_cfft_radix2_f32.c:67:6:arm_cfft_radix2_f32	16	static
