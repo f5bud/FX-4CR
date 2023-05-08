@@ -1,5 +1,6 @@
 /*
-  ï¿½ï¿½ï¿½ï¿½ï¿½ Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ÃºÍ¶ï¿½È¡ ï¿½Ë²ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (Nï¿½ï¿½W)
+  ±¾Èí¼þ Ã»ÓÐÉèÖÃºÍ¶ÁÈ¡ ÂË²¨Æ÷×´Ì¬µÄÃüÁî (NºÍW)
+  This software does not have commands to set and read filter status (N and W)
 */
 
 #include "cat_kenwood.h"
@@ -26,9 +27,9 @@
 #include "usart.h"
 
 /**
- * itoa() ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ×ªï¿½ï¿½Îªï¿½Ö·ï¿½ï¿½ï¿½
- * itoa() ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ×ªï¿½ï¿½Îªï¿½Ö·ï¿½ï¿½ï¿½
- * ultoa() ï¿½ï¿½ï¿½Þ·ï¿½ï¿½Å³ï¿½ï¿½ï¿½ï¿½ï¿½Öµ×ªï¿½ï¿½Îªï¿½Ö·ï¿½ï¿½ï¿½ 
+ * itoa() ½«ÕûÐÍÖµ×ª»»Îª×Ö·û´® Convert an integer value to a string
+ * itoa() ½«³¤ÕûÐÍÖµ×ª»»Îª×Ö·û´® Convert a long value to a string
+ * ultoa() ½«ÎÞ·ûºÅ³¤ÕûÐÍÖµ×ª»»Îª×Ö·û´® Converts an unsigned long value to a string
 */
 uint32_t StringToDec(uint8_t *pBuf, uint8_t len)
 {
@@ -63,7 +64,8 @@ void DecToString(uint8_t *pBuf, uint8_t len, int32_t dat)
   if(sign < 0) 
     pBuf[0] = '-'; 
 }
-//ï¿½ï¿½ï¿½ï¿½×ªï¿½Ö·ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ó³¤¶ï¿½ 10 Î») + (ï¿½ï¿½ï¿½ï¿½Î» 1 Î» [-]) + (ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½'\0' [1Î»])
+//ÕûÊý×ª×Ö·û´®,ÕûÊý(×î´ó³¤¶È 10 Î») + (·ûºÅÎ» 1 Î» [-]) + (×Ö·û´®½áÊø'\0' [1Î»])
+// Integer to string, integer (maximum length 10 bits) + (sign bit 1 bit [-]) + (string end'\0' [1 bit])
 void Myitoa(int32_t n, uint8_t str[]) 
 { 
     int32_t i, sign; 
@@ -115,7 +117,7 @@ void Kenwood_BuildTransceiverStatus()
 	buf[len ++] = 'I';
 	buf[len ++] = 'F';
 
-	// P1 ï¿½ï¿½Ê¾Æµï¿½ï¿½
+	// P1 ÏÔÊ¾ÆµÂÊ display frequency
 	buf[len ++] = '0';
 	buf[len ++] = '0';
 	buf[len ++] = '0';
@@ -207,7 +209,7 @@ void Kenwood_BuildTransceiverStatus()
 		  buf[len ++] = '1';
 		}
 	}
-	else//ï¿½Åµï¿½Ä£Ê½
+	else//ÐÅµÀÄ£Ê½ channel mode
 	{
 		buf[len ++] = '2';
 	}
@@ -365,8 +367,8 @@ void Kenwood_MemoryDataAnswer()
 //    MEM_Get();
 //  }
 
-//  DRMgr.item |= RADIOItem;  // ï¿½ï¿½ï¿½ï¿½Ä£Ê½
-//  DRMgr.item |= FREQItem;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½Í²ï¿½ï¿½ï¿½
+//  DRMgr.item |= RADIOItem;  // ¸üÐÂÄ£Ê½ update mode
+//  DRMgr.item |= FREQItem;   // ¸üÐÂÖ÷ÆµºÍ²¨¶Î Update main frequency and band
 //  DRMgr.item |= FILItem;
 //}
 //
@@ -551,7 +553,7 @@ u8 Kenwood_VFOSet(u8 vfo_name,int32_t freq)
 			else m = i;
 		}
 		else if(i ==10)m=1;
-		if(freq >= Band_Info[m].start && freq <= Band_Info[m].end)	//ï¿½Â±ß½ï¿½
+		if(freq >= Band_Info[m].start && freq <= Band_Info[m].end)	//ÏÂ±ß½ç lower boundary
 		{
 			vfo[vfo_name].Band_id =m;
 			vfo[vfo_name].Freq = freq;
@@ -568,8 +570,8 @@ void Kenwood_AFGainSet(uint8_t vol)
 	{
 		return;
 	}
-	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0-100ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0-255
-	// ï¿½ï¿½ï¿½ï¿½0-60
+	// Èí¼þ½çÃæ0-100£º·¢ËÍÊý¾Ý0-255 Software interface 0-100: send data 0-255
+	// ÒôÁ¿0-60 Volume 0-60
 	uint16_t tmp = vol * 100 / 255;
 	if(tmp >= 60)
 	{
@@ -671,14 +673,15 @@ void Kenwodd_KeyingSpeedAnswer()
   buf[ len++ ] = ';';
   UartTx(buf, len);
 }
-//len : Ö¸ï¿½î¼°ï¿½ï¿½ï¿½ï¿½, Ä©Î²ï¿½Ä·ÖºÅ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lenï¿½ï¿½    BG6RDF
+//len : Ö¸Áî¼°Êý¾Ý, Ä©Î²µÄ·ÖºÅ²»¼ÆËãÔÚlenÄÚ    BG6RDF
+len: instructions and data, the semicolon at the end is not counted in len BG6RDF
 void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 { 
 	//static u32 freqA,freqB;
 	u32 tmp = 0;
 	uint8_t buf[15];
   
-  // ï¿½ï¿½ï¿½ÃºÍ¶ï¿½È¡ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½×´Ì¬
+  // ÉèÖÃºÍ¶ÁÈ¡µçÔ´¿ª¹Ø×´Ì¬ Set and read power switch status
 	if(pBuf[0] == 'P' && pBuf[1] == 'S')
 	{
 		if( len > 2)
@@ -703,12 +706,12 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 			UartTx("AI0;", 4); // AI OFF
 		}
 	}
-	// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
+	// ¶ÁÈ¡·¢ËÍÆ÷µÄ×´Ì¬ read the status of the transmitter
 	if(pBuf[0] == 'I' && pBuf[1] == 'F')
 	{
 		Kenwood_BuildTransceiverStatus();
 	}
-	// ï¿½ï¿½ï¿½ï¿½Æµï¿½Ê²ï¿½ï¿½ï¿½
+	// ÉèÖÃÆµÂÊ²¨¶Î set frequency band
 	if((pBuf[0] == 'B' && pBuf[1] == 'D') || (pBuf[0] == 'B' && pBuf[1] == 'U'))
 	{
 		//Sets a frequency band.
@@ -723,7 +726,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	if(pBuf[0] == 'B' && pBuf[1] == 'Y')
 	{
 	// Reads the busy signal status.
-	// Î´Ê¹ï¿½ï¿½
+	// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 
@@ -749,7 +752,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 			}
 		}
 	}
-  // ï¿½ï¿½ï¿½Ã»ï¿½ï¿½È¡VFOA/VFOBï¿½ï¿½Æµï¿½ï¿½
+  // ÉèÖÃ»ò¶ÁÈ¡VFOA/VFOBµÄÆµÂÊ Set or read the frequency of VFOA/VFOB
 	if(pBuf[0] == 'F' && pBuf[1] == 'A')
 	{
     // Sets or reads the VFO A/ VFO B frequency
@@ -796,7 +799,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 //			freqA = vfo[VFO_A].Freq;
 //		}
 	
-  // Ñ¡ï¿½ï¿½ï¿½ï¿½È¡VFO ï¿½ï¿½ ï¿½Ä´ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
+  // Ñ¡Ôñ»ò¶ÁÈ¡VFO »ò ¼Ä´æÆ÷Í¨µÀ Select or read VFO or register channel
 	if(pBuf[0] == 'F' && pBuf[1] == 'R')
 	{
 		// Selects or reads the VFO or Memory channel
@@ -835,7 +838,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	if(pBuf[0] == 'F' && pBuf[1] == 'T')
 	{
 		// Selects or reads the VFO or Memory channel
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -848,7 +851,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'F' && pBuf[1] == 'L')
 	{
-    // Î´Ê¹ï¿½ï¿½
+    // Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
     
@@ -861,7 +864,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'F' && pBuf[1] == 'V')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
     
@@ -874,7 +877,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'D' && pBuf[1] == 'A')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
     
@@ -887,7 +890,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'F' && pBuf[1] == 'S')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -900,7 +903,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'N' && pBuf[1] == 'B')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -913,7 +916,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'N' && pBuf[1] == 'R')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -926,7 +929,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'P' && pBuf[1] == 'A')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -939,7 +942,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'P' && pBuf[1] == 'R')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -952,7 +955,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'R' && pBuf[1] == 'A')
 	{
-		// Sets and reads the RF Attenuator status. Î´Ê¹ï¿½ï¿½
+		// Sets and reads the RF Attenuator status. Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -965,7 +968,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'V' && pBuf[1] == 'X')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -978,7 +981,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'B' && pBuf[1] == 'C')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -991,7 +994,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'C' && pBuf[1] == 'A')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1004,7 +1007,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'I' && pBuf[1] == 'D')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1017,7 +1020,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'T' && pBuf[1] == 'O')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1030,7 +1033,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'T' && pBuf[1] == 'N')
 	{
-		// Sets and reads the Tone frequency. Î´Ê¹ï¿½ï¿½
+		// Sets and reads the Tone frequency. Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1043,7 +1046,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'C' && pBuf[1] == 'T')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1056,7 +1059,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'C' && pBuf[1] == 'N')
 	{
-		// Sets and reads the CTCSS frequency Î´Ê¹ï¿½ï¿½
+		// Sets and reads the CTCSS frequency Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1101,7 +1104,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'M' && pBuf[1] == 'F')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1114,7 +1117,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'A' && pBuf[1] == 'C')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1127,7 +1130,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'N' && pBuf[1] == 'T')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1137,7 +1140,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 			UartTx("NT00;", 5); // 0: Notch OFF  0: Normal
 		}
 	}
-	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ÒôÁ¿¿ØÖÆ volume control
 	if(pBuf[0] == 'A' && pBuf[1] == 'G')
 	{
 		// Sets or reads the AF gain
@@ -1154,7 +1157,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'R' && pBuf[1] == 'G')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1180,7 +1183,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'P' && pBuf[1] == 'C')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1193,7 +1196,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
   //
 	if(pBuf[0] == 'M' && pBuf[1] == 'G')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1203,7 +1206,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 		  UartTx("MG000;", 6); // The microphone gain
 		}
 	}
-	// ï¿½ï¿½È¡ï¿½Ä´ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ¶ÁÈ¡¼Ä´æÆ÷Í¨µÀµÄÊý¾Ý Read the data of the register channel
 	if(pBuf[0] == 'M' && pBuf[1] == 'R')
 	{
 		// Reads the Memory channel data.
@@ -1215,7 +1218,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'N' && pBuf[1] == 'L')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1228,7 +1231,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'V' && pBuf[1] == 'G')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1240,7 +1243,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	}
 	if(pBuf[0] == 'V' && pBuf[1] == 'D')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1250,7 +1253,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 			UartTx("VD0000;", 7); // the VOX Gain 
 		}
 	}
-   // ï¿½ï¿½È¡RXï¿½ï¿½TXï¿½Äµï¿½Æ½Ö¸Ê¾ï¿½ï¿½ï¿½ï¿½
+   // ¶ÁÈ¡RXºÍTXµÄµçÆ½Ö¸Ê¾¸ñ×Ó Read the level indication grid of RX and TX
 	if(pBuf[0] == 'S' && pBuf[1] == 'M')
 	{
 		// Reads the S-meter value. 
@@ -1263,7 +1266,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'S' && pBuf[1] == 'Q')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 3)
 		{
 		
@@ -1276,7 +1279,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'Q' && pBuf[1] == 'R')
 	{
-		// Î´Ê¹ï¿½ï¿½
+		// Î´Ê¹ÓÃ Unused
 		if( len > 3)
 		{
 		
@@ -1289,7 +1292,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'I' && pBuf[1] == 'S')
 	{
-		// Sets and reads the DSP Filter Shift Î´Ê¹ï¿½ï¿½
+		// Sets and reads the DSP Filter Shift Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1299,7 +1302,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 			UartTx("IS 0000;", 8); // 
 		}
 	}
-	// ï¿½ï¿½ï¿½ÃºÍ¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ÉèÖÃºÍ¶ÁÈ¡µç¼ü¼üËÙ Set and read key speed
 	if(pBuf[0] == 'K' && pBuf[1] == 'S')
 	{
 		// Sets and reads the Keying speed
@@ -1316,7 +1319,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'S' && pBuf[1] == 'D')
 	{
-		// Sets and reads the CW break-in time delay. Î´Ê¹ï¿½ï¿½
+		// Sets and reads the CW break-in time delay. Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1329,7 +1332,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'A' && pBuf[1] == 'N')
 	{
-		// Selects the antenna connector ANT1/ ANT2 Î´Ê¹ï¿½ï¿½
+		// Selects the antenna connector ANT1/ ANT2 Î´Ê¹ÓÃ Unused
 		if( len > 2)
 		{
 		
@@ -1356,7 +1359,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 		  
 		}
 	}
-	// ï¿½ï¿½ï¿½ÃºÍ¶ï¿½È¡ï¿½Ä´ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½
+	// ÉèÖÃºÍ¶ÁÈ¡¼Ä´æÆ÷Í¨µÀºÅ Set and read register channel number
 	if(pBuf[0] == 'M' && pBuf[1] == 'C')
 	{
 		// Sets and reads the Memory Channel number
@@ -1373,7 +1376,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 			Kenwood_MemoryChannelAnswer();
 		}
 	}
-	// ï¿½ï¿½ï¿½ÃºÍ¶ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ä£Ê½
+	// ÉèÖÃºÍ¶ÁÈ¡²Ù×÷Ä£Ê½ Set and read operating mode
 	if(pBuf[0] == 'M' && pBuf[1] == 'D')
 	{
 		// Sets and reads the operating mode status.
@@ -1392,14 +1395,14 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'R' && pBuf[1] == 'C')
 	{
-    // Clears the RIT/XIT frequency. -×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½RIT/XITÄ£Ê½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    // Clears the RIT/XIT frequency. -×¢£º´¦ÓÚRIT/XITÄ£Ê½Ê±£¬Æð×÷ÓÃ -Note: Works when in RIT/XIT mode
 //    if (FREQ.item & RITItem)    //BG6RDF
 //      VFO.RIT=0;
 //    if (FREQ.item & XITItem)
 //      VFO.XIT=0;
 //    DRMgr.item |= FREQItem;
 	}
-	// ï¿½ï¿½È¡
+	// ¶ÁÈ¡ read
 	if(pBuf[0] == 'R' && pBuf[1] == 'M')
 	{
 		// Sets and reads the Meter function.
@@ -1521,14 +1524,14 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 			{
 				if( vfo[VFO_A].Mode == DEMOD_LSB || vfo[VFO_A].Mode == DEMOD_USB )
 				{    
-					ks.RIT_key =0;//ï¿½ï¿½ï¿½ï¿½XIT
+					ks.RIT_key =0;//½øÈëXIT Enter XIT
 				}
 			}
 			else
 			{
 				if( vfo[VFO_A].Mode == DEMOD_LSB || vfo[VFO_A].Mode == DEMOD_USB )
 				{    
-					ks.RIT_key =1;//ï¿½Ë³ï¿½XIT
+					ks.RIT_key =1;//ÍË³öXIT Exit XIT
 				}
 			}
 		}
