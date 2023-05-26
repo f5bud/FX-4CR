@@ -22,12 +22,12 @@
 //#include "sys.h"
 //#include "arm_const_structs.h"
 /************************************************************/
-/*	FX-4Cï¿½Ù¿Ø³ï¿½ï¿½ï¿½											*/
-/*	ï¿½æ±¾ï¿½ï¿½V1.0												*/
-/*  ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  BG2IXD                                     */
-/*  Ê±ï¿½ä£º2020/9/20ï¿½ï¿½                                        */
+/*	FX-4C²Ù¿Ø³ÌÐò											*/
+/*	°æ±¾£ºV1.0												*/
+/*  ×÷Õß£ºÕÅÓñÁÁ  BG2IXD                                     */
+/*  Ê±¼ä£º2020/9/20£º                                        */
 /*	QQ: 1413894726											*/
-/*	ï¿½ï¿½ï¿½ä£ºbg2ixd2010@qq.com									*/
+/*	ÓÊÏä£ºbg2ixd2010@qq.com									*/
 /************************************************************/
 	__IO Key_Reg_type  *KEY;
 	 KeyManagement_TypeDef		ks;
@@ -49,31 +49,31 @@ extern arm_lms_norm_instance_f32	lms1Norm_instance;
 extern arm_lms_instance_f32	lms1_instance;
 extern float32_t	lms1StateF32[LMS_NR_DELAYBUF_SIZE_MAX + BUFF_LEN];
 extern float32_t	lms1NormCoeff_f32[LMS_NR_DELAYBUF_SIZE_MAX + BUFF_LEN];
-/* IIRï¿½ï¿½Æµï¿½Ë²ï¿½ï¿½ï¿½ */
+/* IIRÒôÆµÂË²¨Æ÷ */
 extern arm_biquad_casd_df1_inst_f32 IIR_AF;
-extern float32_t AF_State[IIR_NUM_TAPS]; /* ×´Ì¬ï¿½ï¿½ï¿½æ£¬ï¿½ï¿½Ð¡numStages*4 */
+extern float32_t AF_State[IIR_NUM_TAPS]; /* ×´Ì¬»º´æ£¬´óÐ¡numStages*4 */
 extern float32_t  AF_Values;
-/*	Rissï¿½ï¿½Í¨ */
+/*	Riss´øÍ¨ */
 extern arm_biquad_casd_df1_inst_f32 RISS;
-extern float32_t Riss_State[IIR_NUM_TAPS]; /* ×´Ì¬ï¿½ï¿½ï¿½æ£¬ï¿½ï¿½Ð¡numStages*4 */
+extern float32_t Riss_State[IIR_NUM_TAPS]; /* ×´Ì¬»º´æ£¬´óÐ¡numStages*4 */
 extern float32_t  Riss_Values;
-/* IIRï¿½ï¿½ï¿½ß´ï¿½ï¿½Ë²ï¿½ï¿½ï¿½ */
+/* IIRµ¥±ß´øÂË²¨Æ÷ */
 extern arm_biquad_casd_df1_inst_f32 IIR_LPF_I;
 extern arm_biquad_casd_df1_inst_f32 IIR_LPF_Q;
-extern float32_t IIRStateF32_I[IIR_NUM_TAPS]; /* Í¬ï¿½ï¿½ I Í¨ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½æ£¬ï¿½ï¿½Ð¡numStages*4 */
-extern float32_t IIRStateF32_Q[IIR_NUM_TAPS]; /* Í¬ï¿½ï¿½ Q Í¨ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½æ£¬ï¿½ï¿½Ð¡numStages*4 */
-extern float32_t  IIR_LP_Values;			   /* IIRï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ */
-/* ï¿½ï¿½È¡FIRï¿½Ë²ï¿½ï¿½ï¿½ */
-extern arm_fir_decimate_instance_f32 DECIMATE_I;//ï¿½ï¿½È¡ï¿½Ë²ï¿½ï¿½ï¿½ I
-extern arm_fir_decimate_instance_f32 DECIMATE_Q;//ï¿½ï¿½È¡ï¿½Ë²ï¿½ï¿½ï¿½ Q
-extern float32_t DecimState_I[FIR_NUM_TAPS+FIR_BLOCK_SIZE-1];/* FIRï¿½ï¿½È¡ï¿½Ë²ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½I */
-extern float32_t DecimState_Q[FIR_NUM_TAPS+FIR_BLOCK_SIZE-1];/* FIRï¿½ï¿½È¡ï¿½Ë²ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½Q */
-/* FIRï¿½Ú²ï¿½ï¿½Ë²ï¿½ï¿½ï¿½ */
+extern float32_t IIRStateF32_I[IIR_NUM_TAPS]; /* Í¬Ïà I Í¨µÀ×´Ì¬»º´æ£¬´óÐ¡numStages*4 */
+extern float32_t IIRStateF32_Q[IIR_NUM_TAPS]; /* Í¬Ïà Q Í¨µÀ×´Ì¬»º´æ£¬´óÐ¡numStages*4 */
+extern float32_t  IIR_LP_Values;			   /* IIRÂË²¨Æ÷Ëõ·ÅÏµÊý */
+/* ³éÈ¡FIRÂË²¨Æ÷ */
+extern arm_fir_decimate_instance_f32 DECIMATE_I;//³éÈ¡ÂË²¨Æ÷ I
+extern arm_fir_decimate_instance_f32 DECIMATE_Q;//³éÈ¡ÂË²¨Æ÷ Q
+extern float32_t DecimState_I[FIR_NUM_TAPS+FIR_BLOCK_SIZE-1];/* FIR³éÈ¡ÂË²¨Æ÷×´Ì¬»º´æI */
+extern float32_t DecimState_Q[FIR_NUM_TAPS+FIR_BLOCK_SIZE-1];/* FIR³éÈ¡ÂË²¨Æ÷×´Ì¬»º´æQ */
+/* FIRÄÚ²åÂË²¨Æ÷ */
 extern arm_fir_interpolate_instance_f32 INTERPOLATE_I;
 extern arm_fir_interpolate_instance_f32 INTERPOLATE_Q;
-extern float32_t InterpState_I[FIR_NUM_TAPS+FIR_BLOCK_SIZE-1];/* FIRï¿½Ú²ï¿½ï¿½Ë²ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½I */
-extern float32_t InterpState_Q[FIR_NUM_TAPS+FIR_BLOCK_SIZE-1];/* FIRï¿½Ú²ï¿½ï¿½Ë²ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½Q */
-/* FIRï¿½ß´ï¿½ï¿½Ë²ï¿½ï¿½ï¿½ */
+extern float32_t InterpState_I[FIR_NUM_TAPS+FIR_BLOCK_SIZE-1];/* FIRÄÚ²åÂË²¨Æ÷×´Ì¬»º´æI */
+extern float32_t InterpState_Q[FIR_NUM_TAPS+FIR_BLOCK_SIZE-1];/* FIRÄÚ²åÂË²¨Æ÷×´Ì¬»º´æQ */
+/* FIR±ß´øÂË²¨Æ÷ */
 extern arm_fir_instance_f32 FIR_LPF_I;
 extern arm_fir_instance_f32 FIR_LPF_Q;
 extern float32_t FIR_State_I[FIR_NUM_TAPS+FIR_BLOCK_SIZE-1];
@@ -87,7 +87,7 @@ extern  Audio_Digital_Signal	 ads;
  *	FFT
 */
 //extern  arm_rfft_fast_instance_f32 Spe_FFT;
-//arm_rfft_fast_instance_f32  Spe_FFT;	//FFTÖ¸ï¿½ï¿½	
+//arm_rfft_fast_instance_f32  Spe_FFT;	//FFTÖ¸Õë	
 u8 ucKeyCode;
 const u16 Addr_OFFSET[2]=
 {
@@ -111,19 +111,19 @@ const u16 CH_ADDR[8] =
 };
 /*
 *******************************************************************************************************
-* POWERï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½
+* POWERµçÔ´¿ØÖÆ
 *******************************************************************************************************
 */
 
 /*
-*	@ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PowerControl_Initï¿½ï¿½ï¿½ï¿½ï¿½ï¿½gpio_set.hï¿½ï¿½ï¿½å£©Ö´ï¿½ï¿½
-*	@ï¿½Ëºï¿½ï¿½ï¿½ï¿½Ç¹Ø»ï¿½ï¿½Ù¿ï¿½
+*	@µçÔ´¿ª»úÒÑÓÉ PowerControl_Initº¯Êý£¨gpio_set.h¶¨Òå£©Ö´ÐÐ
+*	@´Ëº¯ÊýÊÇ¹Ø»ú²Ù¿Ø
 */
 void PowerControl_off(void)
 {
 	//static u8 power_key =0;
-	//ucKeyCode = bsp_GetKey();//ï¿½ï¿½È¡ï¿½ï¿½Öµ
-	if(ucKeyCode != KEY_NONE)//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ucKeyCode = bsp_GetKey();//¶ÁÈ¡¼üÖµ
+	if(ucKeyCode != KEY_NONE)//ÓÐ°´¼ü²Ù×÷
 	{
 		if(ucKeyCode == KEY_8_LONG )//power_key++;
 		{
@@ -144,42 +144,42 @@ void Key_Management_Set(void)
 	//static u8 Same_Diffrenge;
 	//static u8 ch_vfo;
 	//static u8 a_b;
-	//ucKeyCode = bsp_GetKey();//ï¿½ï¿½È¡ï¿½ï¿½Öµ
-	if (ucKeyCode != KEY_NONE)//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ucKeyCode = bsp_GetKey();//¶ÁÈ¡¼üÖµ
+	if (ucKeyCode != KEY_NONE)//ÓÐ°´¼ü²Ù×÷
 	{
-		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-		if(ks.key_lock== KEYLOCK_ON)//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//¼üÅÌËø¿ª
+		if(ks.key_lock== KEYLOCK_ON)//¼üÅÌËø¿ª
 		{						
-			// ï¿½ï¿½ï¿½Ü¼ï¿½ï¿½è¶¨
+			// ¹¦ÄÜ¼üÉè¶¨
 			if(ks.F_11==0)
 			{
-				//*RIT ï¿½ï¿½ï¿½ï¿½
+				//*RIT ¿ª¹Ø
 				if(sd.ritatt_ptt !=1 )
 				{
 					PTT_IN();
 					if( ucKeyCode==KEY_5_UP )
 					{
-						ks.RIT_key = ~ks.RIT_key &0x01;		//RIT ï¿½ï¿½ï¿½Ø£ï¿½0ï¿½ï¿½ï¿½Ø±Õ£ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+						ks.RIT_key = ~ks.RIT_key &0x01;		//RIT ¿ª¹Ø£¬0£º¹Ø±Õ£¬1¿ªÆô¡£
 						if(ks.RIT_key >0) sd.rit_delay =VOL_WINDOW_DELAY*2;
 					}
 					if( ucKeyCode==KEY_5_LONG&&sd.ritatt_ptt ==0)
 					{
-						ks.RIT_LONG = ~ks.RIT_LONG &0x01;		//RITï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø£ï¿½0ï¿½ï¿½ï¿½Ø±Õ£ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+						ks.RIT_LONG = ~ks.RIT_LONG &0x01;		//RIT³¤°´ ¿ª¹Ø£¬0£º¹Ø±Õ£¬1¿ªÆô¡£
 						//if(ks.RIT_LONG >1) ks.RIT_LONG =0;
 					}
 				}
 				
-				//PWR ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½
+				//PWR ¹¦ÂÊµ÷Õû
 				if( ucKeyCode==KEY_8_UP)
 				{
-					ks.PWR_key =~ ks.PWR_key &0x01;		//PWR ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø£ï¿½0ï¿½ï¿½OFF,1:ONï¿½ï¿½
+					ks.PWR_key =~ ks.PWR_key &0x01;		//PWR ¹¦ÂÊµ÷Õû¿ª¹Ø£¬0£ºOFF,1:ON¡£
 					if(ks.PWR_key)sd.Enc2_delay =VOL_WINDOW_DELAY;
 					else sd.Enc2_delay =0;
-					sd.spe_fil_time = SPE_FIL_TIME;//Æµï¿½×´ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ø¸ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ö¾
+					sd.spe_fil_time = SPE_FIL_TIME;//ÆµÆ×´ø¿íÏÔÊ¾»Ø¸´¼ÆÊ±±êÖ¾
 				}
 				if( ucKeyCode==KEY_8_LONG)
 				{
-					ks.PWR_LONG = ~ks.PWR_LONG &0x01;		//PWR ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø³ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½OFF,1:ONï¿½ï¿½
+					ks.PWR_LONG = ~ks.PWR_LONG &0x01;		//PWR ¹¦ÂÊµ÷Õû¿ª¹Ø³¤°´£¬0£ºOFF,1:ON¡£
 					//sd.Enc2_delay =VOL_WINDOW_DELAY;
 					//if(ks.PWR_LONG >1) ks.PWR_LONG =0;
 				}
@@ -189,16 +189,16 @@ void Key_Management_Set(void)
 }
 /*
 ***************************************************************************
-*	ï¿½ï¿½Öµï¿½ï¿½È¡ï¿½ë°´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+*	¼üÖµ¶ÁÈ¡Óë°´¼üËøÉèÖÃ
 ***************************************************************************
 */
 void KeyCode_lock_settings()
 {
-	ucKeyCode = bsp_GetKey();//ï¿½ï¿½È¡ï¿½ï¿½Öµ
-	if (ucKeyCode != KEY_NONE)//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ucKeyCode = bsp_GetKey();//¶ÁÈ¡¼üÖµ
+	if (ucKeyCode != KEY_NONE)//ÓÐ°´¼ü²Ù×÷
 	{
-		sd.key_BL_delay = 200;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½10ï¿½ï¿½Ø±Õ£ï¿½
-		if( ucKeyCode==KEY_11_LONG )// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ON/OFF;0:OFF ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;1:ON ï¿½ï¿½Fï¿½ï¿½ï¿½â£¬ï¿½ï¿½ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		sd.key_BL_delay = 200;//°´¼ü±³¹âÑÓ³Ù10Ãë¹Ø±Õ£»
+		if( ucKeyCode==KEY_11_LONG )// °´¼üËøON/OFF;0:OFF °´¼üÕý³£¹¤×÷;1:ON ³ýF¼üÍâ£¬ËùÓÐ°´¼ü¾ù²»¹¤×÷
 		{
 			ks.key_lock = ~ks.key_lock & 0x01;
 		}
@@ -206,17 +206,17 @@ void KeyCode_lock_settings()
 }
 /*
 ***************************************************************************
-*	ï¿½ï¿½ï¿½Î¿ï¿½ï¿½Æ¹ï¿½ï¿½ï¿½
+*	²¨¶Î¿ØÖÆ¹ÜÀí
 ***************************************************************************
 */
 /* 
-* 	ï¿½Õ·ï¿½Ä£Ê½Òµï¿½à²¨ï¿½Î»ï¿½ï¿½ï¿½
+* 	ÊÕ·¢Ä£Ê½ÒµÓà²¨¶Î»®·Ö
 */
 const BandGenInfo   Band_Info[ COUPLING_MAX] =
 {
 	//{1800000, 2000000, "160m" },
     { 35,	140,	" 80m ",    3500000,   3800000,  4000000},/* 80m */
-    {105,	140,	" 60m ",	5350000,   5360000,  5365000},/* 60m */
+    {105,	140,	" 60m ",	5300000,   5360000,  5500000},/* 60m */
     {175,	140,	" 40m ",	7000000,   7050000,  7350000},/* 40m */
     {245,	140,	" 30m ",	9998000,  10100000, 10150000},/* 30m */
 	
@@ -229,7 +229,7 @@ const BandGenInfo   Band_Info[ COUPLING_MAX] =
     {175,	200,	"  6m ",	50000000, 50200000, 54000000},/* 6m  */
 };
 /*
-*	ï¿½ï¿½ï¿½Õ»ï¿½Ä£Ê½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½
+*	½ÓÊÕ»úÄ£Ê½²¨¶Î»®·Ö
 */
 const BandGenInfo   RxBand_Info[ RADIO_MAX] =
 {
@@ -259,7 +259,7 @@ const BandGenInfo   RxBand_Info[ RADIO_MAX] =
 };
 /*
 *	Key_Band_Control()
-*	ï¿½ï¿½ï¿½Î¿ï¿½ï¿½Æºï¿½ï¿½ï¿½
+*	²¨¶Î¿ØÖÆº¯Êý
 */
 void Key_Band_Control()
 {
@@ -270,35 +270,35 @@ void Key_Band_Control()
 	static u16 Band_0;
 	static u16 RxBand_0;
 	static u32 freq_0;
-	static u32 Band_Switch;/* ï¿½ï¿½ï¿½ï¿½IOï¿½ï¿½ï¿½ï¿½ */
+	static u32 Band_Switch;/* ²¨¶ÎIO¿ØÖÆ */
 	//static u16 Timing;
-	//static u8 clk =0;/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-	static u8 id0;	 /* ï¿½ï¿½ï¿½Î¼ï¿½ï¿½ */
-	//static u8 Rx_id0;	 /* ï¿½ï¿½ï¿½Î¼ï¿½ï¿½ */
-	static u8 mode0; /* Ä£Ê½ï¿½ï¿½ï¿½ */
-	//static u32 freq; /* Æµï¿½Ê¼ï¿½ï¿½ */
-	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE)//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//static u8 clk =0;/* ¿ª»ú¼ì²â */
+	static u8 id0;	 /* ²¨¶Î¼ì²â */
+	//static u8 Rx_id0;	 /* ²¨¶Î¼ì²â */
+	static u8 mode0; /* Ä£Ê½¼ì²â */
+	//static u32 freq; /* ÆµÂÊ¼ì²â */
+	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE)//ÓÐ°´¼ü²Ù×÷Óë¼üÅÌËø¿ª
 	{
-		/* ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½×ªï¿½ï¿½
-		* 0ï¿½ï¿½ï¿½ï¿½ï¿½Ü¼ï¿½ï¿½ï¿½
-		* 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½
+		/* ¼üÅÌ¹¦ÄÜ×ª»»
+		* 0£º¹¦ÄÜ¼ü£»
+		* 1£º²¨¶Î×ª»»¡£
 		*/
-		if( ucKeyCode == KEY_11_UP )//Fï¿½ï¿½ï¿½
+		if( ucKeyCode == KEY_11_UP )//F¼ì²â
 		{
-			ks.F_11 = ~ks.F_11&0x01;//0ï¿½ï¿½ï¿½ï¿½å°´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½Ä¹ï¿½ï¿½Ü£ï¿½1:ï¿½Ç²ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Î£ï¿½
-			Lcd_Color(0,130,319,239,BLACK);/* ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-			if(ks.F_11 ==1)sd.band_set_delay =100;/* ï¿½è¶¨ï¿½Ô¶ï¿½ï¿½Ë³ï¿½ï¿½Ä¼ï¿½Ê±Ê±ï¿½ï¿½ */
+			ks.F_11 = ~ks.F_11&0x01;//0£»Ãæ°å°´¼ü¹¦ÄÜÊÇ°´¼üÉÏ´ó×ÖÌå±ê×¢µÄ¹¦ÄÜ£¬1:ÊÇ²¨¶ÎÑ¡Ôñ¹¦ÄÜ£¬°´¼üÉÏµÄÐ¡×ÖÌå±ê×¢¶¼ÊÇËùÑ¡²¨¶Î£»
+			Lcd_Color(0,130,319,239,BLACK);/* ÏÔÊ¾ÇøÓòÇåÆÁ */
+			if(ks.F_11 ==1)sd.band_set_delay =100;/* Éè¶¨×Ô¶¯ÍË³öµÄ¼ÆÊ±Ê±¼ä */
 			else sd.band_set_delay =10;
 		}
-		/* ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ */
+		/* ²¨¶ÎÑ¡Ôñ */
 		if(ks.F_11 ==1)
 		{
-			sd.spe_fil_time=SPE_FIL_TIME;//Æµï¿½×´ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ø¸ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ö¾
-			ks.FunctionWindow_Use =1;//ï¿½à¹¦ï¿½Ü´ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½
-			//Lcd_Color(0,130,319,239,BLACK);/* ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+			sd.spe_fil_time=SPE_FIL_TIME;//ÆµÆ×´ø¿íÏÔÊ¾»Ø¸´¼ÆÊ±±êÖ¾
+			ks.FunctionWindow_Use =1;//¶à¹¦ÄÜ´°¿ÚÒÑÕ¼ÓÃ
+			//Lcd_Color(0,130,319,239,BLACK);/* ÏÔÊ¾ÇøÓòÇåÆÁ */
 			ks.menu_key = MENU_OFF ;
 			//ui_BandDisplay(ks.rt_rx  & 0x01,ks.RxBand_id);
-			if(ks.rt_rx ==0)/* ï¿½Õ·ï¿½ï¿½Å»ï¿½Ä£Ê½ */
+			if(ks.rt_rx ==0)/* ÊÕ·¢ÐÅ»úÄ£Ê½ */
 			{
 				//ui_BandDisplay(0,ks.RxBand_id);
 				switch(ucKeyCode)
@@ -397,7 +397,7 @@ void Key_Band_Control()
 				//key_Mode_Control();
 			}
 			else
-			if(ks.rt_rx  ==1)/* ï¿½ï¿½ï¿½Õ»ï¿½Ä£Ê½ */
+			if(ks.rt_rx  ==1)/* ½ÓÊÕ»úÄ£Ê½ */
 			{
 				//ui_BandDisplay(1,ks.RxBand_id);
 				switch(ucKeyCode)
@@ -494,23 +494,23 @@ void Key_Band_Control()
 		}
 	}
 	/*
-	*	Ö»ï¿½Ú¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ä»¯Ê±Ö´ï¿½Ð²ï¿½ï¿½ï¿½
-	*	ï¿½Ô¼ï¿½ï¿½ï¿½CPUï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½Ê£ï¿½
+	*	Ö»ÔÚ¿ª»úºÍÊý¾ÝÓÐ±ä»¯Ê±Ö´ÐÐ²Ù×÷
+	*	ÒÔ¼õÉÙCPU¿ªÏú£¬Ìá¸ßË¢ÐÂÂÊ£»
 	*/
-	if(ks.F_11 ==1)/* ï¿½ï¿½ï¿½ë²¨ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	if(ks.F_11 ==1)/* ½øÈë²¨¶ÎÑ¡Ôñ½çÃæ */
 	{
-		ks.FunctionWindow_Use =1;//ï¿½à¹¦ï¿½Ü´ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½
-		if(clk ==0)/* ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ */
+		ks.FunctionWindow_Use =1;//¶à¹¦ÄÜ´°¿ÚÒÑÕ¼ÓÃ
+		if(clk ==0)/* ÏÔÊ¾ÇøÓòÇåÆÁÒ»´Î */
 		{
-			//Lcd_Color(0,130,319,239,BLACK);/* ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */	
+			//Lcd_Color(0,130,319,239,BLACK);/* ÏÔÊ¾ÇøÓòÇåÆÁ */	
 			clk =1;
 		}
-		if(ks.rt_rx ==1)/* ï¿½ï¿½ï¿½Õ»ï¿½Ä£Ê½ */
+		if(ks.rt_rx ==1)/* ½ÓÊÕ»úÄ£Ê½ */
 		{
 			ads.tx_delay =100;
-			//vfo[VFO_A].Freq = RxBand_Info[vfo[VFO_A].RxBand_id].Default;/* ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Îµï¿½Ä¬ï¿½ï¿½Æµï¿½ï¿½ */
+			//vfo[VFO_A].Freq = RxBand_Info[vfo[VFO_A].RxBand_id].Default;/* ËùÑ¡²¨¶ÎµÄÄ¬ÈÏÆµÂÊ */
 			vfo[VFO_A].Freq = AT24CXX_ReadLenByte( vfo[VFO_A].RxBand_id *4 + ADDR_RX_BAND_FREQ_M ,4 );
-			/* Æµï¿½ï¿½ï¿½Þ¶ï¿½ */
+			/* ÆµÂÊÏÞ¶¨ */
 			if(vfo[VFO_A].Freq <  RxBand_Info[vfo[VFO_A].RxBand_id].start || vfo[VFO_A].Freq > RxBand_Info[vfo[VFO_A].RxBand_id].end )//
 			{
 				vfo[VFO_A].Freq =  RxBand_Info[vfo[VFO_A].RxBand_id].Default ;
@@ -533,11 +533,11 @@ void Key_Band_Control()
 			AT24CXX_WriteOneByte( FILTERSELECTED_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ], vfo[VFO_A].FilterSelected_id );
 			for(i=2;i<RADIO_MAX;i++)
 			{
-				if(i ==vfo[VFO_A].RxBand_id)fc =RED;/* Ñ¡ï¿½ÐµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½É« */
+				if(i ==vfo[VFO_A].RxBand_id)fc =RED;/* Ñ¡ÖÐµÄ²¨¶Î×ÖÌåÎªºìÉ« */
 				else
 					fc =GRAY0;
 				
-				/* ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Õ»ï¿½Ä£Ê½ï¿½Ä²ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ */
+				/* ÏÔÊ¾½ÓÊÕ»úÄ£Ê½µÄ²¨¶ÎÑ¡Ôñ½çÃæ */
 				LCD_ShowString(  RxBand_Info[i].x ,  RxBand_Info[i].y , fc, GRAY4 , 24, 0, RxBand_Info[i].text );
 				//LCD_RectangleWindow(u8 x, u8 y, u8 w, u8 h, u16 fc);
 			}
@@ -568,7 +568,7 @@ void Key_Band_Control()
 			ads.tx_delay =100;
 			//vfo[VFO_A].Freq = Band_Info[vfo[VFO_A].Band_id].Default;
 			vfo[VFO_A].Freq = AT24CXX_ReadLenByte( vfo[VFO_A].Band_id *4 + ADDR_RT_BAND_FREQ_M ,4 );
-			/* Æµï¿½ï¿½ï¿½Þ¶ï¿½ */
+			/* ÆµÂÊÏÞ¶¨ */
 			if(vfo[VFO_A].Freq <  Band_Info[vfo[VFO_A].Band_id].start || vfo[VFO_A].Freq > Band_Info[vfo[VFO_A].Band_id].end )//
 			{
 				vfo[VFO_A].Freq =  Band_Info[vfo[VFO_A].Band_id].Default ;
@@ -589,13 +589,13 @@ void Key_Band_Control()
 			if(vfo[VFO_A].FilterSelected_id < 1 )vfo[VFO_A].FilterSelected_id = 0;
 			
 			AT24CXX_WriteOneByte( FILTERSELECTED_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ], vfo[VFO_A].FilterSelected_id );
-			for(i=0;i<COUPLING_MAX;i++)/*ï¿½Õ·ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ */
+			for(i=0;i<COUPLING_MAX;i++)/*ÊÕ·¢»úÄ£Ê½²¨¶ÎÏÔÊ¾ */
 			{
-				if(i ==vfo[VFO_A].Band_id)fc =RED;/* Ñ¡ï¿½ÐµÄ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½É« */
+				if(i ==vfo[VFO_A].Band_id)fc =RED;/* Ñ¡ÖÐµÄ²¨¶Î×ÖÌåÎªºìÉ« */
 				else
 					fc =GRAY0;
 				
-				/* ï¿½ï¿½Ê¾ï¿½Õ·ï¿½Ä£Ê½ï¿½Ä²ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ */
+				/* ÏÔÊ¾ÊÕ·¢Ä£Ê½µÄ²¨¶ÎÑ¡Ôñ½çÃæ */
 				LCD_ShowString( Band_Info[i].x , Band_Info[i].y , fc, GRAY4 , 24, 0, Band_Info[i].text );
 				//LCD_RectangleWindow(u8 x, u8 y, u8 w, u8 h, u16 fc);
 			}
@@ -620,17 +620,17 @@ void Key_Band_Control()
 		if(sd.band_set_delay >0)sd.band_set_delay--;
 		if(sd.band_set_delay <1)
 		{
-			ks.F_11 =0;/* ï¿½ï¿½Ê±Ê±ï¿½äµ¹ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ã£¬ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ */
+			ks.F_11 =0;/* ¶¨Ê±Ê±¼äµ¹¼ÆÊ±µ½Áã£¬·µ»ØÆµÆ×ÏÔÊ¾½çÃæ */
 			sd.band_set_delay =0;
 		}
 //		if(ks.rt_rx )
 //		{
-//			//sd.band = vfo[VFO_A].RxBand_id; //ï¿½ï¿½ï¿½ï¿½IFï¿½ï¿½ï¿½ï¿½
+//			//sd.band = vfo[VFO_A].RxBand_id; //²¨¶ÎIFÔöÒæ
 //			ads.IF_gain =AT24CXX_ReadLenByte(ADDR_IF_RXGAIN+vfo[VFO_A].RxBand_id, 1);
 //		}
 //		else
 //		{
-//			//sd.band = vfo[VFO_A].Band_id; //ï¿½ï¿½ï¿½ï¿½IFï¿½ï¿½ï¿½ï¿½
+//			//sd.band = vfo[VFO_A].Band_id; //²¨¶ÎIFÔöÒæ
 //			//ads.IF_gain =AT24CXX_ReadLenByte(ADDR_IF_GAIN+vfo[VFO_A].Band_id, 1);
 //			if(sd.menu_page)sd.Pow =50;
 //			else sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
@@ -638,19 +638,19 @@ void Key_Band_Control()
 //		if(ads.IF_gain >63)ads.IF_gain =32;
 //		if(ads.IF_gain < 1)ads.IF_gain =32;
 	}
-	else/* ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ */
+	else/* ÍË³ö²¨¶ÎÏÔÊ¾½çÃæ */
 	{
-		ks.FunctionWindow_Use =0;//ï¿½à¹¦ï¿½Ü´ï¿½ï¿½ï¿½ï¿½Ñ½ï¿½ï¿½Õ¼ï¿½ï¿½
+		ks.FunctionWindow_Use =0;//¶à¹¦ÄÜ´°¿ÚÒÑ½â³ýÕ¼ÓÃ
 		if(clk ==1)
 		{
-			Lcd_Color(0,130,319,239,BLACK);/* ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */	
+			Lcd_Color(0,130,319,239,BLACK);/* ÏÔÊ¾ÇøÓòÇåÆÁ */	
 			clk =0;
-			//sd.band_set_delay  =100;/* ï¿½è¶¨ï¿½Ô¶ï¿½ï¿½Ë³ï¿½ï¿½Ä¼ï¿½Ê±Ê±ï¿½ï¿½ */
+			//sd.band_set_delay  =100;/* Éè¶¨×Ô¶¯ÍË³öµÄ¼ÆÊ±Ê±¼ä */
 		}
 		if(sd.band_set_delay >0)sd.band_set_delay--;
 		if(sd.band_set_delay <1)
 		{
-			ks.F_11 =0;/* ï¿½ï¿½Ê±Ê±ï¿½äµ¹ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ã£¬ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ */
+			ks.F_11 =0;/* ¶¨Ê±Ê±¼äµ¹¼ÆÊ±µ½Áã£¬·µ»ØÆµÆ×ÏÔÊ¾½çÃæ */
 			sd.band_set_delay =0;
 		}
 	}
@@ -660,69 +660,69 @@ void Key_Band_Control()
 		clk =0;
 		ks.F_11 =0;
 		ks.Band_key =1;
-		Lcd_Color(0,130,319,239,BLACK);/* ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+		Lcd_Color(0,130,319,239,BLACK);/* ÏÔÊ¾ÇøÓòÇåÆÁ */
 		if(sd.band_set_delay >1)sd.band_set_delay--;
 	}
 	if(ks.F_11 ==0)
 	{
 		if(Band_0 != vfo[VFO_A].Band_id ||RxBand_0 != vfo[VFO_A].RxBand_id || freq_0 != vfo[VFO_A].Freq)
 		{
-			if(ks.rt_rx ==1)/* ï¿½ï¿½ï¿½Õ»ï¿½Ä£Ê½ */
+			if(ks.rt_rx ==1)/* ½ÓÊÕ»úÄ£Ê½ */
 			{
 				/*
-				*	ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ê¾
+				*	Ö÷ÆµÂÊÏÔÊ¾
 				*/
 	//			if(vfo[VFO_A].Freq <  RxBand_Info[vfo[VFO_A].RxBand_id].start || vfo[VFO_A].Freq > RxBand_Info[vfo[VFO_A].RxBand_id].end -10)//
 	//			{
 	//				vfo[VFO_A].Freq =  RxBand_Info[vfo[VFO_A].RxBand_id].Default ;
 	//				//vfo[VFO_A].RxBand_id =  RADIO_MW;
 	//			}
-				/* ï¿½Í¶ï¿½Æµï¿½ï¿½ï¿½Þ¶ï¿½ */
+				/* µÍ¶ËÆµÂÊÏÞ¶¨ */
 				if(vfo[VFO_A].Freq <  RxBand_Info[RADIO_90M].start)//
 				{
 					vfo[VFO_A].Freq =  RxBand_Info[RADIO_90M].start;
 					//vfo[VFO_A].RxBand_id =  RADIO_MW;
 				}
-				/* ï¿½ï¿½Æµï¿½ÊµÍ¶Ëµï¿½Ð³ */
-				if(vfo[VFO_A].Freq <  RxBand_Info[vfo[VFO_A].RxBand_id].start && vfo[VFO_A].Freq >  RxBand_Info[vfo[VFO_A].RxBand_id-1].end)//ï¿½Â±ß½ï¿½
+				/* ÏòÆµÂÊµÍ¶Ëµ÷Ð³ */
+				if(vfo[VFO_A].Freq <  RxBand_Info[vfo[VFO_A].RxBand_id].start && vfo[VFO_A].Freq >  RxBand_Info[vfo[VFO_A].RxBand_id-1].end)//ÏÂ±ß½ç
 				{	
 					vfo[VFO_A].RxBand_id --;
 					//if(vfo[VFO_A].RxBand_id <RADIO_MW) vfo[VFO_A].RxBand_id = RADIO_MW; //
 					vfo[VFO_A].Freq =(u32) (RxBand_Info[vfo[VFO_A].RxBand_id].end/sd.tuning_step)*sd.tuning_step;
 				}
 				
-				/* ï¿½ï¿½Æµï¿½Ê¸ß¶Ëµï¿½Ð³ */
-				if(vfo[VFO_A].Freq >  RxBand_Info[vfo[VFO_A].RxBand_id].end && vfo[VFO_A].Freq < RxBand_Info[vfo[VFO_A].RxBand_id+1].start) 	//ï¿½Ï±ß½ï¿½
+				/* ÏòÆµÂÊ¸ß¶Ëµ÷Ð³ */
+				if(vfo[VFO_A].Freq >  RxBand_Info[vfo[VFO_A].RxBand_id].end && vfo[VFO_A].Freq < RxBand_Info[vfo[VFO_A].RxBand_id+1].start) 	//ÉÏ±ß½ç
 				{
 					vfo[VFO_A].RxBand_id  ++;
 					//if(vfo[VFO_A].RxBand_id > RADIO_2M) vfo[VFO_A].RxBand_id = RADIO_2M;
 					vfo[VFO_A].Freq = RxBand_Info[vfo[VFO_A].RxBand_id].start;
 				}
-				/* ï¿½ß¶ï¿½Æµï¿½ï¿½ï¿½Þ¶ï¿½ */
+				/* ¸ß¶ËÆµÂÊÏÞ¶¨ */
 				if(vfo[VFO_A].Freq > RxBand_Info[RADIO_10M].end -1)//
 				{
 					vfo[VFO_A].Freq =  RxBand_Info[RADIO_10M].Default ;
 					//vfo[VFO_A].RxBand_id =  RADIO_2M;
 				}
-	//			/* ï¿½ï¿½ï¿½ï¿½Ä°ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ÚµÄ²ï¿½ï¿½ï¿½ */
+	//			/* ²éÕÒÄ°ÉúÆµÂÊËùÔÚµÄ²¨¶Î */
 	//			if(i != vfo[VFO_A].RxBand_id)
 	//			{
-	//				if(++i >RADIO_2M)i = RADIO_2M;/* ï¿½ï¿½ï¿½ï¿½ï¿½Þ¶ï¿½ */
-	//				if(vfo[VFO_A].Freq >= RxBand_Info[i].start && vfo[VFO_A].Freq <= RxBand_Info[i].end )/* ï¿½ï¿½ï¿½Î²ï¿½ï¿½ï¿½ */
-	//				vfo[VFO_A].RxBand_id = i;/* ï¿½ÊºÏµÄ²ï¿½ï¿½ï¿½IDÐ´ï¿½ï¿½ */	
+	//				if(++i >RADIO_2M)i = RADIO_2M;/* ²¨¶ÎÏÞ¶¨ */
+	//				if(vfo[VFO_A].Freq >= RxBand_Info[i].start && vfo[VFO_A].Freq <= RxBand_Info[i].end )/* ²¨¶Î²éÕÒ */
+	//				vfo[VFO_A].RxBand_id = i;/* ÊÊºÏµÄ²¨¶ÎIDÐ´Èë */	
 	//			}
 				if(mode0 ==0|| id0!=vfo[VFO_A].RxBand_id)
 				{
 					if(vfo[VFO_A].Freq < RxBand_Info[RADIO_MW].end  )
 					{
-						ks.StepSelected_idx = T_STEP_9KHZ_IDX;//MWï¿½ï¿½ï¿½Î²ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª9kHz;
+						ks.StepSelected_idx = T_STEP_9KHZ_IDX;//MW²¨¶Î²½½øÄ¬ÈÏÉèÖÃÎª9kHz;
 						vfo[VFO_A].Freq /=9000;
 						vfo[VFO_A].Freq *=9000;
 					}
 					else
 					//if(vfo[VFO_A].RxBand_id > RADIO_MW)
 					{
-						ks.StepSelected_idx = T_STEP_5KHZ_IDX;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î²ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª5kHz;
+						ks.StepSelected_idx = T_STEP_5KHZ_IDX;//ÆäËü²¨¶Î²½½øÄ¬ÈÏÉèÖÃÎª5kHz;
 						//vfo[VFO_A].Freq +=3000;
 						vfo[VFO_A].Freq /=5000;
 						vfo[VFO_A].Freq *=5000;
@@ -731,49 +731,49 @@ void Key_Band_Control()
 					id0 = vfo[VFO_A].RxBand_id;
 				}
 				/*
-				*	ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ê¾
+				*	¸±ÆµÂÊÏÔÊ¾
 				*/
-				/* ï¿½Í¶ï¿½Æµï¿½ï¿½ï¿½Þ¶ï¿½ */
+				/* µÍ¶ËÆµÂÊÏÞ¶¨ */
 				if(vfo[VFO_B].Freq <  RxBand_Info[RADIO_90M].start)//
 				{
 					vfo[VFO_B].Freq =  RxBand_Info[RADIO_90M].start;
 					vfo[VFO_B].RxBand_id =  RADIO_MW;
 				}
-				/* ï¿½ï¿½Æµï¿½ÊµÍ¶Ëµï¿½Ð³ */
-				if(vfo[VFO_B].Freq <  RxBand_Info[vfo[VFO_B].RxBand_id].start && vfo[VFO_B].Freq >  RxBand_Info[vfo[VFO_B].RxBand_id-1].end)//ï¿½Â±ß½ï¿½
+				/* ÏòÆµÂÊµÍ¶Ëµ÷Ð³ */
+				if(vfo[VFO_B].Freq <  RxBand_Info[vfo[VFO_B].RxBand_id].start && vfo[VFO_B].Freq >  RxBand_Info[vfo[VFO_B].RxBand_id-1].end)//ÏÂ±ß½ç
 				{	
 					vfo[VFO_B].RxBand_id --;
 					//if(vfo[VFO_A].RxBand_id <RADIO_MW) vfo[VFO_A].RxBand_id = RADIO_MW; //
 					vfo[VFO_B].Freq =(u32) (RxBand_Info[vfo[VFO_B].RxBand_id].end/sd.tuning_step)*sd.tuning_step;
 				}
 				
-				/* ï¿½ï¿½Æµï¿½Ê¸ß¶Ëµï¿½Ð³ */
-				if(vfo[VFO_B].Freq >  RxBand_Info[vfo[VFO_B].RxBand_id].end && vfo[VFO_B].Freq < RxBand_Info[vfo[VFO_B].RxBand_id+1].start) 	//ï¿½Ï±ß½ï¿½
+				/* ÏòÆµÂÊ¸ß¶Ëµ÷Ð³ */
+				if(vfo[VFO_B].Freq >  RxBand_Info[vfo[VFO_B].RxBand_id].end && vfo[VFO_B].Freq < RxBand_Info[vfo[VFO_B].RxBand_id+1].start) 	//ÉÏ±ß½ç
 				{
 					vfo[VFO_B].RxBand_id  ++;
 					//if(vfo[VFO_A].RxBand_id > RADIO_2M) vfo[VFO_A].RxBand_id = RADIO_2M;
 					vfo[VFO_B].Freq = RxBand_Info[vfo[VFO_B].RxBand_id].start;
 				}
-				/* ï¿½ß¶ï¿½Æµï¿½ï¿½ï¿½Þ¶ï¿½ */
+				/* ¸ß¶ËÆµÂÊÏÞ¶¨ */
 				if(vfo[VFO_B].Freq > RxBand_Info[RADIO_10M].end -1)//
 				{
 					vfo[VFO_B].Freq =  RxBand_Info[RADIO_10M].Default ;
 					//vfo[VFO_B].RxBand_id =  RADIO_2M;
 				}
-	//			/* ï¿½ï¿½ï¿½ï¿½Ä°ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ÚµÄ²ï¿½ï¿½ï¿½ */
+	//			/* ²éÕÒÄ°ÉúÆµÂÊËùÔÚµÄ²¨¶Î */
 	//			if(i != vfo[VFO_B].RxBand_id)
 	//			{
-	//				if(++i >RADIO_2M)i = RADIO_2M;/* ï¿½ï¿½ï¿½ï¿½ï¿½Þ¶ï¿½ */
-	//				if(vfo[VFO_B].Freq >= RxBand_Info[i].start && vfo[VFO_B].Freq <= RxBand_Info[i].end )/* ï¿½ï¿½ï¿½Î²ï¿½ï¿½ï¿½ */
-	//				vfo[VFO_B].RxBand_id = i;/* ï¿½ÊºÏµÄ²ï¿½ï¿½ï¿½IDÐ´ï¿½ï¿½ */	
+	//				if(++i >RADIO_2M)i = RADIO_2M;/* ²¨¶ÎÏÞ¶¨ */
+	//				if(vfo[VFO_B].Freq >= RxBand_Info[i].start && vfo[VFO_B].Freq <= RxBand_Info[i].end )/* ²¨¶Î²éÕÒ */
+	//				vfo[VFO_B].RxBand_id = i;/* ÊÊºÏµÄ²¨¶ÎIDÐ´Èë */	
 	//			}
-				sd.band = vfo[VFO_A].RxBand_id; //ï¿½ï¿½ï¿½ï¿½IFï¿½ï¿½ï¿½ï¿½
+				sd.band = vfo[VFO_A].RxBand_id; //²¨¶ÎIFÔöÒæ
 			
 				/*
-				*	ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½
+				*	²¨¶Î¿ØÖÆ
 				*/
-				Band_Switch = 0x0000;					//ï¿½ï¿½ï¿½ï¿½IOï¿½ï¿½ï¿½ã£¬ï¿½Íµï¿½Î»ï¿½ï¿½
-				//Band_Switch = BAND_ON << ks.Band_id;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½Ä²ï¿½ï¿½ï¿½IOÎªï¿½ßµï¿½Æ½ï¿½ï¿½
+				Band_Switch = 0x0000;					//²¨¶ÎIOÇåÁã£¬µÍµçÎ»£»
+				//Band_Switch = BAND_ON << ks.Band_id;	//ÉèÖÃËùÑ¡µÄ²¨¶ÎIOÎª¸ßµçÆ½£»
 				switch(vfo[VFO_A].RxBand_id)
 				{
 					case RADIO_MW:	{ads.rx_amp_band =0;	Band_bp =9;}break;
@@ -793,14 +793,14 @@ void Key_Band_Control()
 					case RADIO_10M:	{ads.rx_amp_band =8;	Band_bp =1;}break;
 				}
 				/*
-				*	ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Î´ï¿½Í¨ï¿½ï¿½ï¿½ï¿½IOï¿½ï¿½Æ½ï¿½ï¿½	
+				*	ÉèÖÃ²¨¶Î´øÍ¨¿ØÖÆIOµçÆ½£»	
 				*/		
 				BAND_A0((Band_bp>>0)&0x01);
 				BAND_A1((Band_bp>>1)&0x01);
 				BAND_A2((Band_bp>>2)&0x01);
 				BAND_A3((Band_bp>>3)&0x01);
 				/*
-				*	ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Îµï¿½Í¨ï¿½ï¿½ï¿½ï¿½IOï¿½ï¿½Æ½ï¿½ï¿½
+				*	ÉèÖÃ²¨¶ÎµÍÍ¨¿ØÖÆIOµçÆ½£»
 				*/
 				LPF_80M(BAND_OFF);
 				LPF_60_40M(BAND_OFF);
@@ -808,43 +808,43 @@ void Key_Band_Control()
 				LPF_17_15M(BAND_OFF);
 				LPF_12_10M(BAND_OFF);
 			}
-			else/* ï¿½Õ·ï¿½ï¿½Å»ï¿½Ä£Ê½ */
+			else/* ÊÕ·¢ÐÅ»úÄ£Ê½ */
 			{
 				/*
-				*	ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ê¾
+				*	Ö÷ÆµÂÊÏÔÊ¾
 				*/
 				
-				/* ï¿½Í¶ï¿½Æµï¿½ï¿½ï¿½Þ¶ï¿½ */
+				/* µÍ¶ËÆµÂÊÏÞ¶¨ */
 				if(vfo[VFO_A].Freq <  Band_Info[COUPLING_80M].start)//
 				{
 					vfo[VFO_A].Freq =  Band_Info[COUPLING_80M].start;
 					vfo[VFO_A].Band_id =  COUPLING_80M;
 				}
-				/* ï¿½ï¿½Æµï¿½ÊµÍ¶Ëµï¿½Ð³ */
-				if(vfo[VFO_A].Freq < Band_Info[vfo[VFO_A].Band_id].start && vfo[VFO_A].Freq > Band_Info[vfo[VFO_A].Band_id-1].end)	//ï¿½Â±ß½ï¿½
+				/* ÏòÆµÂÊµÍ¶Ëµ÷Ð³ */
+				if(vfo[VFO_A].Freq < Band_Info[vfo[VFO_A].Band_id].start && vfo[VFO_A].Freq > Band_Info[vfo[VFO_A].Band_id-1].end)	//ÏÂ±ß½ç
 				{	
 					vfo[VFO_A].Band_id --;
 					//if(vfo[VFO_A].Band_id <= COUPLING_80M) vfo[VFO_A].Band_id =  COUPLING_80M; //
 					vfo[VFO_A].Freq = (u32)(Band_Info[vfo[VFO_A].Band_id].end/sd.tuning_step) * sd.tuning_step;
 				}
-				/* ï¿½ï¿½Æµï¿½Ê¸ß¶Ëµï¿½Ð³ */
-				if(vfo[VFO_A].Freq > Band_Info[vfo[VFO_A].Band_id].end && vfo[VFO_A].Freq < Band_Info[vfo[VFO_A].Band_id+1].start) 	//ï¿½Ï±ß½ï¿½
+				/* ÏòÆµÂÊ¸ß¶Ëµ÷Ð³ */
+				if(vfo[VFO_A].Freq > Band_Info[vfo[VFO_A].Band_id].end && vfo[VFO_A].Freq < Band_Info[vfo[VFO_A].Band_id+1].start) 	//ÉÏ±ß½ç
 				{
 					vfo[VFO_A].Band_id  ++;
 					//if(ks.Band_id >=  COUPLING_6M) vfo[VFO_A].Band_id =  COUPLING_6M;
 					vfo[VFO_A].Freq = (u32)(Band_Info[vfo[VFO_A].Band_id].start /sd.tuning_step) * sd.tuning_step;
 				}
-				/* ï¿½ß¶ï¿½Æµï¿½ï¿½ï¿½Þ¶ï¿½ */
+				/* ¸ß¶ËÆµÂÊÏÞ¶¨ */
 				if(vfo[VFO_A].Freq >  Band_Info[COUPLING_6M].end  )//
 				{
 					vfo[VFO_A].Freq = (u32)(Band_Info[COUPLING_6M].end/sd.tuning_step) * sd.tuning_step;
 					vfo[VFO_A].Band_id =  COUPLING_6M;
 				}
 			
-				/* ï¿½ï¿½ï¿½ï¿½ï¿½Êºï¿½Ä°ï¿½ï¿½Æµï¿½ÊµÄ²ï¿½ï¿½ï¿½ */
+				/* ²éÕÒÊÊºÏÄ°ÉúÆµÂÊµÄ²¨¶Î */
 	//			if(k != vfo[VFO_A].Band_id)
 	//			{
-	//				vfo[VFO_A].Band_id++;if(vfo[VFO_A].Band_id > COUPLING_6M)vfo[VFO_A].Band_id = COUPLING_80M;/* ï¿½ï¿½ï¿½ï¿½ï¿½Þ¶ï¿½ */
+	//				vfo[VFO_A].Band_id++;if(vfo[VFO_A].Band_id > COUPLING_6M)vfo[VFO_A].Band_id = COUPLING_80M;/* ²¨¶ÎÏÞ¶¨ */
 	//				if(vfo[VFO_A].Freq >=  Band_Info[vfo[VFO_A].Band_id].start && vfo[VFO_A].Freq <= Band_Info[vfo[VFO_A].Band_id].end )
 	//				//vfo[VFO_A].Band_id = k;
 	//				k = vfo[VFO_A].Band_id;
@@ -856,7 +856,7 @@ void Key_Band_Control()
 	//			}
 				if(mode0==1)
 				{
-					ks.StepSelected_idx = T_STEP_1KHZ_IDX;//ï¿½ï¿½ï¿½Î²ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª1kHz;
+					ks.StepSelected_idx = T_STEP_1KHZ_IDX;//²¨¶Î²½½øÄ¬ÈÏÉèÖÃÎª1kHz;
 					mode0=0;
 				}
 	//			if(vfo[VFO_A].Band_id == COUPLING_6M)
@@ -865,59 +865,59 @@ void Key_Band_Control()
 	//			}
 				
 				/*
-				*	ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ê¾
+				*	¸±ÆµÂÊÏÔÊ¾
 				*/
 			
-				/* ï¿½Í¶ï¿½Æµï¿½ï¿½ï¿½Þ¶ï¿½ */
+				/* µÍ¶ËÆµÂÊÏÞ¶¨ */
 				if(vfo[VFO_B].Freq < Band_Info[COUPLING_80M].start)//
 				{
 					vfo[VFO_B].Freq = Band_Info[COUPLING_80M].start;
 					//vfo[VFO_B].Band_id =  COUPLING_80M;
 				}
-				/* ï¿½ï¿½Æµï¿½ÊµÍ¶Ëµï¿½Ð³ */
-				if(vfo[VFO_B].Freq < Band_Info[vfo[VFO_B].Band_id].start && vfo[VFO_B].Freq > Band_Info[vfo[VFO_B].Band_id-1].end)	//ï¿½Â±ß½ï¿½
+				/* ÏòÆµÂÊµÍ¶Ëµ÷Ð³ */
+				if(vfo[VFO_B].Freq < Band_Info[vfo[VFO_B].Band_id].start && vfo[VFO_B].Freq > Band_Info[vfo[VFO_B].Band_id-1].end)	//ÏÂ±ß½ç
 				{	
 					vfo[VFO_B].Band_id --;
 					//if(vfo[VFO_A].Band_id <= COUPLING_80M) vfo[VFO_A].Band_id =  COUPLING_80M; //
 					vfo[VFO_B].Freq = (u32)(Band_Info[vfo[VFO_B].Band_id].end/sd.tuning_step) * sd.tuning_step;
 				}
-				/* ï¿½ï¿½Æµï¿½Ê¸ß¶Ëµï¿½Ð³ */
-				if(vfo[VFO_B].Freq > Band_Info[vfo[VFO_B].Band_id].end && vfo[VFO_B].Freq < Band_Info[vfo[VFO_B].Band_id+1].start) 	//ï¿½Ï±ß½ï¿½
+				/* ÏòÆµÂÊ¸ß¶Ëµ÷Ð³ */
+				if(vfo[VFO_B].Freq > Band_Info[vfo[VFO_B].Band_id].end && vfo[VFO_B].Freq < Band_Info[vfo[VFO_B].Band_id+1].start) 	//ÉÏ±ß½ç
 				{
 					vfo[VFO_B].Band_id  ++;
 					//if(ks.Band_id >=  COUPLING_6M) vfo[VFO_A].Band_id =  COUPLING_6M;
 					vfo[VFO_B].Freq = (u32)(Band_Info[vfo[VFO_B].Band_id].start /sd.tuning_step) * sd.tuning_step;
 				}
-				/* ï¿½ß¶ï¿½Æµï¿½ï¿½ï¿½Þ¶ï¿½ */
+				/* ¸ß¶ËÆµÂÊÏÞ¶¨ */
 				if(vfo[VFO_B].Freq >  Band_Info[COUPLING_6M].end  )//
 				{
 					vfo[VFO_B].Freq = (u32)(Band_Info[COUPLING_6M].end/sd.tuning_step) * sd.tuning_step;
 					vfo[VFO_B].Band_id =  COUPLING_6M;
 				}
-				/* ï¿½ï¿½ï¿½ï¿½ï¿½Êºï¿½Ä°ï¿½ï¿½Æµï¿½ÊµÄ²ï¿½ï¿½ï¿½ */
+				/* ²éÕÒÊÊºÏÄ°ÉúÆµÂÊµÄ²¨¶Î */
 	//			if(i != vfo[VFO_B].Band_id)
 	//			{
 	//				i ++;
-	//				if(i > COUPLING_10M)i = COUPLING_80M;/* ï¿½ï¿½ï¿½ï¿½ï¿½Þ¶ï¿½ */
+	//				if(i > COUPLING_10M)i = COUPLING_80M;/* ²¨¶ÎÏÞ¶¨ */
 	//				if(vfo[VFO_B].Freq >=  Band_Info[i].start && vfo[VFO_B].Freq <= Band_Info[i].end )
-	//				//if(i > COUPLING_10M)i = COUPLING_10M;/* ï¿½ï¿½ï¿½ï¿½ï¿½Þ¶ï¿½ */	
+	//				//if(i > COUPLING_10M)i = COUPLING_10M;/* ²¨¶ÎÏÞ¶¨ */	
 	//				vfo[VFO_A].Band_id = i;
 	//				i = vfo[VFO_A].Band_id;
 	//			}
 				
 				//if(sd.menu_page==1&&sd.menu>7)sd.Pow =50;
-				sd.band = vfo[VFO_A].Band_id; //ï¿½ï¿½ï¿½ï¿½IFï¿½ï¿½ï¿½ï¿½
+				sd.band = vfo[VFO_A].Band_id; //²¨¶ÎIFÔöÒæ
 				/*
-				*	ï¿½ï¿½ï¿½Î¹ï¿½ï¿½ï¿½Ïµï¿½ï¿½
+				*	²¨¶Î¹¦ÂÊÏµÊý
 				*/
-				//ads.cw_alc_gain[vfo[VFO_A].Band_id] = AT24CXX_ReadLenByte(ADDR_CW_POW_GAIN(vfo[VFO_A].Band_id),2);//CWï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½È¡
+				//ads.cw_alc_gain[vfo[VFO_A].Band_id] = AT24CXX_ReadLenByte(ADDR_CW_POW_GAIN(vfo[VFO_A].Band_id),2);//CW¹¦ÂÊÔöÒæÏµÊý¶ÁÈ¡
 				/*
-				*	ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½
+				*	²¨¶Î¿ØÖÆ
 				*/
-				Band_Switch = 0x0000;				//ï¿½ï¿½ï¿½ï¿½IOï¿½ï¿½ï¿½ã£¬ï¿½Íµï¿½Î»ï¿½ï¿½
-				Band_Switch = 1 << vfo[VFO_A].Band_id;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½Ä²ï¿½ï¿½ï¿½IOÎªï¿½ßµï¿½Æ½ï¿½ï¿½
+				Band_Switch = 0x0000;				//²¨¶ÎIOÇåÁã£¬µÍµçÎ»£»
+				Band_Switch = 1 << vfo[VFO_A].Band_id;	//ÉèÖÃËùÑ¡µÄ²¨¶ÎIOÎª¸ßµçÆ½£»
 				/*
-				*	ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½
+				*	ÊäÈë´øÍ¨ÉèÖÃ
 				*/
 				switch(vfo[VFO_A].Band_id)
 				{
@@ -934,12 +934,12 @@ void Key_Band_Control()
 				}
 				
 				/*
-				*	RXï¿½ï¿½Î»ï¿½Í·ï¿½ï¿½ï¿½
+				*	RXÏàÎ»ºÍ·ù¶È
 				*/
 				//ads.rx_amp[ads.rx_amp_band] = Rx_amp_user[ads.rx_amp_band]*0.001f;
 				//ads.rx_phase[ads.rx_amp_band] = (Rx_phase_user[ads.rx_amp_band]-100)*0.001f;
 				/*
-				*	ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Î´ï¿½Í¨ï¿½ï¿½ï¿½ï¿½IOï¿½ï¿½Æ½ï¿½ï¿½	
+				*	ÉèÖÃ²¨¶Î´øÍ¨¿ØÖÆIOµçÆ½£»	
 				*/		
 				BAND_A0((Band_bp>>0)&0x01);
 				BAND_A1((Band_bp>>1)&0x01);
@@ -949,7 +949,7 @@ void Key_Band_Control()
 				if(sd.txband_no ==1  && vfo[VFO_A].Band_id==1)ks.tx_no =1;
 				else ks.tx_no =0;
 				/*
-				*	ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Îµï¿½Í¨ï¿½ï¿½ï¿½ï¿½IOï¿½ï¿½Æ½ï¿½ï¿½
+				*	ÉèÖÃ²¨¶ÎµÍÍ¨¿ØÖÆIOµçÆ½£»
 				*/
 				if(vfo[VFO_A].Band_id <= COUPLING_6M)//
 				{
@@ -962,7 +962,7 @@ void Key_Band_Control()
 				}
 			}
 			/*
-			*	RXï¿½ï¿½Î»ï¿½Í·ï¿½ï¿½ï¿½
+			*	RXÏàÎ»ºÍ·ù¶È
 			*/
 			ads.rx_amp[ads.rx_amp_band] = Rx_amp_user[ads.rx_amp_band]*0.001f;
 			ads.rx_phase[ads.rx_amp_band] = (Rx_phase_user[ads.rx_amp_band]-100)*0.001f;
@@ -971,39 +971,44 @@ void Key_Band_Control()
 			if(ads.IF_gain >63)ads.IF_gain =32;
 			if(ads.IF_gain < 1)ads.IF_gain =32;
 		
-			//sd.band = vfo[VFO_A].Band_id; //ï¿½ï¿½ï¿½ï¿½IFï¿½ï¿½ï¿½ï¿½
+			//sd.band = vfo[VFO_A].Band_id; //²¨¶ÎIFÔöÒæ
 			//ads.IF_gain =AT24CXX_ReadLenByte(ADDR_IF_GAIN+vfo[VFO_A].Band_id, 1);
-			if(sd.menu_page)sd.Pow =50;
-			else sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
+			//if(sd.menu_page)sd.Pow =50;
+			//else sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
 			//
-			if(sd.menu_page ==1)
-			{
-				sd.Pow =50;
-			}
-			else
-			{
-				if(vfo[VFO_A].Mode == DEMOD_LSB_DIG || vfo[VFO_A].Mode >= DEMOD_USB_DIG)
-				{
-					if(sd.Pow >100)sd.Pow =100;
-				}
-				else if(sd.Pow >200)sd.Pow =200;
-				if(vfo[VFO_A].Band_id == COUPLING_6M)
-				{
-					if(sd.Pow >50)sd.Pow =50;
-				}
-				else if(sd.Pow >200)sd.Pow =200;
-			}
+//			if(sd.menu_page ==1||vfo[VFO_A].Band_id == COUPLING_6M)
+//			{
+//				sd.Pow =50;
+//			}
+//			else
+//			{
+//				sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
+//				if(vfo[VFO_A].Band_id == COUPLING_6M)
+//				{
+//					if(sd.Pow >50)sd.Pow =50;
+//				}
+//				else
+//				{
+//					if(vfo[VFO_A].Mode == DEMOD_LSB_DIG || vfo[VFO_A].Mode >= DEMOD_USB_DIG)
+//					{
+//						if(sd.Pow >100)sd.Pow =100;
+//					}
+//					else if(sd.Pow >200)sd.Pow =200;
+//				}
+//			}
 			//
-			pow_gain_set();
+			//pow_gain_set();
 			Band_0 = vfo[VFO_A].Band_id ;
 			RxBand_0 = vfo[VFO_A].RxBand_id; 
 			freq_0 = vfo[VFO_A].Freq;
 		}
+		Pow_max_set();
+		Hp_set();
 	}
 }
 /*
 ***********************************************************************************
-*	ï¿½ï¿½ï¿½Ê²ï¿½ï¿½ï¿½Ïµï¿½ï¿½
+*	¹¦ÂÊ²¹³¥ÏµÊý
 ***********************************************************************************
 */
 Band_power_compensation_coefficient 	power_coefficient[] =
@@ -1027,11 +1032,12 @@ void key_wm8978_set(u8 trvolue,u8 gain,u8 alc)
 		WM8978_ALC_Cfg(0,15);
 		if(vfo[VFO_A].Mode < DEMOD_LSB)WM8978_AUXIN_Cfg(7);
 		else WM8978_AUXIN_Cfg(0);	
-		WM8978_Input_Cfg(1,1);//ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½(MIC&LINE IN)
-		WM8978_Output_Cfg(0,0);		//ï¿½ï¿½ï¿½ï¿½BYPASSï¿½ï¿½ï¿½ 
-		WM8978_MIC_Gain(gain&0x3f);//MICï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ALCï¿½ï¿½ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		WM8978_Input_Cfg(1,1);//ÊäÈëÍ¨µÀ(MIC&LINE IN)
+		WM8978_Output_Cfg(0,0);		//¿ªÆôBYPASSÊä³ö 
+		WM8978_MIC_Gain(gain&0x3f);//MICÔöÒæÉèÖÃ,±ØÐë·ÅÔÚALCºóÃæ£¬·ñÔòÔöÒæ»Ö¸´²»Æð×÷ÓÃ
 		WM8978_Inpga_muter(0,0);
 		WM8978_AUX_Gain(0,0);
+		WM8978_LINEIN_Gain(0,0);
 	}
 	if(trvolue ==1)
 	{
@@ -1041,27 +1047,41 @@ void key_wm8978_set(u8 trvolue,u8 gain,u8 alc)
 	}
 	if(trvolue ==2)
 	{
-		WM8978_MIC_Gain(gain&0x3f);
-		WM8978_ALC_Cfg(3,alc);
-		WM8978_Output_Cfg(1,1);		//ï¿½ï¿½ï¿½ï¿½BYPASSï¿½ï¿½ï¿½
+		//WM8978_MIC_Gain(gain&0x3f);
+		//WM8978_ALC_Cfg(3,alc);
+		//WM8978_Output_Cfg(1,1);		//¿ªÆôBYPASSÊä³ö
 		if(ks.cat_ptt ==TX)
 		{
-			if(ks.bt_key )WM8978_Input_Cfg(1,0);//ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½(BLE&R_ IN)
+			WM8978_Input_Cfg(2,2);
+			WM8978_Inpga_muter(1,1);
+			if(ks.bt_key )
+			{
+				//WM8978_ALC_Cfg(0,alc);
+				//WM8978_MIC_Gain(gain&0x3f);
+				//WM8978_Input_Cfg(1,0);//ÊäÈëÍ¨µÀ(BLE&R_ IN)
+				WM8978_LINEIN_Gain(0,7);
+			}
 			else
 			{	
-				WM8978_Input_Cfg(1,1);
-				WM8978_Inpga_muter(1,1);
-				WM8978_AUX_Gain(7,7);
+				//WM8978_Input_Cfg(1,1);
+				//WM8978_Inpga_muter(1,1);
+				WM8978_AUX_Gain(7,0);
 			}
 		}
 		//else
-		//if(ks.rit_tx ==TX)WM8978_Input_Cfg(0,1);//ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½(MIC&L IN)
-		else WM8978_Input_Cfg(0,1);//ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½(MIC&L IN)	
+		//if(ks.rit_tx ==TX)WM8978_Input_Cfg(0,1);//ÊäÈëÍ¨µÀ(MIC&L IN)
+		else 
+		{
+			WM8978_ALC_Cfg(3,alc);
+			WM8978_MIC_Gain(gain&0x3f);
+			
+			WM8978_Input_Cfg(0,1);//ÊäÈëÍ¨µÀ(MIC&L IN)	
+		}
 	}
 }
 /*
 **********************************************************************************
-*	ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½Ù¿Ø¹ï¿½ï¿½ï¿½
+*	µ÷ÖÆÄ£Ê½²Ù¿Ø¹ÜÀí
 *	Modulation mode control management
 **********************************************************************************
 */
@@ -1131,25 +1151,29 @@ void key_Mode_Control()
 	static u16 cw_si;
 	static u16 bfo;
 	static int16_t rit_0;
-	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ÓÐ°´¼ü²Ù×÷Óë¼üÅÌËø¿ª
 	{
 
 		/*
-		*	ï¿½ï¿½ï¿½ï¿½Ä£Ê½Ñ¡ï¿½ï¿½ 
+		*	µ÷ÖÆÄ£Ê½Ñ¡Ôñ 
 		*/
 		if( ucKeyCode==KEY_1_UP )
 		{	
 			ads.tx_delay =100;
-			vfo[VFO_A].Mode ++;
-			if(vfo[VFO_A].Mode > DEMOD_USB_DIG)vfo[VFO_A].Mode  =  DEMOD_LSB;
-			else
-			if(vfo[VFO_A].Mode < DEMOD_LSB)vfo[VFO_A].Mode  =  DEMOD_USB_DIG;
-			else
-			if(vfo[VFO_A].Mode > DEMOD_LSB && vfo[VFO_A].Mode < DEMOD_USB)vfo[VFO_A].Mode  =  DEMOD_LSB_DIG;
-			else
-			if(vfo[VFO_A].Mode > DEMOD_LSB_DIG && vfo[VFO_A].Mode < DEMOD_USB_DIG)vfo[VFO_A].Mode  =  DEMOD_USB;
-			else	
-			if(vfo[VFO_A].Mode > DEMOD_USB && vfo[VFO_A].Mode <= DEMOD_USB_DIG)vfo[VFO_A].Mode  =  DEMOD_USB_DIG;
+//			vfo[VFO_A].Mode ++;
+//			if(vfo[VFO_A].Mode > DEMOD_USB_DIG)vfo[VFO_A].Mode  =  DEMOD_LSB;
+//			else
+//			if(vfo[VFO_A].Mode < DEMOD_LSB)vfo[VFO_A].Mode  =  DEMOD_USB_DIG;
+//			else
+//			if(vfo[VFO_A].Mode > DEMOD_LSB && vfo[VFO_A].Mode < DEMOD_USB)vfo[VFO_A].Mode  =  DEMOD_LSB_DIG;
+//			else
+//			if(vfo[VFO_A].Mode > DEMOD_LSB_DIG && vfo[VFO_A].Mode < DEMOD_USB_DIG)vfo[VFO_A].Mode  =  DEMOD_USB;
+//			else	
+//			if(vfo[VFO_A].Mode > DEMOD_USB && vfo[VFO_A].Mode <= DEMOD_USB_DIG)vfo[VFO_A].Mode  =  DEMOD_USB_DIG;
+			
+			vfo[VFO_A].Mode +=2;
+			if(vfo[VFO_A].Mode > DEMOD_USB)vfo[VFO_A].Mode  =  DEMOD_LSB;
+			if(vfo[VFO_A].Mode < DEMOD_LSB)vfo[VFO_A].Mode  =  DEMOD_USB;
             if(ssb_mode==1)
             {
                 if(vfo[VFO_A].Freq >9500000)vfo[VFO_A].Mode = DEMOD_USB;
@@ -1176,7 +1200,7 @@ void key_Mode_Control()
 		if( ucKeyCode==KEY_4_UP)
 		{
 			ads.tx_delay =100;
-			//AF_SQL(1);/* ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ */
+			//AF_SQL(1);/* ÒôÆµ¿ªÆô */
 			//ks.NOT_key =0;
 			//ks.NR_key =0;
 			vfo[VFO_A].Mode ++;
@@ -1184,11 +1208,11 @@ void key_Mode_Control()
 			else
 			if(vfo[VFO_A].Mode  <  DEMOD_AM)vfo[VFO_A].Mode  =  DEMOD_FM;
 			//delay_ms(200);
-			//AF_SQL(0);/* ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ */
+			//AF_SQL(0);/* ÒôÆµ¿ªÆô */
 			ssb_mode =1;
 		}
 		//else 
-		/* CWï¿½Ô¶ï¿½ï¿½ï¿½/ï¿½Ö¶ï¿½×ªï¿½ï¿½ */
+		/* CW×Ô¶¯¼ü/ÊÖ¶¯×ª»» */
 		if(ucKeyCode==KEY_3_LONG && vfo[VFO_A].Mode < DEMOD_LSB && TR_READ == CONTROL_RX )
 		{
 			//if( ++ks.CW_keySW>1 )
@@ -1197,7 +1221,7 @@ void key_Mode_Control()
 			//}
 			ks.CW_AB =~ks.CW_AB&0x01;
 		}
-		/* CWï¿½Ô¶ï¿½ï¿½ï¿½/ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½Ï°Ä£Ê½ */
+		/* CW×Ô¶¯¼ü/ÊÖ¶¯¼üÁ·Ï°Ä£Ê½ */
 		if(ucKeyCode==KEY_1_LONG && vfo[VFO_A].Mode < DEMOD_LSB && TR_READ == CONTROL_RX)
 		{
 			ads.tx_delay =100;
@@ -1209,7 +1233,7 @@ void key_Mode_Control()
 			if(vfo[VFO_A].Mode  <  DEMOD_CW_LSB)vfo[VFO_A].Mode  =  DEMOD_CW_USB;
 			cw_mode0 = vfo[VFO_A].Mode;
 		}
-		/* CWï¿½Ô¶ï¿½ï¿½ï¿½A/B×ªï¿½ï¿½ */
+		/* CW×Ô¶¯¼üA/B×ª»» */
 		if( ucKeyCode==KEY_5_LONG && vfo[VFO_A].Mode < DEMOD_LSB && TR_READ == CONTROL_RX )
 		{
 			//ks.CW_AB =~ks.CW_AB&0x01;
@@ -1237,7 +1261,7 @@ void key_Mode_Control()
 	}
 	if(mode_0 != vfo[VFO_A].Mode  || fil_0 != vfo[VFO_A].FilterSelected_id || clk ==0 || rit_0!=sd.rit ||ptt != TR_READ)
 	{
-		pow_gain_set();//ï¿½è¶¨ï¿½ï¿½ï¿½ï¿½ï¿½Â¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½
+		//pow_gain_set();//Éè¶¨¹¦ÂÊÏÂ¸÷¸ö²¨¶ÎµÄÔöÒæÏµÊý
 		if(rit_0==sd.rit)
 		{
 			if(TR_READ ==CONTROL_TX)
@@ -1256,7 +1280,7 @@ void key_Mode_Control()
 		}
 		if(vfo[VFO_A].Mode < DEMOD_LSB)
 		{
-			sd.Dsp_Bfo =sd.CW_Sidetone;/* ï¿½ï¿½ï¿½ï¿½BFOï¿½ï¿½ÆµÆµï¿½ï¿½ */
+			sd.Dsp_Bfo =sd.CW_Sidetone;/* ÉèÖÃBFOÅÄÆµÆµÂÊ */
 			
 			sd.Dsp_Lo1 = sd.IF_1;
 			ads.dsp_IF = sd.IF_1;
@@ -1303,8 +1327,8 @@ void key_Mode_Control()
 				ui_TopBackground(165,4,24,16);
 				LCD_ShowString(165,4,GRAY1,BLUE2 ,16,0,"DIG");
 			}
-			ads.spk_vol =0;
-			ads.hp_vol =63;
+			//ads.spk_vol =0;
+			//ads.hp_vol =60;
 		}			
 		//else
 		if(vfo[VFO_A].Mode > DEMOD_USB_DIG)
@@ -1327,30 +1351,33 @@ void key_Mode_Control()
 			
 		if(mode_0 != vfo[VFO_A].Mode || clk ==0 )
 		{
-			LCD_RectangleWindow(1, 25, 52, 20, GRAY1);/* ï¿½ï¿½ï¿½Ú±ß¿ï¿½ */
+			LCD_RectangleWindow(1, 25, 52, 20, GRAY1);/* ´°¿Ú±ß¿ò */
 			LCD_ShowString(3, 27, GRAY0, RED , 16, 0, text.Mode [vfo[VFO_A].Mode] );
 			
 		}
-		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¶ï¿½ */
-		if(sd.menu_page ==1)
-		{
-			sd.Pow =50;
-		}
-		else
-		{
-			if(vfo[VFO_A].Mode == DEMOD_LSB_DIG || vfo[VFO_A].Mode >= DEMOD_USB_DIG)
-			{
-			if(sd.Pow >100)sd.Pow =100;
-			}
-			else if(sd.Pow >200)sd.Pow =200;
-			if(vfo[VFO_A].Band_id == COUPLING_6M)
-			{
-			if(sd.Pow >50)sd.Pow =50;
-			}
-			else if(sd.Pow >200)sd.Pow =200;
-		}
-		//AT24CXX_WriteOneByte(MENU_POW, sd.Pow );
-		
+		/* ×î´ó¹¦ÂÊÏÞ¶¨ */
+//		if(sd.menu_page ==1)
+//		{
+//			sd.Pow =50;
+//		}
+//		else
+//		{
+//			sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
+//			if(vfo[VFO_A].Band_id == COUPLING_6M)
+//			{
+//				if(sd.Pow >50)sd.Pow =50;
+//			}
+//			else
+//			{
+//				if(vfo[VFO_A].Mode == DEMOD_LSB_DIG || vfo[VFO_A].Mode >= DEMOD_USB_DIG)
+//				{
+//					if(sd.Pow >100)sd.Pow =100;
+//				}
+//				else if(sd.Pow >200)sd.Pow =200;
+//			}
+//		}
+//		//AT24CXX_WriteOneByte(MENU_POW, sd.Pow );
+//		pow_gain_set();
 		
 		softdds_setfreq(DDS_TX_LO,(float32_t)(sd.Dsp_Lo1), SAMPLING_RETE, 1);
 		softdds_setfreq(DDS_LO1,(float32_t)(sd.Dsp_Lo1+sd.rit), SAMPLING_RETE, 1);
@@ -1365,7 +1392,7 @@ void key_Mode_Control()
 
 /*
 **********************************************************************************
-*	ï¿½Ë²ï¿½ï¿½ï¿½ï¿½Ù¿Ø¹ï¿½ï¿½ï¿½
+*	ÂË²¨Æ÷²Ù¿Ø¹ÜÀí
 **********************************************************************************
 */
 
@@ -1406,7 +1433,7 @@ void key_Filter_Control(u8 idx)
 	
 //	if(ptt!=PTT_RT )
 //	{
-//		//if(vfo[VFO_A].Mode >  DEMOD_CW_USB)Adc3_Channel_Selection( PTT_RT);//ï¿½ï¿½ï¿½ï¿½Ê±×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë·ï¿½Ó¿ï¿½
+//		//if(vfo[VFO_A].Mode >  DEMOD_CW_USB)Adc3_Channel_Selection( PTT_RT);//·¢ÉäÊ±×ª»»µ½Âó¿Ë·ç½Ó¿Ú
 //		if(vfo[VFO_A].Mode==DEMOD_LSB || vfo[VFO_A].Mode==DEMOD_USB)/**/
 //		{
 //			if(PTT_RT == TX)vfo[VFO_A].FilterSelected_id = sd.tx_filter ;
@@ -1418,9 +1445,9 @@ void key_Filter_Control(u8 idx)
 //		}
 //		//ptt=PTT_RT;
 //	}
-	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ÓÐ°´¼ü²Ù×÷Óë¼üÅÌËø¿ª
 	{
-		//Filter ï¿½Ë²ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
+		//Filter ÂË²¨Æ÷Ñ¡Ôñ£»
 		if( ucKeyCode==KEY_10_UP)
 		{
 			ads.tx_delay =100;
@@ -1446,7 +1473,7 @@ void key_Filter_Control(u8 idx)
 					case 5:  Filter_idx = CW_800HZ ;break;
 				}
 				//if(vfo[VFO_A].FilterSelected_id > 5 ) vfo[VFO_A].FilterSelected_id =0;
-				//sd.Dsp_Bfo = sd.CW_Sidetone;/* ï¿½ï¿½ï¿½ï¿½BFOï¿½ï¿½ÆµÆµï¿½ï¿½ */
+				//sd.Dsp_Bfo = sd.CW_Sidetone;/* ÉèÖÃBFOÅÄÆµÆµÂÊ */
 				sd.cw_fil_id = vfo[VFO_A].FilterSelected_id;
 				AT24CXX_WriteOneByte(ADDR_FIL_CW, sd.cw_fil_id );
 				 
@@ -1530,7 +1557,7 @@ void key_Filter_Control(u8 idx)
 				case 4:  Filter_idx = CW_500HZ ;break;
 				case 5:  Filter_idx = CW_800HZ ;break;
 			}
-			//sd.Dsp_Bfo = sd.CW_Sidetone;/* ï¿½ï¿½ï¿½ï¿½BFOï¿½ï¿½ÆµÆµï¿½ï¿½ */
+			//sd.Dsp_Bfo = sd.CW_Sidetone;/* ÉèÖÃBFOÅÄÆµÆµÂÊ */
 			if(vfo[VFO_A].FilterSelected_id > 5 ) vfo[VFO_A].FilterSelected_id =0;
 		}
 		//else
@@ -1607,7 +1634,7 @@ void key_Filter_Control(u8 idx)
 		}
 		
 		sd.spe_fil_id = Filter_idx;
-		/* AFï¿½ï¿½Æµï¿½ï¿½Í¨ï¿½Ë²ï¿½ */
+		/* AFÒôÆµµÍÍ¨ÂË²¨ */
 		for(i=0;i<IIR_NUM_TAPS;i++)
 		{
 			AF_State[i]=0;
@@ -1629,7 +1656,7 @@ void key_Filter_Control(u8 idx)
 //			RISS.numStages =IIR_dfI_100hz_LPF.numStages;
 //			RISS.pCoeffs = IIR_dfI_100hz_LPF.pCoeffs;
 //		}
-		/* ×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë²ï¿½ï¿½ï¿½ */
+		/* ×ª»»´ø¿íÂË²¨Æ÷ */
 		for(i=0;i<IIR_NUM_TAPS;i++)
 		{
 			IIRStateF32_I[i]=0;
@@ -1645,7 +1672,7 @@ void key_Filter_Control(u8 idx)
 		
 		IIR_LP_Values = FilterPathInfo[ Filter_idx ].Lpf_ScaleValues;
 		/*
-		*	×ªï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ú²ï¿½ï¿½Ë²ï¿½ï¿½ï¿½
+		*	×ª»»³éÈ¡ºÍÄÚ²åÂË²¨Æ÷
 		*/
 		ads.Rate = FilterPathInfo[ Filter_idx ].sample_rate;
 		
@@ -1685,7 +1712,7 @@ void key_Filter_Control(u8 idx)
 			mode = 0;
 		sd.spe_fil_mode = mode;
 		//ui_Spe_Filter_Display(Filter_idx,mode,clk,ks.F_11);
-		/* ï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ */
+		/* ÂË²¨Æ÷ÏÔÊ¾ */
 		ui_Filter_Display (284,25,RED,GRAY5,Filter_idx,mode);
 		
 		//idx_0 = vfo[VFO_A].FilterSelected_id;
@@ -1696,7 +1723,7 @@ void key_Filter_Control(u8 idx)
 }
 /*
 **********************************************************************************
-*	Æµï¿½Êµï¿½Ð³ï¿½ï¿½ï¿½ï¿½ï¿½Ù¿ï¿½
+*	ÆµÂÊµ÷Ð³²½½ø²Ù¿Ø
 **********************************************************************************
 */
 // Tuning steps
@@ -1716,25 +1743,25 @@ void key_Step_Control(u8 step_idx)
 {
 	static u8 clk =0;
 	static u8 step_idx0;
-	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0&& PIN_K13 ==1)//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0&& PIN_K13 ==1)//ÓÐ°´¼ü²Ù×÷Óë¼üÅÌËø¿ª
 	{
 		/*
-		*	ï¿½ï¿½Ð³ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
+		*	µ÷Ð³²½½øÑ¡Ôñ
 		*/
-		if( ucKeyCode==KEY_13_DOWN && PIN_K13 ==1)//Æµï¿½ï¿½ï¿½ï¿½Å¥ï¿½Ì°ï¿½ï¿½ï¿½ï¿½ï¿½Ð³ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
+		if( ucKeyCode==KEY_13_DOWN && PIN_K13 ==1)//ÆµÂÊÐýÅ¥¶Ì°´£ºµ÷Ð³²½½øÑ¡Ôñ¡£
 		{
 			ks.StepSelected_idx ++;
-//			if(ks.menu_key==0 && ks.rt_rx ==1 && ks.RxBand_id == RADIO_MW)/* ï¿½ï¿½ï¿½Õ»ï¿½Ä£Ê½ï¿½ï¿½MWï¿½ï¿½ï¿½Î²ï¿½ï¿½ï¿½Îª9KHz */
+//			if(ks.menu_key==0 && ks.rt_rx ==1 && ks.RxBand_id == RADIO_MW)/* ½ÓÊÕ»úÄ£Ê½ÏÂMW²¨¶Î²½½øÎª9KHz */
 //			{
 //				ks.StepSelected_idx = T_STEP_9KHZ_IDX;
 //			}
 //			else
-			if(ks.menu_key==1)/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â²ï¿½ï¿½ï¿½1->1MHZ */
+			if(ks.menu_key==1)/* ²Ëµ¥ÉèÖÃÏÂ²½½ø1->1MHZ */
 			{
 				if(ks.StepSelected_idx > T_STEP_1MHZ_IDX) 
 					ks.StepSelected_idx=0;					
 			}
-			else/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½Â²ï¿½ï¿½ï¿½10->100KHZ*/
+			else/* Õý³£¹¤×÷Ä£Ê½ÏÂ²½½ø10->100KHZ*/
 			{
 				if(ks.StepSelected_idx > T_STEP_100KHZ_IDX) 
 					ks.StepSelected_idx=0;
@@ -1765,7 +1792,7 @@ void key_Step_Control(u8 step_idx)
 }
 /*
 **********************************************************************************
-*	AGC ï¿½ï¿½ï¿½ï¿½
+*	AGC ¿ØÖÆ
 **********************************************************************************
 */
 AGC_Recovery_Time AGC_Time[]=
@@ -1774,7 +1801,7 @@ AGC_Recovery_Time AGC_Time[]=
 	{"M ",	15},
 	{"F ",	5},
 };
-void Key_AGC_RecoveryTime_set()//AGC ï¿½Ö¸ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½
+void Key_AGC_RecoveryTime_set()//AGC »Ö¸´Ê±¼ä¿ØÖÆ
 {
 	static u8 clk=0;
 	static u8 agc_ma0;
@@ -1783,13 +1810,13 @@ void Key_AGC_RecoveryTime_set()//AGC ï¿½Ö¸ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½
 		clk=0;
 		agc_ma0 = ks.AGC_Constant;
 	}
-	if(clk ==0 || (ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0 && ks.FunctionWindow_Use ==0))//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if(clk ==0 || (ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0 && ks.FunctionWindow_Use ==0))//ÓÐ°´¼ü²Ù×÷Óë¼üÅÌËø¿ª
 	{
-		//*ATTï¿½ï¿½ï¿½ï¿½
+		//*ATT¿ª¹Ø
 		if( sd.ritatt_ptt !=2 )
 		{
 			
-			if(ucKeyCode==KEY_7_LONG)//[ATT]ï¿½ï¿½ï¿½Ì°ï¿½
+			if(ucKeyCode==KEY_7_LONG)//[ATT]¼ü¶Ì°´
 			{
 				ks.agc_m_adjust =~ks.agc_m_adjust&0x01;
 				if(ks.agc_m_adjust ==0)sd.Enc2_delay =0;
@@ -1797,7 +1824,7 @@ void Key_AGC_RecoveryTime_set()//AGC ï¿½Ö¸ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½
 		}
 //			{
 //				ks.agc_m_adjust =0;
-//				if(ucKeyCode==KEY_7_UP)ks.AGC_Constant++;//[ATT]ï¿½ï¿½ï¿½Ì°ï¿½
+//				if(ucKeyCode==KEY_7_UP)ks.AGC_Constant++;//[ATT]¼ü¶Ì°´
 //				
 //				if(ks.AGC_Constant>2)ks.AGC_Constant =0;
 //			}
@@ -1810,16 +1837,16 @@ void Key_AGC_RecoveryTime_set()//AGC ï¿½Ö¸ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½
 }
 /*
 **********************************************************************************
-*	ï¿½ß·ï¿½AMP
+*	¸ß·ÅAMP
 **********************************************************************************
 */
 void key_ampset()
 {
 	if(TR_READ ==CONTROL_RX)
 	{
-		if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ÓÐ°´¼ü²Ù×÷Óë¼üÅÌËø¿ª
 		{
-			/*	ï¿½ß·ï¿½AMP */
+			/*	¸ß·ÅAMP */
 			if(ks.menu_key == MENU_OFF && ucKeyCode==KEY_9_UP)
 			{
 				sd.amp_set =~sd.amp_set&0x01;
@@ -1831,7 +1858,7 @@ void key_ampset()
 }
 /*
 **********************************************************************************
-*	ATT ï¿½ï¿½ï¿½ï¿½Ë¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+*	ATT ÌìÏßË¥¼õ¿ØÖÆ
 **********************************************************************************
 */
 void key_ATT_Control()
@@ -1843,12 +1870,12 @@ void key_ATT_Control()
 	//static u8 k5,k7;
 	if( sd.ritatt_ptt !=2 )
 	{
-		PTT_IN();
-		if(ks.key_lock == KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//PTT_IN();
+		if(ks.key_lock == KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ÓÐ°´¼ü²Ù×÷Óë¼üÅÌËø¿ª
 		{
 			if(ucKeyCode==KEY_7_UP)
 			{
-				ks.ATT_key ++;		//ATTï¿½ï¿½ï¿½Ø£ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ATT, 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ATT.
+				ks.ATT_key ++;		//ATT¿ª¹Ø£¬0£º²»ÆôÓÃATT, 1£ºÆôÓÃATT.
 				if(ks.ATT_key>2)ks.ATT_key=0;
 			}
 		}
@@ -1899,7 +1926,7 @@ void key_ATT_Control()
 				ATT_ON;
 			}
 			ui_ATT_Display( ks.ATT_key);
-			clk =1;
+			//clk =1;
 			//ATT_Key0 = ks.ATT_key;
 			//ptt = TR_READ;
 		}
@@ -1909,16 +1936,17 @@ void key_ATT_Control()
 			ATT_OFF;
 			AMP_OFF;
 		}
+		clk =1;
 		ATT_Key0 = ks.ATT_key;
 		ptt = TR_READ;
 	}
 }
 /*
 **********************************************************************************
-*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+*	À¶ÑÀ¿ØÖÆ
 **********************************************************************************
 */
-void bluetooth_icon(u16 fc)//ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
+void bluetooth_icon(u16 fc)//À¶ÑÀÍ¼±ê
 {
 	//u8 y;
 	Gui_DrawLine(95,6,95,18,fc);
@@ -1938,10 +1966,10 @@ void key_bluetooth_control()
 	{
 		if(ks.bt_key )
 		{
-			BLUETOOTH_POWER(1);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			BLUETOOTH_POWER(1);//À¶ÑÀ¹©µç
 			if(BLUETOOTH_DAT ==0)// && BLUETOOTH_ON ==0 )
 			{
-				USART3->CR1&=~(1<<0);  	//ï¿½ï¿½ï¿½ï¿½Ê¹
+				USART3->CR1&=~(1<<0);  	//´®¿ÚÊ¹
 				ui_TopBackground(85,4,24,16);
 				//LCD_ShowString(85, 4, GRAY3,  BLACK , 16, 1, "BLE" );
 				bluetooth_icon(RED);
@@ -1989,7 +2017,30 @@ void key_bluetooth_control()
 }
 /*
 **********************************************************************************
-*	ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
+*	¶ú»ú¼ì²â¿ØÖÆ
+**********************************************************************************
+*/
+void Hp_set()
+{
+	//u8 hp1,hp2;
+	static u8 hp1_value;
+	static u8 hp2_value;
+	//hp1=HP_DETEC_1;
+	//hp2=HP_DETEC_2;
+	if(hp1_value!=HP_DETEC_1||hp2_value!=HP_DETEC_2)
+	{
+		if(HP_DETEC_1==1&&HP_DETEC_2==1)ks.Spk_key =0;
+		else
+		if(HP_DETEC_1==0||HP_DETEC_2==0)ks.Spk_key =1;
+		//ks.Spk_key = (~hp1==1&~hp2==1)&0x01;
+		ui_Mute_icon(220,4,RED,ks.Spk_key);
+		hp1_value = HP_DETEC_1;
+		hp2_value = HP_DETEC_2;
+	}
+}
+/*
+**********************************************************************************
+*	µçÑ¹¼ì²âÏÔÊ¾
 **********************************************************************************
 */
 void key_voltage_Display()
@@ -2019,8 +2070,58 @@ void key_voltage_Display()
 	}		
 }
 /*
+*********************************************************************************
+*	
+*********************************************************************************
+*/
+void Pow_max_set(void)
+{
+	static u8 clk_0;
+	static u8 pow_0;
+	static u8 mode_0;
+	static u8 pig_0;
+	static u8 band_0;
+	static u8 ptt_0;
+	//static u8 pow_gain0;
+
+	if(pow_0 != sd.Pow||mode_0!=vfo[VFO_A].Mode ||pig_0!=sd.menu_page||band_0!=vfo[VFO_A].Band_id||clk_0 ==0)
+	{
+		if(sd.menu_page>0)
+		{
+			sd.Pow =50;
+		}
+		else
+		{
+			sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
+			//sd.Pow = AT24CXX_ReadLenByte( MENU_POW,1 );
+			if(vfo[VFO_A].Band_id == COUPLING_6M)
+			{
+				if(sd.Pow >50)sd.Pow =50;
+			}
+			else
+			{
+				if(vfo[VFO_A].Mode == DEMOD_LSB_DIG || vfo[VFO_A].Mode >= DEMOD_USB_DIG)
+				{
+					if(sd.Pow >100)sd.Pow =100;
+				}
+				else if(sd.Pow >200)sd.Pow =200;
+			}
+		}
+		//if(sd.Pow !=50)
+			ads.pow_gain [vfo[VFO_A].Band_id] = AT24CXX_ReadLenByte(vfo[VFO_A].Band_id*2 + ADDRPOWER_GAIN ,2);
+		//if(sd.Pow < 1)sd.Pow =1;
+		pow_gain_set();
+		pow_0 =sd.Pow;
+		pig_0 =sd.menu_page;
+		mode_0 =vfo[VFO_A].Mode;
+		band_0 =vfo[VFO_A].Band_id;
+		clk_0 =1;
+	}
+}
+
+/*
 **********************************************************************************
-*	TX/RXï¿½ÛºÏ²Ù¿Ø¹ï¿½ï¿½ï¿½
+*	TX/RX×ÛºÏ²Ù¿Ø¹ÜÀí
 **********************************************************************************
 */
 
@@ -2042,14 +2143,14 @@ void key_voltage_Display()
 //	ADDR_CH_NUM(RXCHB_NUM) 
 //};
 /*
-*	ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½Ù¿ï¿½
+*	»úÆ÷Ä£Ê½²Ù¿Ø
 *	mode_reg:
-*				Î»0ï¿½ï¿½VFO A/BÑ¡ï¿½ï¿½0ï¿½ï¿½VFO_A,1: VFO_B;
-*				Î»1ï¿½ï¿½ï¿½Åµï¿½CH/VFOÑ¡ï¿½ï¿½0ï¿½ï¿½VFOï¿½ï¿½1ï¿½ï¿½CH;
-*				Î»2ï¿½ï¿½ï¿½ï¿½Ì¨ï¿½Ä¹ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½0ï¿½ï¿½ï¿½Õ·ï¿½Ä£Ê½ï¿½ï¿½1ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½
-*				Î»3-Î»5ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-*				Î»6ï¿½ï¿½Í¬Æµ/ï¿½ï¿½Æµï¿½Õ·ï¿½Ñ¡ï¿½ï¿½0ï¿½ï¿½ï¿½Õ·ï¿½Í¬Æµï¿½ï¿½1ï¿½ï¿½ï¿½Õ·ï¿½ï¿½ï¿½Æµï¿½ï¿½
-*				Î»7ï¿½ï¿½ï¿½Õ·ï¿½×ªï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½RXï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½TXï¿½ï¿½
+*				Î»0£ºVFO A/BÑ¡Ôñ£¬0£ºVFO_A,1: VFO_B;
+*				Î»1£ºÐÅµÀCH/VFOÑ¡Ôñ£¬0£ºVFO£¬1£ºCH;
+*				Î»2£ºµçÌ¨µÄ¹¤×÷Ä£Ê½£¬0£ºÊÕ·¢Ä£Ê½£¬1£ºÖ»½ÓÊÕÄ£Ê½£»
+*				Î»3-Î»5£º±£Áô£»
+*				Î»6£ºÍ¬Æµ/ÒìÆµÊÕ·¢Ñ¡Ôñ£¬0£ºÊÕ·¢Í¬Æµ£¬1£ºÊÕ·¢ÒìÆµ£»
+*				Î»7£ºÊÕ·¢×ª»»£¬0£º½ÓÊÕRX£¬1£º·¢ÉäTX£»
 */
 void RXandTX_Control_Management()
 {
@@ -2071,37 +2172,37 @@ void RXandTX_Control_Management()
 	static u8 rt_rx;
 	//static u8 tr_red;
 	
-	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ÓÐ°´¼ü²Ù×÷Óë¼üÅÌËø¿ª
 	{
 		/*
-		*	ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½Ù¿ï¿½
+		*	»úÆ÷Ä£Ê½²Ù¿Ø
 		*/
 		
-		/* ï¿½ï¿½Ì¨ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½Ð»ï¿½ */
-		if( ucKeyCode==KEY_4_LONG )	// [AM.FM]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		/* µçÌ¨¹¤×÷Ä£Ê½ÇÐ»» */
+		if( ucKeyCode==KEY_4_LONG )	// [AM.FM]¼ü³¤°´
 		{
 			//ads.tx_delay=50;
 			ks.rt_rx = ~ks.rt_rx&0x01;
 			 ks.vfo_read =0;
 			ads.tx_delay=100;
 		}
-		//* Í¬Æµ/ï¿½ï¿½Æµ×ªï¿½ï¿½
-		if( ucKeyCode==KEY_6_LONG )	//[A.B]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		//* Í¬Æµ/ÒìÆµ×ª»»
+		if( ucKeyCode==KEY_6_LONG )	//[A.B]¼ü³¤°´
 		{
 			ads.tx_delay=100;
 			//ks.A_B_vfo = ~ks.A_B_vfo &0x01;
 			ks.sim_dif = ~ks.sim_dif &0x01;
 			 ks.vfo_read =0;
 		}
-		//*VFO/ï¿½Åµï¿½Ä£Ê½×ªï¿½ï¿½
-		if( ucKeyCode==KEY_2_UP )	//[M.V]ï¿½ï¿½ï¿½Ì°ï¿½
+		//*VFO/ÐÅµÀÄ£Ê½×ª»»
+		if( ucKeyCode==KEY_2_UP )	//[M.V]¼ü¶Ì°´
 		{
 			ads.tx_delay=100;
 			ks.ch_vfo = ~ks.ch_vfo &0x01;	
 			 ks.vfo_read =0;
 		}
-		//* A/B ×ªï¿½ï¿½
-		if( ucKeyCode==KEY_6_UP)	//[A.B]ï¿½ï¿½ï¿½Ì°ï¿½
+		//* A/B ×ª»»
+		if( ucKeyCode==KEY_6_UP)	//[A.B]¼ü¶Ì°´
 		{
 			ads.tx_delay=100;
 			ks.A_B = ~ks.A_B &0x01;
@@ -2113,7 +2214,7 @@ void RXandTX_Control_Management()
 	if(PIN_K13 ==0 || ks.vfo_read ==0||clk==0 || tr_read !=TR_READ)
 	{
 		/*
-		*	ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Æµï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ê¾Î»ï¿½Ã½ï¿½ï¿½ï¿½ï¿½ï¿½
+		*	ÒìÆµ·¢ÉäÊ±£¬¸±ÆµÂÊÎª·¢ÉäÆµÂÊ£¬Ö÷¸±ÆµÂÊÏÔÊ¾Î»ÖÃ½»»»£»
 		*/
 		if(clk)
 		{
@@ -2122,7 +2223,7 @@ void RXandTX_Control_Management()
 				addr_a = ((ks.rt_rx  &0x01)<<2) | ((ks.ch_vfo &0x01)<<1) | (~ks.A_B & 0x01);									
 				addr_b = ((ks.rt_rx  &0x01)<<2) | ((ks.ch_vfo &0x01)<<1) | ( ks.A_B & 0x01);
 			}
-			else/* A/B×ªï¿½ï¿½ */	
+			else/* A/B×ª»» */	
 			{		
 				addr_a = ((ks.rt_rx  &0x01)<<2) | ((ks.ch_vfo &0x01)<<1) | ( ks.A_B & 0x01);
 				addr_b = ((ks.rt_rx  &0x01)<<2) | ((ks.ch_vfo &0x01)<<1) | (~ks.A_B & 0x01);
@@ -2130,80 +2231,80 @@ void RXandTX_Control_Management()
 		}
 		else
 		{
-			addr_a = AT24CXX_ReadOneByte(ADDR_A );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½
+			addr_a = AT24CXX_ReadOneByte(ADDR_A );// ÌáÈ¡Ö÷ÐÅµÀ±àºÅ
 			if(addr_a<1)addr_a =0;
 			if(addr_a>7)addr_a =0;
-			addr_b = AT24CXX_ReadOneByte(ADDR_B );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½
+			addr_b = AT24CXX_ReadOneByte(ADDR_B );// ÌáÈ¡¸±ÐÅµÀ±àºÅ
 			if(addr_b<1)addr_b =0;
 			if(addr_b>7)addr_b =1;
 			
 			ks.rt_rx = (addr_a >>2)&0x01;
 			ks.ch_vfo = (addr_a >>1)&0x01;
 			ks.A_B = (addr_a >>0)&0x01;
-			sd.num_b = AT24CXX_ReadOneByte(CH_ADDR[addr_b]);// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½
+			sd.num_b = AT24CXX_ReadOneByte(CH_ADDR[addr_b]);// ÌáÈ¡¸±ÐÅµÀ±àºÅ
 //			if(ks.A_B_vfo)
 //			{
-//				sd.num_a = AT24CXX_ReadOneByte(CH_ADDR[addr_b]);// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½
+//				sd.num_a = AT24CXX_ReadOneByte(CH_ADDR[addr_b]);// ÌáÈ¡¸±ÐÅµÀ±àºÅ
 //			}
 //			else
-			sd.num_a = AT24CXX_ReadOneByte(CH_ADDR[addr_a]);// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½
+			sd.num_a = AT24CXX_ReadOneByte(CH_ADDR[addr_a]);// ÌáÈ¡Ö÷ÐÅµÀ±àºÅ
 			
-			if(sd.num_a> 99) sd.num_a = 99;	// ï¿½ç¶¨ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Öµ
-			if(sd.num_a < 0) sd.num_a = 0;	// ï¿½ç¶¨ï¿½ï¿½Ð¡ï¿½Åµï¿½ï¿½ï¿½Öµ
-			if(sd.num_b> 99) sd.num_b = 99;	// ï¿½ç¶¨ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Öµ
-			if(sd.num_b < 0) sd.num_b = 0;	// ï¿½ç¶¨ï¿½ï¿½Ð¡ï¿½Åµï¿½ï¿½ï¿½Öµ
+			if(sd.num_a> 99) sd.num_a = 99;	// ½ç¶¨×î´óÐÅµÀÊýÖµ
+			if(sd.num_a < 0) sd.num_a = 0;	// ½ç¶¨×îÐ¡ÐÅµÀÊýÖµ
+			if(sd.num_b> 99) sd.num_b = 99;	// ½ç¶¨×î´óÐÅµÀÊýÖµ
+			if(sd.num_b < 0) sd.num_b = 0;	// ½ç¶¨×îÐ¡ÐÅµÀÊýÖµ
 		}
 		if( PIN_K13 ==1)	
 		{
 			if(ks.ch_vfo ==0)/* VFOÄ£Ê½ A/B */
 			{
-				sd.num_b = addr_b;// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½
-				//if(ks.A_B_vfo)sd.num_a = addr_b;// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½
-				sd.num_a = addr_a;// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½
+				sd.num_b = addr_b;// ÌáÈ¡¸±ÐÅµÀ
+				//if(ks.A_B_vfo)sd.num_a = addr_b;// ÌáÈ¡Ö÷ÐÅµÀ
+				sd.num_a = addr_a;// ÌáÈ¡¸±ÐÅµÀ
 				AT24CXX_WriteOneByte(ADDR_A, addr_a);
 				AT24CXX_WriteOneByte(ADDR_B, addr_b);
 				AT24CXX_WriteOneByte(CH_ADDR[addr_a], sd.num_a);
 				AT24CXX_WriteOneByte(CH_ADDR[addr_b], sd.num_b);
 			}
-			else/* CHï¿½Åµï¿½Ä£Ê½ CHa/CHb */
+			else/* CHÐÅµÀÄ£Ê½ CHa/CHb */
 			{
-				sd.num_b = AT24CXX_ReadOneByte(CH_ADDR[addr_b]);// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½
-				//if(ks.A_B_vfo)sd.num_a = AT24CXX_ReadOneByte(CH_ADDR[addr_b]);// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½
-				sd.num_a = AT24CXX_ReadOneByte(CH_ADDR[addr_a]);// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½
+				sd.num_b = AT24CXX_ReadOneByte(CH_ADDR[addr_b]);// ÌáÈ¡¸±ÐÅµÀ±àºÅ
+				//if(ks.A_B_vfo)sd.num_a = AT24CXX_ReadOneByte(CH_ADDR[addr_b]);// ÌáÈ¡Ö÷ÐÅµÀ±àºÅ
+				sd.num_a = AT24CXX_ReadOneByte(CH_ADDR[addr_a]);// ÌáÈ¡¸±ÐÅµÀ±àºÅ
 			}
-			if(sd.num_a> 99) sd.num_a = 99;	// ï¿½ç¶¨ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Öµ
-			if(sd.num_a < 0) sd.num_a = 0;	// ï¿½ç¶¨ï¿½ï¿½Ð¡ï¿½Åµï¿½ï¿½ï¿½Öµ
-			if(sd.num_b> 99) sd.num_b = 99;	// ï¿½ç¶¨ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Öµ
-			if(sd.num_b < 0) sd.num_b = 0;	// ï¿½ç¶¨ï¿½ï¿½Ð¡ï¿½Åµï¿½ï¿½ï¿½Öµ
+			if(sd.num_a> 99) sd.num_a = 99;	// ½ç¶¨×î´óÐÅµÀÊýÖµ
+			if(sd.num_a < 0) sd.num_a = 0;	// ½ç¶¨×îÐ¡ÐÅµÀÊýÖµ
+			if(sd.num_b> 99) sd.num_b = 99;	// ½ç¶¨×î´óÐÅµÀÊýÖµ
+			if(sd.num_b < 0) sd.num_b = 0;	// ½ç¶¨×îÐ¡ÐÅµÀÊýÖµ
 			
 		}
-		else/* Ö»ï¿½ï¿½Æµï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø³ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½ */
+		else/* Ö»ÔÚÆµÂÊ±àÂëÆ÷¿ª¹Ø³¤°´Ê±µ÷½ÚÐÅµÀ±àºÅ */
 		if( PIN_K13 ==0&& ks.ch_vfo ==1)	
 		{
 			AT24CXX_WriteOneByte(CH_ADDR[addr_a], sd.num_a);
-			if(sd.num_a> 99) sd.num_a = 99;	// ï¿½ç¶¨ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Öµ
-			if(sd.num_a < 2) sd.num_a = 2;	// ï¿½ç¶¨ï¿½ï¿½Ð¡ï¿½Åµï¿½ï¿½ï¿½Öµ
+			if(sd.num_a> 99) sd.num_a = 99;	// ½ç¶¨×î´óÐÅµÀÊýÖµ
+			if(sd.num_a < 2) sd.num_a = 2;	// ½ç¶¨×îÐ¡ÐÅµÀÊýÖµ
 		}
 		/*
-		* 	ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½Ï¢
+		* 	¶ÁÈ¡Ö÷ÏÔÊ¾´°ÐÅÏ¢
 		*/
 		if(ks.F_11==0) 
 		{
-			/* ï¿½ï¿½Æµï¿½Ê¶ï¿½È¡ */
-			vfo[VFO_A].Freq = AT24CXX_ReadLenByte( FREQ_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ],4 );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½
+			/* Ö÷ÆµÂÊ¶ÁÈ¡ */
+			vfo[VFO_A].Freq = AT24CXX_ReadLenByte( FREQ_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ],4 );// ÌáÈ¡Ö÷ÐÅµÀ
 			
-			if(ks.rt_rx )/* ï¿½ï¿½ï¿½Õ»ï¿½Ä£Ê½ */
+			if(ks.rt_rx )/* ½ÓÊÕ»úÄ£Ê½ */
 			{
-				if(vfo[VFO_A].Freq >  RxBand_Info[RADIO_10M].end )//* ï¿½Þ¶ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½Öµ */
+				if(vfo[VFO_A].Freq >  RxBand_Info[RADIO_10M].end )//* ÏÞ¶¨ÆµÂÊ×î´óÖµ */
 				{
 					vfo[VFO_A].Freq =  RxBand_Info[RADIO_10M].end ;
 				}	
-				if(vfo[VFO_A].Freq <  RxBand_Info[RADIO_90M].start)/* ï¿½Þ¶ï¿½Æµï¿½ï¿½ï¿½ï¿½Ð¡Öµ */
+				if(vfo[VFO_A].Freq <  RxBand_Info[RADIO_90M].start)/* ÏÞ¶¨ÆµÂÊ×îÐ¡Öµ */
 				{
 					vfo[VFO_A].Freq =  RxBand_Info[RADIO_90M].start;
 				}
-				/* ï¿½ï¿½Æµï¿½Ê²ï¿½ï¿½Î¶ï¿½È¡ */
-				vfo[VFO_A].RxBand_id = AT24CXX_ReadLenByte( BAND_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ],1 );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ 
+				/* Ö÷ÆµÂÊ²¨¶Î¶ÁÈ¡ */
+				vfo[VFO_A].RxBand_id = AT24CXX_ReadLenByte( BAND_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ],1 );// ÌáÈ¡¸±ÐÅµÀ 
 				if(vfo[VFO_A].RxBand_id > RADIO_10M )vfo[VFO_A].RxBand_id = RADIO_10M;
 				if(vfo[VFO_A].RxBand_id < RADIO_90M )vfo[VFO_A].RxBand_id = RADIO_90M;
 				if(vfo[VFO_A].Freq > RxBand_Info[vfo[VFO_A].RxBand_id].end || vfo[VFO_A].Freq < RxBand_Info[vfo[VFO_A].RxBand_id].start )
@@ -2221,18 +2322,18 @@ void RXandTX_Control_Management()
 				//if(vfo[VFO_A].Mode >DEMOD_FM )vfo[VFO_A].Mode = DEMOD_FM;
 				//if(vfo[VFO_A].Mode <DEMOD_CW_LSB )vfo[VFO_A].Mode = DEMOD_CW_LSB;
 			}
-			else/* ï¿½Õ·ï¿½ï¿½Å»ï¿½Ä£Ê½ */
+			else/* ÊÕ·¢ÐÅ»úÄ£Ê½ */
 			{
-				if(vfo[VFO_A].Freq >  Band_Info[COUPLING_6M].end )//* ï¿½Þ¶ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½Öµ */
+				if(vfo[VFO_A].Freq >  Band_Info[COUPLING_6M].end )//* ÏÞ¶¨ÆµÂÊ×î´óÖµ */
 				{
 					vfo[VFO_A].Freq = Band_Info[COUPLING_6M].end ;
 				}	
-				if(vfo[VFO_A].Freq <  Band_Info[COUPLING_80M].start)/* ï¿½Þ¶ï¿½Æµï¿½ï¿½ï¿½ï¿½Ð¡Öµ */
+				if(vfo[VFO_A].Freq <  Band_Info[COUPLING_80M].start)/* ÏÞ¶¨ÆµÂÊ×îÐ¡Öµ */
 				{
 					vfo[VFO_A].Freq = Band_Info[COUPLING_80M].start;
 				}
-				/* ï¿½ï¿½Æµï¿½Ê²ï¿½ï¿½Î¶ï¿½È¡ */
-				vfo[VFO_A].Band_id = AT24CXX_ReadOneByte( BAND_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ] );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ 
+				/* Ö÷ÆµÂÊ²¨¶Î¶ÁÈ¡ */
+				vfo[VFO_A].Band_id = AT24CXX_ReadOneByte( BAND_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ] );// ÌáÈ¡Ö÷ÐÅµÀ 
 				if(vfo[VFO_A].Band_id > COUPLING_6M)
 				{
 					vfo[VFO_A].Band_id = COUPLING_6M ;
@@ -2254,19 +2355,19 @@ void RXandTX_Control_Management()
 						
 					}
 				}
-				if(sd.menu_page>0)sd.Pow =50;
-				else sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
+				//if(sd.menu_page>0)sd.Pow =50;
+				//else sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
 			}			
-			/* ï¿½ï¿½Æµï¿½ï¿½Ä£Ê½ï¿½ï¿½È¡ */
+			/* Ö÷ÆµÂÊÄ£Ê½¶ÁÈ¡ */
 			//vfo[VFO_A].Mode = AT24CXX_ReadLenByte( vfo[VFO_A].Band_id + ADDR_RT_BAND_MODE_M ,1 );
-			vfo[VFO_A].Mode  = AT24CXX_ReadOneByte( MODE_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ] );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ 
+			vfo[VFO_A].Mode  = AT24CXX_ReadOneByte( MODE_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ] );// ÌáÈ¡Ö÷ÐÅµÀ 
 			if(vfo[VFO_A].Mode >DEMOD_FM )vfo[VFO_A].Mode = DEMOD_FM;
 			if(vfo[VFO_A].Mode <DEMOD_CW_LSB )vfo[VFO_A].Mode = DEMOD_CW_LSB;
 			
-			/* ï¿½ï¿½Æµï¿½ï¿½ï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½È¡ */
+			/* Ö÷ÆµÂÊÂË²¨Æ÷¶ÁÈ¡ */
 			if(TR_READ == CONTROL_RX)
 			{
-				vfo[VFO_A].FilterSelected_id = AT24CXX_ReadOneByte( FILTERSELECTED_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ] );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ 
+				vfo[VFO_A].FilterSelected_id = AT24CXX_ReadOneByte( FILTERSELECTED_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ] );// ÌáÈ¡¸±ÐÅµÀ 
 				if(vfo[VFO_A].Mode < DEMOD_AM )
 				{
 					if(vfo[VFO_A].FilterSelected_id > 5 )vfo[VFO_A].FilterSelected_id = 5;
@@ -2281,49 +2382,49 @@ void RXandTX_Control_Management()
 //            else if(vfo[VFO_A].Mode == DEMOD_AM )sd.am_fil_id = vfo[VFO_A].FilterSelected_id;
 //			else if(vfo[VFO_A].Mode == DEMOD_FM )sd.fm_fil_id = vfo[VFO_A].FilterSelected_id;
 			/*
-			* 	ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½Ï¢
+			* 	¶ÁÈ¡¸±ÏÔÊ¾´°ÐÅÏ¢
 			*/
-			/* ï¿½ï¿½Æµï¿½Ê¶ï¿½È¡ */
-			vfo[VFO_B].Freq = AT24CXX_ReadLenByte( FREQ_CH(sd.num_b) + Addr_OFFSET[ks.rt_rx ],4 );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½
+			/* ¸±ÆµÂÊ¶ÁÈ¡ */
+			vfo[VFO_B].Freq = AT24CXX_ReadLenByte( FREQ_CH(sd.num_b) + Addr_OFFSET[ks.rt_rx ],4 );// ÌáÈ¡¸±ÐÅµÀ
 			if(ks.rt_rx )
 			{
-				if(vfo[VFO_B].Freq >  RxBand_Info[RADIO_10M].end )//* ï¿½Þ¶ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½Öµ */
+				if(vfo[VFO_B].Freq >  RxBand_Info[RADIO_10M].end )//* ÏÞ¶¨ÆµÂÊ×î´óÖµ */
 				{
 					vfo[VFO_B].Freq =  RxBand_Info[RADIO_10M].end ;
 				}	
-				if(vfo[VFO_B].Freq <  RxBand_Info[RADIO_90M].start)/* ï¿½Þ¶ï¿½Æµï¿½ï¿½ï¿½ï¿½Ð¡Öµ */
+				if(vfo[VFO_B].Freq <  RxBand_Info[RADIO_90M].start)/* ÏÞ¶¨ÆµÂÊ×îÐ¡Öµ */
 				{
 					vfo[VFO_B].Freq =  RxBand_Info[RADIO_90M].start;
 				}
 				
-				vfo[VFO_B].RxBand_id = AT24CXX_ReadLenByte( BAND_CH(sd.num_b) + Addr_OFFSET[ks.rt_rx ],1 );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ 
+				vfo[VFO_B].RxBand_id = AT24CXX_ReadLenByte( BAND_CH(sd.num_b) + Addr_OFFSET[ks.rt_rx ],1 );// ÌáÈ¡¸±ÐÅµÀ 
 				if(vfo[VFO_B].RxBand_id > RADIO_10M )vfo[VFO_B].RxBand_id = RADIO_10M;
 				if(vfo[VFO_B].RxBand_id < RADIO_MW )vfo[VFO_B].RxBand_id = RADIO_MW;
 			}
 			else
 			{
-				if(vfo[VFO_B].Freq >  Band_Info[COUPLING_6M].end )//* ï¿½Þ¶ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½Öµ */
+				if(vfo[VFO_B].Freq >  Band_Info[COUPLING_6M].end )//* ÏÞ¶¨ÆµÂÊ×î´óÖµ */
 				{
 					vfo[VFO_B].Freq = Band_Info[COUPLING_6M].end ;
 				}	
-				if(vfo[VFO_B].Freq <  Band_Info[COUPLING_80M].start)/* ï¿½Þ¶ï¿½Æµï¿½ï¿½ï¿½ï¿½Ð¡Öµ */
+				if(vfo[VFO_B].Freq <  Band_Info[COUPLING_80M].start)/* ÏÞ¶¨ÆµÂÊ×îÐ¡Öµ */
 				{
 					vfo[VFO_B].Freq = Band_Info[COUPLING_80M].start;
 				}
 				
-				vfo[VFO_B].Band_id = AT24CXX_ReadOneByte( BAND_CH(sd.num_b) + Addr_OFFSET[ks.rt_rx ] );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ 
+				vfo[VFO_B].Band_id = AT24CXX_ReadOneByte( BAND_CH(sd.num_b) + Addr_OFFSET[ks.rt_rx ] );// ÌáÈ¡¸±ÐÅµÀ 
 				if(vfo[VFO_B].Band_id > COUPLING_6M)vfo[VFO_B].Band_id = COUPLING_6M ;
 				if(vfo[VFO_B].Band_id < COUPLING_80M)vfo[VFO_B].Band_id = COUPLING_80M ;
 				
 			}					
 			
-			/* ï¿½ï¿½Æµï¿½ï¿½Ä£Ê½ï¿½ï¿½È¡ */
-			vfo[VFO_B].Mode  = AT24CXX_ReadLenByte( MODE_CH(sd.num_b) + Addr_OFFSET[ks.rt_rx ],1 );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ 
+			/* ¸±ÆµÂÊÄ£Ê½¶ÁÈ¡ */
+			vfo[VFO_B].Mode  = AT24CXX_ReadLenByte( MODE_CH(sd.num_b) + Addr_OFFSET[ks.rt_rx ],1 );// ÌáÈ¡¸±ÐÅµÀ 
 			if(vfo[VFO_B].Mode >DEMOD_FM )vfo[VFO_B].Mode = DEMOD_FM;
 			if(vfo[VFO_B].Mode <DEMOD_CW_LSB )vfo[VFO_B].Mode = DEMOD_CW_LSB;
 			
-			/* ï¿½ï¿½Æµï¿½ï¿½ï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½È¡ */
-			vfo[VFO_B].FilterSelected_id = AT24CXX_ReadLenByte( FILTERSELECTED_CH(sd.num_b) + Addr_OFFSET[ks.rt_rx ],1 );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ 
+			/* ¸±ÆµÂÊÂË²¨Æ÷¶ÁÈ¡ */
+			vfo[VFO_B].FilterSelected_id = AT24CXX_ReadLenByte( FILTERSELECTED_CH(sd.num_b) + Addr_OFFSET[ks.rt_rx ],1 );// ÌáÈ¡¸±ÐÅµÀ 
 			if(vfo[VFO_B].Mode < DEMOD_AM )
             {
                 if(vfo[VFO_B].FilterSelected_id > 5 )vfo[VFO_B].FilterSelected_id = 5;
@@ -2333,49 +2434,53 @@ void RXandTX_Control_Management()
 			
 			ads.rx_amp[ads.rx_amp_band] = Rx_amp_user[ads.rx_amp_band]*0.001f;
 			ads.rx_phase[ads.rx_amp_band] = (Rx_phase_user[ads.rx_amp_band]-100)*0.001f;
-			ads.IF_gain =AT24CXX_ReadLenByte(ADDR_IF_GAIN+ads.rx_amp_band, 1);
-			if(ads.IF_gain >63)ads.IF_gain =32;
-			if(ads.IF_gain < 1)ads.IF_gain =32;
-			if(vfo[VFO_A].Mode == DEMOD_LSB_DIG || vfo[VFO_A].Mode >= DEMOD_USB_DIG)
-			{
-				if(sd.Pow >100)sd.Pow =100;
-			}
-			else if(sd.Pow >200)sd.Pow =200;
+			//ads.IF_gain =AT24CXX_ReadLenByte(ADDR_IF_GAIN+ads.rx_amp_band, 1);
+			//if(ads.IF_gain >63)ads.IF_gain =32;
+			//if(ads.IF_gain < 1)ads.IF_gain =32;
+//			if(vfo[VFO_A].Mode == DEMOD_LSB_DIG || vfo[VFO_A].Mode >= DEMOD_USB_DIG)
+//			{
+//				if(sd.Pow >100)sd.Pow =100;
+//			}
+//			else if(sd.Pow >200)sd.Pow =200;
 		}
-		if(clk ==0|| rt_rx!=ks.rt_rx||band_a != vfo[VFO_A].Band_id || band_b != vfo[VFO_A].RxBand_id)
+		if(clk ==0|| rt_rx!=ks.rt_rx||band_a != ads.rx_amp_band)
 		{
 			
 			ads.IF_gain =AT24CXX_ReadLenByte(ADDR_IF_GAIN+ads.rx_amp_band, 1);
 			if(ads.IF_gain >63)ads.IF_gain =32;
 			if(ads.IF_gain < 1)ads.IF_gain =32;
-			//sd.band = vfo[VFO_A].Band_id; //ï¿½ï¿½ï¿½ï¿½IFï¿½ï¿½ï¿½ï¿½
+			//sd.band = vfo[VFO_A].Band_id; //²¨¶ÎIFÔöÒæ
 			
-			if(sd.menu_page==1)sd.Pow =50;
-			else sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
+			//if(sd.menu_page==1)sd.Pow =50;
+			//else sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
 			
-			if(sd.menu_page>0)
-			{
-				sd.Pow =50;
-			}
-			else
-			{
-				if(vfo[VFO_A].Mode == DEMOD_LSB_DIG || vfo[VFO_A].Mode >= DEMOD_USB_DIG)
-				{
-					if(sd.Pow >100)sd.Pow =100;
-				}
-				else if(sd.Pow >200)sd.Pow =200;
-				if(vfo[VFO_A].Band_id == COUPLING_6M)
-				{
-					if(sd.Pow >50)sd.Pow =50;
-				}
-				else if(sd.Pow >200)sd.Pow =200;
-			}
-			if(sd.Pow < 1)sd.Pow =1;
+//			if(sd.menu_page>0)
+//			{
+//				sd.Pow =50;
+//			}
+//			else
+//			{
+//				sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
+//				if(vfo[VFO_A].Band_id == COUPLING_6M)
+//				{
+//					if(sd.Pow >50)sd.Pow =50;
+//				}
+//				else
+//				{
+//					if(vfo[VFO_A].Mode == DEMOD_LSB_DIG || vfo[VFO_A].Mode >= DEMOD_USB_DIG)
+//					{
+//						if(sd.Pow >100)sd.Pow =100;
+//					}
+//					else if(sd.Pow >200)sd.Pow =200;
+//				}
+//			}
+			//if(sd.Pow < 1)sd.Pow =1;
+			//pow_gain_set();
 			rt_rx =ks.rt_rx;
 			sd.Riss = ads.IF_gain;
 			//band_b = vfo[VFO_A].RxBand_id;
-			//band_a = vfo[VFO_A].Band_id;
-			WM8978_MIC_Gain(ads.IF_gain&0x3f);//MICï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			band_a = ads.rx_amp_band;
+			WM8978_MIC_Gain(ads.IF_gain&0x3f);//MICÔöÒæÉèÖÃ
 			//IF_gain = ads.IF_gain[sd.band];
 		}
 		clk =1;
@@ -2390,47 +2495,64 @@ void RXandTX_Control_Management()
 	
 	//Key_Band_Control();
 	//key_Mode_Control();
-	/* ï¿½ï¿½Æµï¿½Ê¶ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ */
+	/* Ö÷ÆµÂÊ¶¯Ì¬¸üÐÂ */
 	if(freq_a != vfo[VFO_A].Freq )
 	{
-		LCD_Frequency_Display(64, 26, GRAY0, BLACK, 32, vfo[VFO_A].Freq);/* ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ê¾ */
-		AT24CXX_WriteLenByte( FREQ_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ],vfo[VFO_A].Freq, 4);/* Æµï¿½Ê±ï¿½ï¿½ï¿½ */
-		if(ks.rt_rx )/* ï¿½ï¿½ï¿½Õ»ï¿½Ä£Ê½ */
+		LCD_Frequency_Display(64, 26, GRAY0, BLACK, 32, vfo[VFO_A].Freq);/* Ö÷ÆµÂÊÏÔÊ¾ */
+		AT24CXX_WriteLenByte( FREQ_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ],vfo[VFO_A].Freq, 4);/* ÆµÂÊ±£´æ */
+		if(ks.rt_rx )/* ½ÓÊÕ»úÄ£Ê½ */
 		{
-			AT24CXX_WriteLenByte( vfo[VFO_A].RxBand_id*4 + ADDR_RX_BAND_FREQ_M,vfo[VFO_A].Freq, 4);/* RXBANDÆµï¿½Ê±ï¿½ï¿½ï¿½ */
+			AT24CXX_WriteLenByte( vfo[VFO_A].RxBand_id*4 + ADDR_RX_BAND_FREQ_M,vfo[VFO_A].Freq, 4);/* RXBANDÆµÂÊ±£´æ */
 		}
 		else
 		{
-			AT24CXX_WriteLenByte( vfo[VFO_A].Band_id*4 + ADDR_RT_BAND_FREQ_M,vfo[VFO_A].Freq, 4);/* RTBAND Æµï¿½Ê±ï¿½ï¿½ï¿½ */
+			AT24CXX_WriteLenByte( vfo[VFO_A].Band_id*4 + ADDR_RT_BAND_FREQ_M,vfo[VFO_A].Freq, 4);/* RTBAND ÆµÂÊ±£´æ */
 		}
 		freq_a = vfo[VFO_A].Freq;	
 	}
-	/* ï¿½ï¿½Æµï¿½Ê¶ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ */
+	/* ¸±ÆµÂÊ¶¯Ì¬¸üÐÂ */
 	if(freq_b != vfo[VFO_B].Freq)
 	{
-		LCD_Frequency_Display(104,60, GRAY2, GRAY5, 24, vfo[VFO_B].Freq);/* ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ê¾ */
+		LCD_Frequency_Display(104,60, GRAY2, GRAY5, 24, vfo[VFO_B].Freq);/* ¸±ÆµÂÊÏÔÊ¾ */
 		freq_b = vfo[VFO_B].Freq;	
 	}
-	/* Ä£Ê½ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ */
+	/* Ä£Ê½¶¯Ì¬±£´æ */
 	if(mode_a != vfo[VFO_A].Mode)
 	{
 		AT24CXX_WriteOneByte( MODE_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ],vfo[VFO_A].Mode );
-		if(ks.rt_rx )/* ï¿½ï¿½ï¿½Õ»ï¿½Ä£Ê½ */
+		if(ks.rt_rx )/* ½ÓÊÕ»úÄ£Ê½ */
 		{
-			AT24CXX_WriteLenByte( vfo[VFO_A].RxBand_id + ADDR_RX_BAND_MODE_M,vfo[VFO_A].Mode , 1);/* RXBANDÆµï¿½Ê±ï¿½ï¿½ï¿½ */
+			AT24CXX_WriteLenByte( vfo[VFO_A].RxBand_id + ADDR_RX_BAND_MODE_M,vfo[VFO_A].Mode , 1);/* RXBANDÆµÂÊ±£´æ */
 		}
 		else
 		{
-			AT24CXX_WriteLenByte( vfo[VFO_A].Band_id + ADDR_RT_BAND_MODE_M,vfo[VFO_A].Mode , 1);/* RTBAND Æµï¿½Ê±ï¿½ï¿½ï¿½ */
+			AT24CXX_WriteLenByte( vfo[VFO_A].Band_id + ADDR_RT_BAND_MODE_M,vfo[VFO_A].Mode , 1);/* RTBAND ÆµÂÊ±£´æ */
 		}
-		if(vfo[VFO_A].Mode == DEMOD_LSB_DIG || vfo[VFO_A].Mode >= DEMOD_USB_DIG)
-		{
-			if(sd.Pow >100)sd.Pow =100;
-		}
-		else if(sd.Pow >200)sd.Pow =200;
+		//sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
+//		if(sd.menu_page>0)
+//		{
+//			sd.Pow =50;
+//		}
+//		else
+//		{
+//			sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
+//			if(vfo[VFO_A].Band_id == COUPLING_6M)
+//			{
+//				if(sd.Pow >50)sd.Pow =50;
+//			}
+//			else
+//			{
+//				if(vfo[VFO_A].Mode == DEMOD_LSB_DIG || vfo[VFO_A].Mode >= DEMOD_USB_DIG)
+//				{
+//					if(sd.Pow >100)sd.Pow =100;
+//				}
+//				else if(sd.Pow >200)sd.Pow =200;
+//			}
+//		}
+		//pow_gain_set();
 		mode_a = vfo[VFO_A].Mode;
 	}
-	/* ï¿½ï¿½ï¿½Î¶ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ */
+	/* ²¨¶Î¶¯Ì¬±£´æ */
 	if(band_a != vfo[VFO_A].Band_id || band_b != vfo[VFO_A].RxBand_id)
 	{
 		if(ks.rt_rx)
@@ -2444,9 +2566,9 @@ void RXandTX_Control_Management()
 			band_a = vfo[VFO_A].Band_id;
 		}
 		sd.Riss = ads.IF_gain;
-		WM8978_MIC_Gain(ads.IF_gain&0x3f);//MICï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		WM8978_MIC_Gain(ads.IF_gain&0x3f);//MICÔöÒæÉèÖÃ
 	}
-	/* ï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ */
+	/* ÂË²¨Æ÷¶¯Ì¬±£´æ */
 	if(TR_READ == CONTROL_RX)
 	{
 		
@@ -2455,17 +2577,17 @@ void RXandTX_Control_Management()
 			AT24CXX_WriteOneByte( FILTERSELECTED_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ], vfo[VFO_A].FilterSelected_id );
 			filter_a = vfo[VFO_A].FilterSelected_id;
 		}
-		if(ks.rt_rx )/* ï¿½ï¿½ï¿½Õ»ï¿½Ä£Ê½ */
+		if(ks.rt_rx )/* ½ÓÊÕ»úÄ£Ê½ */
 		{
-			AT24CXX_WriteLenByte( vfo[VFO_A].RxBand_id + ADDR_RX_BAND_FIL_M,vfo[VFO_A].FilterSelected_id, 1);/* RXBANDÆµï¿½Ê±ï¿½ï¿½ï¿½ */
+			AT24CXX_WriteLenByte( vfo[VFO_A].RxBand_id + ADDR_RX_BAND_FIL_M,vfo[VFO_A].FilterSelected_id, 1);/* RXBANDÆµÂÊ±£´æ */
 		}
 		else
 		{
-			AT24CXX_WriteLenByte( vfo[VFO_A].Band_id + ADDR_RT_BAND_FIL_M,vfo[VFO_A].FilterSelected_id , 1);/* RTBAND Æµï¿½Ê±ï¿½ï¿½ï¿½ */
+			AT24CXX_WriteLenByte( vfo[VFO_A].Band_id + ADDR_RT_BAND_FIL_M,vfo[VFO_A].FilterSelected_id , 1);/* RTBAND ÆµÂÊ±£´æ */
 		}
 	}
 	else	vfo[VFO_A].FilterSelected_id = sd.tx_filter ;
-	/* Ò»ï¿½ï¿½ï¿½ï¿½Ì¬Ð´ï¿½ï¿½ */
+	/* Ò»±¾Õñ¶¯Ì¬Ð´Èë */
 	if(freq_si != vfo[VFO_A].Freq + sd.Tcxo + sd.IF_1)//&&vfo[VFO_A].Mode >=DEMOD_LSB)
 	{
 		si5351aSetFrequency_LoA(sd.Tcxo, (vfo[VFO_A].Freq - sd.IF_1)*2);
@@ -2483,13 +2605,13 @@ void RXandTX_Control_Management()
 		//if(ads.IF_gain[sd.band] >63)ads.IF_gain[sd.band] =32;
 		//if(ads.IF_gain[sd.band] < 1)ads.IF_gain[sd.band] =32;
 		sd.Riss = ads.IF_gain;
-		WM8978_MIC_Gain(ads.IF_gain&0x3f);//MICï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		WM8978_MIC_Gain(ads.IF_gain&0x3f);//MICÔöÒæÉèÖÃ
 		IF_gain = ads.IF_gain;
 	}
 }
 /*
 **********************************************************************************
-*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½Í·ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
+*	µ÷ÕûÏàÎ»ºÍ·ù¶ÈÏÔÊ¾
 **********************************************************************************
 */
 void Rx_amp_phase_adjuse()
@@ -2546,12 +2668,12 @@ void Rx_amp_phase_adjuse()
 }
 /*
 **********************************************************************************
-*	MENUï¿½Ëµï¿½ï¿½ï¿½ï¿½Ü²Ù¿Ø¹ï¿½ï¿½ï¿½
+*	MENU²Ëµ¥¹¦ÄÜ²Ù¿Ø¹ÜÀí
 **********************************************************************************
 */
 
 /*
-* 	ï¿½ï¿½ï¿½Ú²Ëµï¿½ï¿½ï¿½Ä¿ï¿½ï¿½Ê¾ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+* 	ÓÃÓÚ²Ëµ¥ÌõÄ¿ÏÔÊ¾µÄÂ·¾¶ÐÅÏ¢ºÍÊý¾Ý
 */
 typedef struct
 {
@@ -2573,7 +2695,7 @@ typedef struct
 //
 int32_t  Menu_user[2][28];
 //
-Menu_GenInfo User[] = //***ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª4ï¿½Ä±ï¿½ï¿½ï¿½
+Menu_GenInfo User[] = //***´ËÊý×é±ØÐëÎª4µÄ±¶Êý
 {
 
 	{ "0 MENU         ",	       5,         30,         100,	MENU,  				1}, //0
@@ -2596,47 +2718,47 @@ Menu_GenInfo User[] = //***ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª4ï¿½Ä±ï¿½ï¿½ï¿½
 //	{ "END            ",	0,	0,	0,	0,	0,},
 };	
 
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿*/
-Menu_GenInfo Deve[] = //***ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª4ï¿½Ä±ï¿½ï¿½ï¿½
+	/* ÒÔÏÂÊÇ¿ª·¢ÕßÏîÄ¿*/
+Menu_GenInfo Deve[] = //***´ËÊý×é±ØÐëÎª4µÄ±¶Êý
 {	
 	{ "0 POW_CORRE     ",	      50,         72,         100,	MENU_POW_CORRE,  	1}, //0
-	{ "1 AGC_STARE     ",		   1,		  63,         128,  MENU_AGC_START, 	1}, //10
+	{ "1 AGC_STARE     ",		   2,		 127,         200,  MENU_AGC_START, 	1}, //10
 	{ "2 S_CORRECT     ", 	       0,	      5,          63, 	MENU_S_CORRECT,     1}, //11
 	{ "3 TCXO          ",    24900000,	25000000,    27100000,	MENU_TCXO,			4}, //12 
 	
 	{ "4 SPE_DISPALY   ", 	       0,	       0,          1,   MENU_SPE_DISPALY, 	1},
 	{ "5 RX_AMP_MA     ", 	       0,	       0,          1,   MENU_RX_PHASE, 	    1}, 	//19
 	{ "6 ALC_START     ", 	       0,	       1,          15,  MENU_ALC_START, 	1}, //15
-	{ "7 ALC_MIC       ", 	       0,	      60,          63,  MENU_ALC_MIC, 		1}, 	//16
+	{ "7 ALC_MIC       ", 	       0,	      32,          63,  MENU_ALC_MIC, 		1}, 	//16
 	
-	{ "8 TX_AMP_80M    ", 	    500,	   1115,       2000,  MENU_TX_AMP_80M, 	2}, //13
-	{ "9 TX_PHASE_80M  ", 	     50,	     92,        200,  MENU_TX_PHASE_80M, 	2}, //14
-	{ "10 TX_AMP_60M   ", 	    500,	   1112,       2000,  MENU_TX_AMP_60M, 	2}, //13
+	{ "8 TX_AMP_80M    ", 	    500,	   1000,       2000,  MENU_TX_AMP_80M, 	2}, //13
+	{ "9 TX_PHASE_80M  ", 	     50,	     99,        200,  MENU_TX_PHASE_80M, 	2}, //14
+	{ "10 TX_AMP_60M   ", 	    500,	   1000,       2000,  MENU_TX_AMP_60M, 	2}, //13
 	{ "11 TX_PHASE_60M ", 	     50,	     99,        200,  MENU_TX_PHASE_60M, 	2}, //14
 	
-	{ "12 TX_AMP_40M   ", 	    500,	   1110,       2000,  MENU_TX_AMP_40M, 	2}, //13
+	{ "12 TX_AMP_40M   ", 	    500,	   1000,       2000,  MENU_TX_AMP_40M, 	2}, //13
 	{ "13 TX_PHASE_40M ", 	     50,	     99,        200,  MENU_TX_PHASE_40M, 	2}, //14
-	{ "14 TX_AMP_30M   ", 	    500,	   1107,       2000,  MENU_TX_AMP_30M, 	2}, //13
+	{ "14 TX_AMP_30M   ", 	    500,	   1000,       2000,  MENU_TX_AMP_30M, 	2}, //13
 	{ "15 TX_PHASE_30M ", 	     50,	     99,        200,  MENU_TX_PHASE_30M, 	2}, //14
 	
-	{ "16 TX_AMP_20M   ", 	    500,	   1103,       2000,  MENU_TX_AMP_20M, 	2}, //13
-	{ "17 TX_PHASE_20M ", 	     50,	     99,        200,  MENU_TX_PHASE_20M, 	2}, //14
-	{ "18 TX_AMP_17M   ", 	    500,	   1100,       2000,  MENU_TX_AMP_17M, 	2}, //13
-	{ "19 TX_PHASE_17M ", 	     50,	    100,        200,  MENU_TX_PHASE_17M, 	2}, //14
+	{ "16 TX_AMP_20M   ", 	    500,	   1000,       2000,  MENU_TX_AMP_20M, 	2}, //13
+	{ "17 TX_PHASE_20M ", 	     50,	     99,        200,  MENU_TX_PHASE_20M, 	2}, //14data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAASWSDLAAAAAXNSR0IArs4c6QAAABtQTFRFAAAA////////////////////////////////600+wgAAAAl0Uk5TAAMKSKqrxMrMLwzd/QAAAFNJREFUGNNjYCAWCEEoRRDBGGYAophTBIAkU0YxiGPepgCm2oFSzBVgIQgNFoFKwSTAUnAJkBRcAiSFkEDlICtDMQDZaBRLkZ2D4lAUL6B4jigAABZQGm2ENmfZAAAAAElFTkSuQmCC
+	{ "18 TX_AMP_17M   ", 	    500,	   1000,       2000,  MENU_TX_AMP_17M, 	2}, //13
+	{ "19 TX_PHASE_17M ", 	     50,	     99,        200,  MENU_TX_PHASE_17M, 	2}, //14
 	
-	{ "20 TX_AMP_15M   ", 	    500,	   1100,       2000,  MENU_TX_AMP_15M, 	2}, //13
-	{ "21 TX_PHASE_15M ", 	     50,	     93,        200,  MENU_TX_PHASE_15M, 	2}, //14
-	{ "22 TX_AMP_12M   ", 	    500,	   1091,       2000,  MENU_TX_AMP_12M, 	2}, //13
+	{ "20 TX_AMP_15M   ", 	    500,	   1000,       2000,  MENU_TX_AMP_15M, 	2}, //13
+	{ "21 TX_PHASE_15M ", 	     50,	     99,        200,  MENU_TX_PHASE_15M, 	2}, //14
+	{ "22 TX_AMP_12M   ", 	    500,	   1000,       2000,  MENU_TX_AMP_12M, 	2}, //13
 	{ "23 TX_PHASE_12M ", 	     50,	     99,        200,  MENU_TX_PHASE_12M, 	2}, //14
 	
-	{ "24 TX_AMP_10M   ", 	    500,	   1092,       2000,  MENU_TX_AMP_10M, 	2}, //13
+	{ "24 TX_AMP_10M   ", 	    500,	   1000,       2000,  MENU_TX_AMP_10M, 	2}, //13
 	{ "25 TX_PHASE_10M ", 	     50,	     99,        200,  MENU_TX_PHASE_10M, 	2}, //14
-	{ "26 TX_AMP_6M    ", 	    500,	   1057,       2000,  MENU_TX_AMP_6M, 	2}, //13
-	{ "27 TX_PHASE_6M  ", 	     50,	     73,        200,  MENU_TX_PHASE_6M, 	2}, //14
+	{ "26 TX_AMP_6M    ", 	    500,	   1000,       2000,  MENU_TX_AMP_6M, 	2}, //13
+	{ "27 TX_PHASE_6M  ", 	     50,	     99,        200,  MENU_TX_PHASE_6M, 	2}, //14
 	
 	
 };
-//Menu_GenInfo Rx_Phase[] = //***ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª4ï¿½Ä±ï¿½ï¿½ï¿½
+//Menu_GenInfo Rx_Phase[] = //***´ËÊý×é±ØÐëÎª4µÄ±¶Êý
 //{	
 //	{ "0 RX_AMP_80M    ", 	    500,	   1115,       2000,  MENU_RX_AMP_80M, 	2}, //13
 //	{ "1 RX_PHASE_80M  ", 	     50,	     92,        200,  MENU_RX_PHASE_80M, 	1}, //14
@@ -2695,10 +2817,10 @@ void Menus_Set(void)
 	static u8 lock=0;
 	static int32_t  Values[MENU_END + MENU_HIDD_END ];
 	  
-	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ÓÐ°´¼ü²Ù×÷Óë¼üÅÌËø¿ª
 	{
-		/*	ï¿½ß·ï¿½AMP */
-	//*MENU 1ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ü£ï¿½0ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½
+		/*	¸ß·ÅAMP */
+	//*MENU 1£º²Ëµ¥¹¦ÄÜ£»0£»ÆµÆ×ÏÔÊ¾¡£
 		if( ucKeyCode==KEY_9_LONG)
 		{
 			if(ks.rx_adjuset_key)
@@ -2709,10 +2831,10 @@ void Menus_Set(void)
 			else
 			{
 				ks.menu_key= ~ks.menu_key &0x01;
-				Lcd_Color(0, 130,319,239,BLACK);// Ë¢ï¿½ï¿½Ò³ï¿½ï¿½
-				ks.StepSelected_idx = T_STEP_1HZ_IDX;//ï¿½ï¿½ï¿½Î²ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª1kHz;
+				Lcd_Color(0, 130,319,239,BLACK);// Ë¢ÐÂÒ³Ãæ
+				ks.StepSelected_idx = T_STEP_1HZ_IDX;//²¨¶Î²½½øÄ¬ÈÏÉèÖÃÎª1kHz;
 				ads.tx_delay =0;
-				sd.spe_fil_time=SPE_FIL_TIME;//Æµï¿½×´ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ø¸ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ö¾
+				sd.spe_fil_time=SPE_FIL_TIME;//ÆµÆ×´ø¿íÏÔÊ¾»Ø¸´¼ÆÊ±±êÖ¾
 			}
 		}
 		//
@@ -2761,12 +2883,12 @@ void Menus_Set(void)
 				//SOUND_CARD_POW(ks.Spe_key);
 			}
 		}
-		SOUND_CARD_POW(1);
+		//SOUND_CARD_POW(1);
 	}
 	//
 	if(ks.rx_adjuset_key ==0)
 	{
-		if(ks.menu_key == MENU_ON && ks.F_11 ==0 &&sd.amp_phase ==0)	// ï¿½ï¿½ï¿½ï¿½Ëµï¿½
+		if(ks.menu_key == MENU_ON && ks.F_11 ==0 &&sd.amp_phase ==0)	// ½øÈë²Ëµ¥
 		{
 			if(ptt!=TR_READ )
 			{
@@ -2786,23 +2908,23 @@ void Menus_Set(void)
 					//lock =1;
 				}
 			}
-			ks.FunctionWindow_Use =1;//ï¿½à¹¦ï¿½Ü´ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ï¿½ï¿½
+			ks.FunctionWindow_Use =1;//¶à¹¦ÄÜ´°¿ÚÒÑÕ¼ÓÃ
 			//ks.Spk_key =0;
 			if(lock ==0)
 			{
-				//Lcd_Color(0, 130,319,239,BLACK) ;		// Ë¢ï¿½ï¿½Ò³ï¿½ï¿½
-				ui_Meun_Window(20, 130,80, GRAY0, BLACK);	// ï¿½ï¿½ï¿½Æ²Ëµï¿½ï¿½ï¿½ï¿½ï¿½
+				//Lcd_Color(0, 130,319,239,BLACK) ;		// Ë¢ÐÂÒ³Ãæ
+				ui_Meun_Window(20, 130,80, GRAY0, BLACK);	// »æÖÆ²Ëµ¥´°¿Ú
 				spe.clk =0;
 			}
 			//
-			page = sd.menu/4;		// Ò³ï¿½ï¿½ï¿½ï¿½ï¿½
-			line = sd.menu%4;		// ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½
+			page = sd.menu/4;		// Ò³Ãæ¼ÆËã
+			line = sd.menu%4;		// ÌõÄ¿¼ÆËã
 			
-			/* ï¿½Ëµï¿½ï¿½ï¿½Ê¾ï¿½Íµï¿½ï¿½ï¿½ */
-			if(sd.Enc0_Value !=0 || sd.menu_read ==0 || lock==0||Values[sd.menu]!=Menu_user[sd.menu_page ][sd.menu] || step_idx0 != ks.StepSelected_idx)/* Ö»ï¿½Ú½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ß²Ëµï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ */
+			/* ²Ëµ¥ÏÔÊ¾ºÍµ÷Õû */
+			if(sd.Enc0_Value !=0 || sd.menu_read ==0 || lock==0||Values[sd.menu]!=Menu_user[sd.menu_page ][sd.menu] || step_idx0 != ks.StepSelected_idx)/* Ö»ÔÚ½øÈë²Ëµ¥»òÕß²Ëµ¥ÏîÄ¿µ÷ÕûÊ±½øÈë */
 			{
 				
-				if(sd.menu_read ==0)/* ï¿½ï¿½È¡ï¿½Ëµï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½ */
+				if(sd.menu_read ==0)/* ¶ÁÈ¡²Ëµ¥´æ´¢Êý¾Ý */
 				{
 	//				for(i=0; i<4;i++)
 	//				{
@@ -2831,40 +2953,40 @@ void Menus_Set(void)
 						if(Menu_user[0][i]>User[i].end )Menu_user[0][i] = User[i].Default_fr;				
 					}
 				//}
-				/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ý´æ´¢ */
+				/* ²Ëµ¥Êý¾Ý´æ´¢ */
 				//AT24CXX_WriteLenByte( Menu[sd.menu].addr  ,Menu_Values[sd.menu]   ,Menu[sd.menu].Len);
 			
-				//ï¿½Ëµï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½Ê¾
+				//²Ëµ¥Ñ¡ÏîÏÔÊ¾
 				//if(ks.StepSelected_idx > (u8)(log10(Menu_user[sd.menu_page][sd.menu]+1)))ks.StepSelected_idx= T_STEP_1HZ_IDX;
 				
 				for(i=0; i<4;i++)
 				{
-					if(i == line)bc = BLUE1;	//Ñ¡ï¿½Ðµï¿½Ñ¡ï¿½î±³ï¿½ï¿½Îªï¿½ï¿½É«
+					if(i == line)bc = BLUE1;	//Ñ¡ÖÐµÄÑ¡Ïî±³¾°ÎªÀ¶É«
 					else
-						bc = BLACK;		// ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½É«
-					/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ */
+						bc = BLACK;		// ÆäÓàÎªºÚÉ«
+					/* ²Ëµ¥Ãû³ÆÏÔÊ¾ */
 					if(sd.menu_page)LCD_ShowString(30,132+i*20,YELLOW,bc, 16, 0, Deve [page*4 + i].name );
 					else LCD_ShowString(30,132+i*20,YELLOW,bc, 16, 0, User[page*4 + i].name );
-					/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ */	
-					if((page*4 + i)<sd.menu_end)/* ï¿½ï¿½ï¿½Æ·ï¿½Î§ */	
+					/* ²Ëµ¥²ÎÊýÏÔÊ¾ */	
+					if((page*4 + i)<sd.menu_end)/* ÏÞÖÆ·¶Î§ */	
 					{
 						if(i == line)LCD_ShowNum_Step(220,132+i*20,GRAY1,bc, 9,16, Menu_user[sd.menu_page][page*4 + i],ks.StepSelected_idx);
 						else LCD_ShowNum(220,132+i*20,GRAY1,bc, 9,16, Menu_user[sd.menu_page][page*4 + i]);
 					}
-					else/* ï¿½Ëµï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+					else/* ²Ëµ¥ÏîÄ¿³¬³öÏûÒþ */
 					{
 						LCD_ShowString(220,132+i*20,BLACK,BLACK, 16, 0, "         " );
 						LCD_ShowString(30,132+i*20,BLACK,BLACK, 16,  0, "               " );
 					}
 				}
-				/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ë»ºï¿½ï¿½ */
+				/* ²Ëµ¥Êý¾Ý´æÈë»º´æ */
 				
 				//{
 					sd.menu_time =Menu_user[0][0]*60;
-					sd.IF_1 = Menu_user[0][1]; 		/* Ò»ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ */
-					sd.CW_Delay = Menu_user[0][2]*10;	/* CWï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-					ks.AGC_Constant = Menu_user[0][3];		/* AGCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-					ks.bt_key = Menu_user[0][4];		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+					sd.IF_1 = Menu_user[0][1]; 		/* Ò»ÖÐÆµµ÷Õû */
+					sd.CW_Delay = Menu_user[0][2]*10;	/* CW×Ô¶¯¼üËÙÂÊ */
+					ks.AGC_Constant = Menu_user[0][3];		/* AGC¼ì²âÁãµãµ÷Õû */
+					ks.bt_key = Menu_user[0][4];		/* À¶ÑÀ¿ª¹Ø */
 					sd.ritatt_ptt = Menu_user[0][5];
 					sd.enc_freq = Menu_user[0][6];
 					//sd.enc_exti = Menu_user[0][7];
@@ -2872,14 +2994,14 @@ void Menus_Set(void)
 					//ks.sim_dif =  Menu_user[0][8];
 				//}
 				/*
-				*	ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿
+				*	ÒÔÏÂÊÇ¿ª·¢ÕßÏîÄ¿
 				*/
 				//else
 				//{
 					ads.pow_corre  =Menu_user[1][0]*0.00001f;
-					sd.agc_Start = Menu_user[1][1]*65536;	/* AGCï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ */
+					sd.agc_Start = Menu_user[1][1]*65536;	/* AGCÆð¿Øµãµ÷Õû */
 					sd.S_correct = Menu_user[1][2];
-					sd.Tcxo  = Menu_user[1][3];		/* ï¿½Â²ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½Ð£×¼ */
+					sd.Tcxo  = Menu_user[1][3];		/* ÎÂ²¹¾§ÕñÆµÂÊÐ£×¼ */
 					sd.TX_spe = Menu_user[1][4];
 					sd.Rx_amp_ma = Menu_user[1][5];
 					sd.alc_start = Menu_user[1][6];
@@ -2912,14 +3034,14 @@ void Menus_Set(void)
 			}
 			if(sd.menu_page==0&& ks.rx_adjuset_key ==0)
 			{
-				sd.menu_time--;/* ï¿½Ëµï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½Ê± */
-				LCD_ShowNum(150,154,GRAY0,BLACK,3,24, sd.menu_time/60);/* ï¿½ï¿½ï¿½ï¿½Ê±Ê±ï¿½ï¿½ï¿½ï¿½Ê¾ */
+				sd.menu_time--;/* ²Ëµ¥ÍË³öµ¹¼ÆÊ± */
+				LCD_ShowNum(150,154,GRAY0,BLACK,3,24, sd.menu_time/60);/* µ¹¼ÆÊ±Ê±¼äÏÔÊ¾ */
 			}
-			if(sd.menu_time<1)ks.menu_key = MENU_OFF ;/* ï¿½ï¿½ï¿½ï¿½Ê±Ê±ï¿½äµ½ï¿½ï£¬ï¿½Ë³ï¿½ï¿½Ëµï¿½ */
+			if(sd.menu_time<1)ks.menu_key = MENU_OFF ;/* µ¹¼ÆÊ±Ê±¼äµ½´ï£¬ÍË³ö²Ëµ¥ */
 			
 		}
 		else
-		if(ks.menu_key == MENU_OFF && ks.F_11 ==0 )// ï¿½Ë³ï¿½ï¿½Ëµï¿½
+		if(ks.menu_key == MENU_OFF && ks.F_11 ==0 )// ÍË³ö²Ëµ¥
 		{
 			if(lock ==1)
 			{
@@ -2933,12 +3055,12 @@ void Menus_Set(void)
 					ks.StepSelected_idx = T_STEP_5KHZ_IDX;
 				}				
 				if(ks.rt_rx ==0) ks.StepSelected_idx = T_STEP_1KHZ_IDX;
-				ks.FunctionWindow_Use =0;//ï¿½à¹¦ï¿½Ü´ï¿½ï¿½ï¿½ï¿½Ñ½ï¿½ï¿½Õ¼ï¿½ï¿½
-				Lcd_Color(0, 128,319,239,BLACK) ;		// Ë¢ï¿½ï¿½Ò³ï¿½ï¿½
-				//Meun_Window(0, 124,80, GRAY0, BLACK);	// ï¿½ï¿½ï¿½Æ²Ëµï¿½ï¿½ï¿½ï¿½ï¿½
-				sd.menu_time =AT24CXX_ReadLenByte(User[MENU ].addr, User[MENU].Len )*60;/* ï¿½Ëµï¿½ï¿½ï¿½Ê¾Ê±ï¿½ï¿½ */
-				sd.menu_time = Menu_user[0][0]*60;/* ï¿½ï¿½ï¿½ï¿½Ê±Ê±ï¿½ï¿½ï¿½È¡ï¿½ï¿½Îªï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½ */
-				sd.IF_1 = Menu_user[0][1];/* ï¿½ï¿½È¡Ò»ï¿½ï¿½Æµ */
+				ks.FunctionWindow_Use =0;//¶à¹¦ÄÜ´°¿ÚÒÑ½â³ýÕ¼ÓÃ
+				Lcd_Color(0, 128,319,239,BLACK) ;		// Ë¢ÐÂÒ³Ãæ
+				//Meun_Window(0, 124,80, GRAY0, BLACK);	// »æÖÆ²Ëµ¥´°¿Ú
+				sd.menu_time =AT24CXX_ReadLenByte(User[MENU ].addr, User[MENU].Len )*60;/* ²Ëµ¥ÏÔÊ¾Ê±¼ä */
+				sd.menu_time = Menu_user[0][0]*60;/* µ¹¼ÆÊ±Ê±¼ä¶ÁÈ¡£¬ÎªÏÂÒ»´Î×ö×¼±¸ */
+				sd.IF_1 = Menu_user[0][1];/* ¶ÁÈ¡Ò»ÖÐÆµ */
 				sd.menu =0;
 				//ks.Spe_key =0;
 				lock = 0;
@@ -2950,7 +3072,7 @@ void Menus_Set(void)
 }
 /*
 **************************************************************************************
-*	Æµï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ù¿ï¿½
+*	ÆµÆ×ÏÔÊ¾²Ù¿Ø
 **************************************************************************************
 */
 void key_Spectrum_Control()
@@ -2963,11 +3085,11 @@ void key_Spectrum_Control()
 		
 //		if(clk ==0)
 //		{
-//			Lcd_Color(0, 130,319,239,BLACK) ;		// Ë¢ï¿½ï¿½Ò³ï¿½ï¿½
-//			//Meun_Window(0, 124,80, GRAY0, BLACK);	// ï¿½ï¿½ï¿½Æ²Ëµï¿½ï¿½ï¿½ï¿½ï¿½
+//			Lcd_Color(0, 130,319,239,BLACK) ;		// Ë¢ÐÂÒ³Ãæ
+//			//Meun_Window(0, 124,80, GRAY0, BLACK);	// »æÖÆ²Ëµ¥´°¿Ú
 //			
-//			sd.menu_time = Menu_Values[0];/* ï¿½ï¿½ï¿½ï¿½Ê±Ê±ï¿½ï¿½ï¿½È¡ï¿½ï¿½Îªï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½ */
-//			sd.IF_1 = Menu_Values[1];/* ï¿½ï¿½È¡Ò»ï¿½ï¿½Æµ */
+//			sd.menu_time = Menu_Values[0];/* µ¹¼ÆÊ±Ê±¼ä¶ÁÈ¡£¬ÎªÏÂÒ»´Î×ö×¼±¸ */
+//			sd.IF_1 = Menu_Values[1];/* ¶ÁÈ¡Ò»ÖÐÆµ */
 //			sd.menu =0;
 //			ks.Spe_key =0;
 //			clk = 1;
@@ -2982,7 +3104,7 @@ void key_Spectrum_Control()
 }
 /*
 **************************************************************************************
-*	ï¿½ï¿½ï¿½Ý¶ï¿½È¡ï¿½ï¿½Ê¼ï¿½ï¿½
+*	Êý¾Ý¶ÁÈ¡³õÊ¼»¯
 **************************************************************************************
 */
 
@@ -2990,7 +3112,7 @@ void Data_init()
 {
 	u8 i;
 	//int8_t addr_a,addr_b;
-	sd.IF_1 = AT24CXX_ReadLenByte( MENU_IF_1,4 );/* Ò»ï¿½ï¿½Æµï¿½ï¿½È¡ */
+	sd.IF_1 = AT24CXX_ReadLenByte( MENU_IF_1,4 );/* Ò»ÖÐÆµ¶ÁÈ¡ */
 	if(sd.IF_1 >24000)sd.IF_1 = 24000;
 	if(sd.IF_1 <1000)sd.IF_1=24000;
 	
@@ -2999,17 +3121,17 @@ void Data_init()
 		
 	}
 //	ks.rt_rx = (AT24CXX_ReadOneByte(ADDR_A )>>2)&0X01;
-//	sd.num_a = AT24CXX_ReadOneByte(CH_ADDR[AT24CXX_ReadOneByte(ADDR_A )]);// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½
+//	sd.num_a = AT24CXX_ReadOneByte(CH_ADDR[AT24CXX_ReadOneByte(ADDR_A )]);// ÌáÈ¡Ö÷ÐÅµÀ±àºÅ
 //	if(ks.rt_rx )
 //	{
-//		vfo[VFO_A].RxBand_id = AT24CXX_ReadLenByte( BAND_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ],1 );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ 
+//		vfo[VFO_A].RxBand_id = AT24CXX_ReadLenByte( BAND_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ],1 );// ÌáÈ¡¸±ÐÅµÀ 
 //		if(vfo[VFO_A].RxBand_id > RADIO_10M )vfo[VFO_A].RxBand_id = RADIO_10M;
 //		if(vfo[VFO_A].RxBand_id < RADIO_MW )vfo[VFO_A].RxBand_id = RADIO_MW;
 //		sd.band = vfo[VFO_A].RxBand_id;
 //	}		
 //	else 
 //	{
-//		vfo[VFO_A].Band_id = AT24CXX_ReadOneByte( BAND_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ] );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ 
+//		vfo[VFO_A].Band_id = AT24CXX_ReadOneByte( BAND_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ] );// ÌáÈ¡Ö÷ÐÅµÀ 
 //		if(vfo[VFO_A].Band_id > COUPLING_6M)
 //		{
 //			vfo[VFO_A].Band_id = COUPLING_6M ;
@@ -3028,7 +3150,7 @@ void Data_init()
 //	if(ads.IF_gain[sd.band] >63)ads.IF_gain[sd.band] =48;
 //	if(ads.IF_gain[sd.band] < 1)ads.IF_gain[sd.band] =48;
 //	sd.Riss = ads.IF_gain[sd.band];
-//	WM8978_MIC_Gain(ads.IF_gain[sd.band]&0x3f);//MICï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	WM8978_MIC_Gain(ads.IF_gain[sd.band]&0x3f);//MICÔöÒæÉèÖÃ
 	
 	sd.Tcxo = AT24CXX_ReadLenByte( MENU_TCXO,4 );/**/
 	if(sd.Tcxo >28000000)sd.Tcxo =28000000;
@@ -3075,19 +3197,19 @@ void Data_init()
 	
 	ks.AGC_Constant =1;
 //	sd.txband_no = AT24CXX_ReadLenByte( ADDR_TX_BAND_NO,2 )&0x01;
-//	addr_a = AT24CXX_ReadOneByte(ADDR_A );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½
+//	addr_a = AT24CXX_ReadOneByte(ADDR_A );// ÌáÈ¡Ö÷ÐÅµÀ±àºÅ
 //	if(addr_a<1)addr_a =0;
 //	if(addr_a>7)addr_a =7;
-//	addr_b = AT24CXX_ReadOneByte(ADDR_B );// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½
+//	addr_b = AT24CXX_ReadOneByte(ADDR_B );// ÌáÈ¡¸±ÐÅµÀ±àºÅ
 //	if(addr_b<1)addr_b =0;
 //	if(addr_b>7)addr_b =7;
 //	
-//	sd.num_a = AT24CXX_ReadOneByte(CH_ADDR[addr_a]);// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½
-//	sd.num_b = AT24CXX_ReadOneByte(CH_ADDR[addr_b]);// ï¿½ï¿½È¡ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½
-//	if(sd.num_a> 99) sd.num_a = 99;	// ï¿½ç¶¨ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Öµ
-//	if(sd.num_a < 0) sd.num_a = 0;	// ï¿½ç¶¨ï¿½ï¿½Ð¡ï¿½Åµï¿½ï¿½ï¿½Öµ
-//	if(sd.num_b> 99) sd.num_b = 99;	// ï¿½ç¶¨ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Öµ
-//	if(sd.num_b < 0) sd.num_b = 0;	// ï¿½ç¶¨ï¿½ï¿½Ð¡ï¿½Åµï¿½ï¿½ï¿½Öµ
+//	sd.num_a = AT24CXX_ReadOneByte(CH_ADDR[addr_a]);// ÌáÈ¡Ö÷ÐÅµÀ±àºÅ
+//	sd.num_b = AT24CXX_ReadOneByte(CH_ADDR[addr_b]);// ÌáÈ¡¸±ÐÅµÀ±àºÅ
+//	if(sd.num_a> 99) sd.num_a = 99;	// ½ç¶¨×î´óÐÅµÀÊýÖµ
+//	if(sd.num_a < 0) sd.num_a = 0;	// ½ç¶¨×îÐ¡ÐÅµÀÊýÖµ
+//	if(sd.num_b> 99) sd.num_b = 99;	// ½ç¶¨×î´óÐÅµÀÊýÖµ
+//	if(sd.num_b < 0) sd.num_b = 0;	// ½ç¶¨×îÐ¡ÐÅµÀÊýÖµ
 	
 	//ks.rt_rx = (addr_a >>2)&0x01;
 	//if(ks.rt_rx==0)ks.StepSelected_idx = T_STEP_1KHZ_IDX;
@@ -3096,13 +3218,13 @@ void Data_init()
 	for(i=0; i<10;i++)
 	{
 		ads.pow_gain [i] = AT24CXX_ReadLenByte(i*2 + ADDRPOWER_GAIN ,2);
-		if(ads.pow_gain [i]<1)ads.pow_gain[i] = 5;
-		if(ads.pow_gain [i]>300)ads.pow_gain[i] = 5;
+		if(ads.pow_gain [i]<1)ads.pow_gain[i] = 2;
+		if(ads.pow_gain [i]>POW_GAIN_MAX)ads.pow_gain[i] = 2;
 //		ads.cw_gain[i] = AT24CXX_ReadLenByte( ADDR_CW_POW_GAIN(i), 2 );
 //		if(ads.cw_gain[i]>10000)ads.cw_gain[i] =10000;
 //		if(ads.cw_gain[i]<1)ads.cw_gain[i] =1;
 	}
-	/* ï¿½ï¿½È¡AT24C16ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ */
+	/* ¶ÁÈ¡AT24C16ÖÐµÄÊý¾Ý */
 	for(i=0; i< MENU_END ;i++)
 	{
 		Menu_user[0][i] = AT24CXX_ReadLenByte(User[i].addr, User[i].Len );
@@ -3110,12 +3232,12 @@ void Data_init()
 		if(Menu_user[0][i] >User[i].end)Menu_user[0][i] = User[i].Default_fr ;	
 		AT24CXX_WriteLenByte( User[i].addr, Menu_user[0][i], User[i].Len);
 	}	
-	/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ë»ºï¿½ï¿½ */
+	/* ²Ëµ¥Êý¾Ý´æÈë»º´æ */
 	sd.menu_time =Menu_user[0][0]*60;
-	sd.IF_1 = Menu_user[0][1]; 		/* Ò»ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ */
-	sd.CW_Delay = Menu_user[0][2]*10;	/* CWï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-	ks.AGC_Constant = Menu_user[0][3];		/* AGCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-	ks.bt_key = Menu_user[0][4];		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	sd.IF_1 = Menu_user[0][1]; 		/* Ò»ÖÐÆµµ÷Õû */
+	sd.CW_Delay = Menu_user[0][2]*10;	/* CW×Ô¶¯¼üËÙÂÊ */
+	ks.AGC_Constant = Menu_user[0][3];		/* AGC¼ì²âÁãµãµ÷Õû */
+	ks.bt_key = Menu_user[0][4];		/* À¶ÑÀ¿ª¹Ø */
 	sd.ritatt_ptt = Menu_user[0][5];
 	sd.enc_freq = Menu_user[0][6];
 	//sd.enc_exti = Menu_user[0][7];
@@ -3124,7 +3246,7 @@ void Data_init()
 	//ks.sim_dif =  Menu_user[0][8];
 	//AT24CXX_WriteLenByte( MENU_ENC_EXTI  ,Menu_user[0][8] ,1);
 	/*
-	*	ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿
+	*	ÒÔÏÂÊÇ¿ª·¢ÕßÏîÄ¿
 	*/
 	for(i=0; i<  MENU_HIDD_END;i++)
 	{
@@ -3134,17 +3256,17 @@ void Data_init()
 		AT24CXX_WriteLenByte(  Deve[i].addr,  Menu_user[1][i],  Deve[i].Len);					
 	}	
 	ads.pow_corre  =Menu_user[1][0]*0.00001f;
-	sd.agc_Start = Menu_user[1][1]*65536;	/* AGCï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ */
+	sd.agc_Start = Menu_user[1][1]*65536;	/* AGCÆð¿Øµãµ÷Õû */
 	sd.S_correct = Menu_user[1][2];
-	sd.Tcxo  = Menu_user[1][3];		/* ï¿½Â²ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½Ð£×¼ */
+	sd.Tcxo  = Menu_user[1][3];		/* ÎÂ²¹¾§ÕñÆµÂÊÐ£×¼ */
 	sd.TX_spe = Menu_user[1][4];
 	 Menu_user[1][5] =0;
 	sd.Rx_amp_ma = Menu_user[1][5];
 	AT24CXX_WriteLenByte( MENU_RX_PHASE ,Menu_user[1][5], 1);
 	sd.alc_start = Menu_user[1][6];
-	Menu_user[1][7] =60;
+	//Menu_user[1][7] =60;
 	sd.alc_mic = Menu_user[1][7];
-	AT24CXX_WriteLenByte( MENU_ALC_MIC ,Menu_user[1][7] ,1);
+	//AT24CXX_WriteLenByte( MENU_ALC_MIC ,Menu_user[1][7] ,1);
 	
 	ads.tx_amp[0] = Menu_user[1][8]*0.001f;
 	ads.tx_phase[0] = (Menu_user[1][9]-100) *0.001f;
@@ -3177,17 +3299,29 @@ void Data_init()
 		if(Rx_amp_user[i]>2000)Rx_amp_user[i]=1000;
 		ads.rx_amp[i] = Rx_amp_user[i]*0.001f;
 		ads.rx_phase[i] = (Rx_phase_user[i]-100)*0.001f;
+	
 		if(sd.menu_page >0)
 		{
 			sd.Pow =50;
-			AT24CXX_WriteOneByte(ADDRPOW_MM+i, sd.Pow);
+			//AT24CXX_WriteOneByte(ADDRPOW_MM+i, sd.Pow);
 		}
 		else
 		{
-			sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+i, 1);
-			if(sd.Pow>200)sd.Pow =200;
-			AT24CXX_WriteOneByte(ADDRPOW_MM+i, sd.Pow);
+			if(i<9)
+			{
+				sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+i, 1);
+				//sd.Pow = AT24CXX_ReadLenByte( MENU_POW,1 );
+				if(sd.Pow>200)sd.Pow =200;
+			}
+			else
+			{
+				sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+9, 1);
+				if(sd.Pow>50)sd.Pow =50;
+				//AT24CXX_WriteOneByte(ADDRPOW_MM+i, sd.Pow);
+			}
 		}
+		//ads.pow_amp[i]=0;
+		//ads.pow_amp[i] = AT24CXX_ReadLenByte( MENU_TX_AMP_MM+i*4,4);
 	}
 	//
 //	for(i=0; i< 12;i++)
@@ -3251,7 +3385,7 @@ void Data_init()
 	//sd.tx_amp = AT24CXX_ReadLenByte(MENU_TX_AMP, 2 );
 	//if(sd.tx_amp <5000 || sd.tx_amp>20000)sd.tx_amp =10000;
 	//ads.tx_amp = sd.tx_amp *0.0001f;
-	pow_gain_set();//ï¿½è¶¨ï¿½ï¿½ï¿½ï¿½ï¿½Â¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½
+	pow_gain_set();//Éè¶¨¹¦ÂÊÏÂ¸÷¸ö²¨¶ÎµÄÔöÒæÏµÊý
 	ks.cat_ptt =RX;
 	ks.ATT_key =0;
 	ks.rit_tx =RX;
@@ -3260,11 +3394,11 @@ void Data_init()
 }
 /*
 **************************************************************************************
-*	Encï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¿Ø¹ï¿½ï¿½ï¿½
+*	Enc±àÂëÆ÷²Ù¿Ø¹ÜÀí
 **************************************************************************************
 */
 /*
-*	Æµï¿½Êµï¿½ï¿½Ú±ï¿½ï¿½ï¿½ï¿½ï¿½Enc0
+*	ÆµÂÊµ÷½Ú±àÂëÆ÷Enc0
 */
 void Enc0_UseManagement(void)
 {
@@ -3272,14 +3406,14 @@ void Enc0_UseManagement(void)
 	//static u8 step=1;
 	static int16_t enc_0,enc_1;
 	static u8 clk0=0;
-//	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ÓÐ°´¼ü²Ù×÷Óë¼üÅÌËø¿ª
 //	{
-//		if( ucKeyCode==KEY_12_LONG )//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//		if( ucKeyCode==KEY_12_LONG )//ÒôÁ¿ÐýÅ¥°´¼ü³¤°´
 //		{
 //			ks.EC1_12_LONG = ~ks.EC1_12_LONG &0x01;
 //			//if(ks.EC1_12_LONG >1)ks.EC1_12_LONG =0;
 //		}
-//		if( ucKeyCode==KEY_12_UP )//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½ï¿½ï¿½
+//		if( ucKeyCode==KEY_12_UP )//ÒôÁ¿ÐýÅ¥°´¼ü¶Ì°´°´
 //		{
 //			ks.EC1_12 +=1;
 //			if(ks.EC1_12 >3)ks.EC1_12 =0;
@@ -3303,7 +3437,7 @@ void Enc0_UseManagement(void)
 //			enc_0=enc0;
 //		}			
 		/* 
-		*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0Ê¹ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½
+		*	±àÂëÆ÷0Ê¹ÓÃÈ¨¹ÜÀí
 		*/
 		if(ks.F_11 ==0 && ks.menu_key ==0 && PIN_K13 ==1&&sd.amp_phase ==0)
 		{
@@ -3311,13 +3445,13 @@ void Enc0_UseManagement(void)
 			{
 				ks.Enc0_Use =0;
 				//sd.rit =0;
-				//vfo[VFO_A].Freq += sd.Enc0_Value * sd.tuning_step ;/* ï¿½ï¿½Æµï¿½Êµï¿½ï¿½ï¿½ */
+				//vfo[VFO_A].Freq += sd.Enc0_Value * sd.tuning_step ;/* Ö÷ÆµÂÊµ÷½Ú */
 			}
 			else 
 			{
 				if( sd.band_set_delay<1)ks.Enc0_Use =1;
 				
-//				sd.rit += sd.Enc0_Value ;/* RITÆµï¿½ï¿½Î¢ï¿½ï¿½ */
+//				sd.rit += sd.Enc0_Value ;/* RITÆµÂÊÎ¢µ÷ */
 //				if(sd.rit > 1000)sd.rit =1000;
 //				if(sd.rit < -1000)sd.rit =-1000;
 			}
@@ -3328,14 +3462,14 @@ void Enc0_UseManagement(void)
 			ks.Enc0_Use =2;
 //			if(ks.ch_vfo ==1 )
 //			{
-//				sd.num_a += sd.Enc0_Value ; 	/* ï¿½Åµï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ */
-//				if(sd.num_a> 99) sd.num_a = 99;	// ï¿½Þ¶ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Öµ
-//				if(sd.num_a <0) sd.num_a = 0;	// ï¿½Þ¶ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Öµ
+//				sd.num_a += sd.Enc0_Value ; 	/* ÐÅµÀ±àºÅÑ¡Ôñ */
+//				if(sd.num_a> 99) sd.num_a = 99;	// ÏÞ¶¨×î´óÐÅµÀÊýÖµ
+//				if(sd.num_a <0) sd.num_a = 0;	// ÏÞ¶¨×î´óÐÅµÀÊýÖµ
 //				//AT24CXX_WriteOneByte(CH_ADDR[addr_a], sd.num_a);
 //			}
 //			else
 //			{
-//				ks.StepSelected_idx  -= sd.Enc0_Value ;/* ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ */
+//				ks.StepSelected_idx  -= sd.Enc0_Value ;/* ²½½øÑ¡Ôñ */
 //				if(ks.StepSelected_idx > T_STEP_100KHZ_IDX)
 //					ks.StepSelected_idx = T_STEP_100KHZ_IDX;
 //				if(ks.StepSelected_idx < T_STEP_10HZ_IDX)
@@ -3347,15 +3481,15 @@ void Enc0_UseManagement(void)
 		if(ks.F_11 ==0 && (ks.menu_key ==1||sd.amp_phase==1 ) && PIN_K13 ==1)	
 		{
 			ks.Enc0_Use =3;
-//			Menu_Values[sd.menu] +=sd.Enc0_Value * sd.tuning_step;/* ï¿½Ëµï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-//			/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ý´æ´¢ */
+//			Menu_Values[sd.menu] +=sd.Enc0_Value * sd.tuning_step;/* ²Ëµ¥Ñ¡Ïî²ÎÊýµ÷Õû */
+//			/* ²Ëµ¥Êý¾Ý´æ´¢ */
 //			AT24CXX_WriteLenByte( Menu[sd.menu].addr  ,Menu_Values[sd.menu]   ,Menu[sd.menu].Len);
 		}
 		else
 		if(ks.F_11 ==0 && ks.menu_key ==1 && PIN_K13 ==0)	
 		{
 			ks.Enc0_Use =4;
-//			ks.StepSelected_idx  -= sd.Enc0_Value ;	/* ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ */
+//			ks.StepSelected_idx  -= sd.Enc0_Value ;	/* ²½½øÑ¡Ôñ */
 //			if(ks.StepSelected_idx > T_STEP_1MHZ_IDX)
 //				ks.StepSelected_idx = T_STEP_1MHZ_IDX;
 //			if(ks.StepSelected_idx < T_STEP_1HZ_IDX)
@@ -3365,16 +3499,16 @@ void Enc0_UseManagement(void)
 		if(ks.F_11 ==1 && ks.menu_key ==0 && PIN_K13 ==1)	
 		{
 			ks.Enc0_Use =5;
-			//ks.Band_id += sd.Enc0_Value; /* ï¿½Õ·ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½î¹¦ï¿½ï¿½Î´Êµï¿½Ö£ï¿½*/
+			//ks.Band_id += sd.Enc0_Value; /* ÊÕ·¢Ä£Ê½²¨¶ÎÑ¡Ôñ£¨ÕâÏî¹¦ÄÜÎ´ÊµÏÖ£©*/
 		}
 		else
 		if(ks.F_11 ==1 && ks.menu_key ==0 && PIN_K13 ==0)	
 		{
 			ks.Enc0_Use =6;
-			//ks.RxBand_id += sd.Enc0_Value;/* ï¿½ï¿½ï¿½Å»ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½î¹¦ï¿½ï¿½Î´Êµï¿½Ö£ï¿½*/
+			//ks.RxBand_id += sd.Enc0_Value;/* ÊÕÐÅ»úÄ£Ê½²¨¶ÎÑ¡Ôñ£¨ÕâÏî¹¦ÄÜÎ´ÊµÏÖ£©*/
 		}
-		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ */
-		if(ks.Enc0_Use  ==0)//Æµï¿½Êµï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½â´¦ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ê±X1,ï¿½ï¿½ï¿½ X100;
+		/* ±àÂëÆ÷¶ÁÈ¡ */
+		if(ks.Enc0_Use  ==0)//ÆµÂÊµ÷½ÚÊ±ÌØÊâ´¦Àí Âýµ÷Ê±X1,¿ìµ÷ X100;
 		{
 			enc0 = EncoderRead( ENCFREQ ,sd.enc_freq );
 			enc1 = EncoderRead( ENC1,sd.enc_exti );
@@ -3396,7 +3530,7 @@ void Enc0_UseManagement(void)
 			enc_0=enc0;
 		}	
 		/*
-		*	ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½
+		*	Êý¾Ýµ÷Õû
 		*/
 		if(sd.Enc0_Value != 0)
 		{
@@ -3404,12 +3538,12 @@ void Enc0_UseManagement(void)
 			if(ks.Enc0_Use  ==0&&clk0==1)
 			{
 				//sd.rit =0;
-				vfo[VFO_A].Freq += sd.Enc0_Value * sd.tuning_step;/* ï¿½ï¿½Æµï¿½Êµï¿½ï¿½ï¿½ */
+				vfo[VFO_A].Freq += sd.Enc0_Value * sd.tuning_step;/* Ö÷ÆµÂÊµ÷½Ú */
 			}
 			//else
 			if(ks.Enc0_Use  ==1&&clk0==1)	
 			{
-				sd.rit += sd.Enc0_Value *10;//* 10;/* RITÆµï¿½ï¿½Î¢ï¿½ï¿½ */
+				sd.rit += sd.Enc0_Value *10;//* 10;/* RITÆµÂÊÎ¢µ÷ */
 				if(sd.rit > 1200)sd.rit =1200;
 				if(sd.rit < -1200)sd.rit =-1200;
 				sd.rit_delay =VOL_WINDOW_DELAY*2;
@@ -3419,14 +3553,14 @@ void Enc0_UseManagement(void)
 			{
 				if(ks.ch_vfo ==1 )
 				{
-					sd.num_a += sd.Enc0_Value ; 	/* ï¿½Åµï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ */
-					if(sd.num_a> 99) sd.num_a = 99;	// ï¿½Þ¶ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Öµ
-					if(sd.num_a <1) sd.num_a = 0;	// ï¿½Þ¶ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½Öµ
+					sd.num_a += sd.Enc0_Value ; 	/* ÐÅµÀ±àºÅÑ¡Ôñ */
+					if(sd.num_a> 99) sd.num_a = 99;	// ÏÞ¶¨×î´óÐÅµÀÊýÖµ
+					if(sd.num_a <1) sd.num_a = 0;	// ÏÞ¶¨×î´óÐÅµÀÊýÖµ
 					//AT24CXX_WriteOneByte(CH_ADDR[addr_a], sd.num_a);
 				}
 				else
 				{
-					ks.StepSelected_idx  -= sd.Enc0_Value ;/* ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ */
+					ks.StepSelected_idx  -= sd.Enc0_Value ;/* ²½½øÑ¡Ôñ */
 					if(ks.StepSelected_idx > T_STEP_100KHZ_IDX)
 						ks.StepSelected_idx = T_STEP_100KHZ_IDX;
 					if(ks.StepSelected_idx < T_STEP_10HZ_IDX)
@@ -3441,8 +3575,8 @@ void Enc0_UseManagement(void)
 				{
 					//if(sd.menu==2)Rx_amp_adjust[ads.amp_adjust_num] +=sd.Enc0_Value;
 					//else
-					if( sd.menu==1) Rx_phase_user[ads.rx_amp_band] +=sd.Enc0_Value ;/* ï¿½Ëµï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-					if( sd.menu==0)  Rx_amp_user[ads.rx_amp_band] +=sd.Enc0_Value ;/* ï¿½Ëµï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+					if( sd.menu==1) Rx_phase_user[ads.rx_amp_band] +=sd.Enc0_Value ;/* ²Ëµ¥Ñ¡Ïî²ÎÊýµ÷Õû */
+					if( sd.menu==0)  Rx_amp_user[ads.rx_amp_band] +=sd.Enc0_Value ;/* ²Ëµ¥Ñ¡Ïî²ÎÊýµ÷Õû */
 					//if(Rx_amp_adjust[ads.amp_adjust_num]<200)Rx_amp_adjust[ads.amp_adjust_num]=1000;
 					//if(Rx_amp_adjust[ads.amp_adjust_num]>2000)Rx_amp_adjust[ads.amp_adjust_num]=1000;
 					if(Rx_phase_user[ads.rx_amp_band]<20)Rx_phase_user[ads.rx_amp_band]=100;
@@ -3453,20 +3587,20 @@ void Enc0_UseManagement(void)
 					//ads.amp_adjust[ads.amp_adjust_num] = Rx_amp_adjust[ads.amp_adjust_num]*0.001f;
 					ads.rx_amp[ads.rx_amp_band] = Rx_amp_user[ads.rx_amp_band]*0.001f;
 					ads.rx_phase[ads.rx_amp_band] = (Rx_phase_user[ads.rx_amp_band]-100)*0.001f;
-					/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ý´æ´¢ */
+					/* ²Ëµ¥Êý¾Ý´æ´¢ */
 					AT24CXX_WriteLenByte( ads.rx_amp_band*3+ADDR_RX_BAND_PHASE_M  , Rx_amp_user[ads.rx_amp_band],2);
 					AT24CXX_WriteLenByte( ads.rx_amp_band*3+2+ADDR_RX_BAND_PHASE_M  , Rx_phase_user[ads.rx_amp_band],1);
 					//AT24CXX_WriteLenByte(  MENU_RX_AMP_JUSET + ads.amp_adjust_num*2, Rx_amp_adjust[ads.amp_adjust_num],2);
 				}
 				else 
 				{
-					Menu_user[sd.menu_page][sd.menu] +=sd.Enc0_Value * sd.tuning_step;/* ï¿½Ëµï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+					Menu_user[sd.menu_page][sd.menu] +=sd.Enc0_Value * sd.tuning_step;/* ²Ëµ¥Ñ¡Ïî²ÎÊýµ÷Õû */
 					if(sd.menu_page==0)
 					{
-						if(Menu_user[0][sd.menu]<User[sd.menu].start )Menu_user[0][sd.menu] = User[sd.menu].start;
+						if(Menu_user[0][sd.menu]<User[sd.menu].start )Menu_user[0][sd.menu] = User[sd.menu].Default_fr;
 						//else
 						if(Menu_user[0][sd.menu]>User [sd.menu].end )Menu_user[0][sd.menu] = User[sd.menu].Default_fr;
-						/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ý´æ´¢ */
+						/* ²Ëµ¥Êý¾Ý´æ´¢ */
 						AT24CXX_WriteLenByte( User[sd.menu].addr  ,Menu_user[0][sd.menu] ,User[sd.menu].Len);
 					}
 					else
@@ -3476,21 +3610,21 @@ void Enc0_UseManagement(void)
 						//else
 						//if(Menu_user[0][sd.menu]>User [sd.menu].end )Menu_user[0][sd.menu] = User[sd.menu].Default_fr;
 						if(Menu_user[1][sd.menu]>Deve [sd.menu].end )Menu_user[1][sd.menu] = Deve[sd.menu].Default_fr;
-						/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ý´æ´¢ */
+						/* ²Ëµ¥Êý¾Ý´æ´¢ */
 						//AT24CXX_WriteLenByte( User[sd.menu].addr  ,Menu_user[0][sd.menu] ,User[sd.menu].Len);
 						AT24CXX_WriteLenByte( Deve[sd.menu].addr  ,Menu_user[1][sd.menu] ,Deve[sd.menu].Len);
 					}
 					//sd.CW_Speed = Menu_Values[7];
 					//ads.cw_spe = 1300  / sd.CW_Speed;
 					
-					/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ë»ºï¿½ï¿½ */
+					/* ²Ëµ¥Êý¾Ý´æÈë»º´æ */
 					if(sd.menu_page==0)
 					{
 						sd.menu_time =Menu_user[0][0]*60;
-						sd.IF_1 = Menu_user[0][1]; 		/* Ò»ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ */
-						sd.CW_Delay = Menu_user[0][2]*10;	/* CWï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-						ks.AGC_Constant = Menu_user[0][3];		/* AGCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-						ks.bt_key = Menu_user[0][4];		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+						sd.IF_1 = Menu_user[0][1]; 		/* Ò»ÖÐÆµµ÷Õû */
+						sd.CW_Delay = Menu_user[0][2]*10;	/* CW×Ô¶¯¼üËÙÂÊ */
+						ks.AGC_Constant = Menu_user[0][3];		/* AGC¼ì²âÁãµãµ÷Õû */
+						ks.bt_key = Menu_user[0][4];		/* À¶ÑÀ¿ª¹Ø */
 						sd.ritatt_ptt = Menu_user[0][5];
 						sd.enc_freq = Menu_user[0][6];
 						//sd.enc_exti = Menu_user[0][7];
@@ -3498,16 +3632,16 @@ void Enc0_UseManagement(void)
 						//ks.sim_dif =  Menu_user[0][8];
 					}
 					/*
-					*	ï¿½ï¿½ï¿½ï¿½ï¿½Ç¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿
+					*	ÒÔÏÂÊÇ¿ª·¢ÕßÏîÄ¿
 					*/
 					else
 					{
-						ads.pow_corre =Menu_user[1][0]*0.00001f;//ï¿½ï¿½ï¿½ï¿½Ð£×¼
-						sd.agc_Start = Menu_user[1][1]*65536;	/* AGCï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ */
-						sd.S_correct = Menu_user[1][2];			//Sï¿½ï¿½Ð£×¼
-						sd.Tcxo  = Menu_user[1][3];		/* ï¿½Â²ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½Ð£×¼ */
-						sd.TX_spe = Menu_user[1][4];	//ï¿½ï¿½ï¿½ï¿½Æµï¿½×¿ï¿½ï¿½ï¿½
-						sd.Rx_amp_ma = Menu_user[1][5];	//ï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½Ö¶ï¿½/ï¿½Ô¶ï¿½Ä£Ê½×ªï¿½ï¿½
+						ads.pow_corre =Menu_user[1][0]*0.00001f;//¹¦ÂÊÐ£×¼
+						sd.agc_Start = Menu_user[1][1]*65536;	/* AGCÆð¿Øµãµ÷Õû */
+						sd.S_correct = Menu_user[1][2];			//S±íÐ£×¼
+						sd.Tcxo  = Menu_user[1][3];		/* ÎÂ²¹¾§ÕñÆµÂÊÐ£×¼ */
+						sd.TX_spe = Menu_user[1][4];	//·¢ÉäÆµÆ×¿ª¹Ø
+						sd.Rx_amp_ma = Menu_user[1][5];	//·ù¶ÈÆ½ºâÊÖ¶¯/×Ô¶¯Ä£Ê½×ª»»
 						sd.alc_start = Menu_user[1][6];
 						sd.alc_mic = Menu_user[1][7];
 					
@@ -3537,7 +3671,7 @@ void Enc0_UseManagement(void)
 			//else
 			if(ks.Enc0_Use  ==4)	
 			{
-				ks.StepSelected_idx  -= sd.Enc0_Value ;	/* ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ */
+				ks.StepSelected_idx  -= sd.Enc0_Value ;	/* ²½½øÑ¡Ôñ */
 				if(ks.StepSelected_idx > T_STEP_1MHZ_IDX)
 					ks.StepSelected_idx = T_STEP_1MHZ_IDX;
 				if(ks.StepSelected_idx < T_STEP_1HZ_IDX)
@@ -3549,7 +3683,7 @@ void Enc0_UseManagement(void)
 				sd.band_set_delay =100;
 				if(ks.rt_rx ==0)
 				{
-					vfo[VFO_A].Band_id += sd.Enc0_Value; /* ï¿½Õ·ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½î¹¦ï¿½ï¿½Î´Êµï¿½Ö£ï¿½*/
+					vfo[VFO_A].Band_id += sd.Enc0_Value; /* ÊÕ·¢Ä£Ê½²¨¶ÎÑ¡Ôñ£¨ÕâÏî¹¦ÄÜÎ´ÊµÏÖ£©*/
 					if(vfo[VFO_A].Band_id >  COUPLING_6M)vfo[VFO_A].Band_id =  COUPLING_80M;
 					if(vfo[VFO_A].Band_id <  COUPLING_80M)vfo[VFO_A].Band_id =  COUPLING_6M;
 
@@ -3559,7 +3693,7 @@ void Enc0_UseManagement(void)
 				}
 				else 
 				{
-					vfo[VFO_A].RxBand_id += sd.Enc0_Value; /* ï¿½Õ·ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½î¹¦ï¿½ï¿½Î´Êµï¿½Ö£ï¿½*/
+					vfo[VFO_A].RxBand_id += sd.Enc0_Value; /* ÊÕ·¢Ä£Ê½²¨¶ÎÑ¡Ôñ£¨ÕâÏî¹¦ÄÜÎ´ÊµÏÖ£©*/
 					if(vfo[VFO_A].RxBand_id > RADIO_10M)vfo[VFO_A].RxBand_id = RADIO_90M;
 					if(vfo[VFO_A].RxBand_id < RADIO_90M)vfo[VFO_A].RxBand_id = RADIO_10M;
 				}
@@ -3568,36 +3702,49 @@ void Enc0_UseManagement(void)
 			if(ks.Enc0_Use  ==6)	
 			{
 				//ks.Enc0_Use =6;
-				//ks.RxBand_id += sd.Enc0_Value;/* ï¿½ï¿½ï¿½Å»ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½î¹¦ï¿½ï¿½Î´Êµï¿½Ö£ï¿½*/
+				//ks.RxBand_id += sd.Enc0_Value;/* ÊÕÐÅ»úÄ£Ê½²¨¶ÎÑ¡Ôñ£¨ÕâÏî¹¦ÄÜÎ´ÊµÏÖ£©*/
 			}
 		}
 		if(clk0==0)clk0=1;
 	}
 }
 /*
-*	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½ï¿½ï¿½ Enc2
+*	ÒôÁ¿µ÷½Ú±àÂëÆ÷ Enc2
 */
 void pow_gain_set()
 {
 	float32_t calc;
 	/*
-	*	P=V*V/R,V=P*Rï¿½ï¿½Æ½ï¿½ï¿½
-	*	ï¿½ï¿½ï¿½Ý¹ï¿½ï¿½Ê¹ï¿½Ê½ï¿½ï¿½sd.PowÓ¦ï¿½ï¿½ï¿½Ç³ï¿½ï¿½ï¿½50ï¿½ï¿½
-	*	ï¿½Ëµï¿½ï¿½ê¶¨ï¿½Ä¹ï¿½ï¿½Ê·Å´ï¿½ï¿½ï¿½Ê®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sd.Pow*5.0f	
+	*	P=V*V/R,V=P*R¿ªÆ½·½
+	*	¸ù¾Ý¹¦ÂÊ¹«Ê½£¬sd.PowÓ¦¸ÃÊÇ³ËÒÔ50£¬
+	*	²Ëµ¥±ê¶¨µÄ¹¦ÂÊ·Å´óÁËÊ®±¶£¬ËùÒÔÊÇsd.Pow*5.0f	
 	*/
-	/*	ï¿½ï¿½ï¿½ï¿½ï¿½è¶¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½FWDï¿½ï¿½ADCï¿½ï¿½Öµ	*/
-	arm_sqrt_f32 (sd.Pow*50, (float32_t *)&calc);//ï¿½ï¿½ï¿½ï¿½ê¶¨ï¿½ï¿½ï¿½ï¿½ï¿½ÂµÄµï¿½Ñ¹Öµ
-	//pow_v = cw_gain[0];
-	//pow_v *= 0.05f;		//10:1ï¿½ï¿½â£¬1/2ï¿½ï¿½Ñ¹
-	//pow_v *= 26214;
-	 
-	/*	ï¿½ï¿½ï¿½ï¿½ï¿½è¶¨ï¿½ï¿½ï¿½ï¿½ï¿½Â¸ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½	*/
-	ads.cw_gain[1] =ads.pow_gain [vfo[VFO_A].Band_id ] *calc*500 ;
-
-	/*	ï¿½ï¿½ï¿½ï¿½ï¿½è¶¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ	*/
-	arm_sqrt_f32 (sd.Pow, (float32_t *)&calc); 
-	arm_sqrt_f32 (calc, (float32_t *)&ads.cw_gain[0]);
-	arm_sqrt_f32 (ads.cw_gain[0], (float32_t *)&ads.cw_gain[2]); 
+	//ads.pow_gain [vfo[VFO_A].Band_id] = AT24CXX_ReadLenByte(vfo[VFO_A].Band_id*2 + ADDRPOWER_GAIN ,2);
+	//ads.cw_gain[0] =ads.pow_gain [vfo[VFO_A].Band_id ] *50.0f;
+	/*	¼ÆËãÉè¶¨¹¦ÂÊÏÂFWDµÄADCÊýÖµ	*/
+	arm_sqrt_f32 (sd.Pow*50, (float32_t *)&calc);//¼ÆËã±ê¶¨¹¦ÂÊÏÂµÄµçÑ¹Öµ
+	//ads.cw_gain[3] =calc; 
+	/*	¼ÆËãÉè¶¨¹¦ÂÊÏÂ¸÷Æµ¶ÎÔöÒæÏµÊý	*/
+	//ads.cw_gain[1] =ads.pow_gain [vfo[VFO_A].Band_id ] *calc*50.0f;
+	if(sd.Pow <=50)ads.cw_gain[1] =((100-sd.Pow*2)+ads.pow_gain [vfo[VFO_A].Band_id ]) *calc*50.0f;
+	else 
+	if(sd.Pow>50)ads.cw_gain[1] =((sd.Pow -50)*1.2f+ads.pow_gain [vfo[VFO_A].Band_id ]) *calc*50.0f;
+	
+	ads.cw_gain[0] =calc;
+	//if(sd.Pow <=50)ads.cw_gain[4] =(100-sd.Pow*2) *calc*50.0f;
+	//else 
+	//if(sd.Pow>50)ads.cw_gain[4] =(sd.Pow -50)*1.2f *calc*50.0f;
+	
+	//ads.cw_gain[3] =ads.pow_gain [vfo[VFO_A].Band_id ] *50.0f;
+	
+	/*	¼ÆËãÉè¶¨¹¦ÂÊÓë×îÐ¡¹¦ÂÊµÄÔöÒæ±ÈÖµ	*/
+	arm_sqrt_f32 (sd.Pow, (float32_t *)&calc);
+	
+	arm_sqrt_f32 (calc, (float32_t *)&calc);
+	arm_sqrt_f32 (calc , (float32_t *)&ads.cw_gain[2]);
+	//ads.cw_gain[0] = ads.pow_gain [vfo[VFO_A].Band_id ];
+	//arm_sqrt_f32 (sd.Pow/50, (float32_t *)&ads.cw_gain[3]);
+	//ads.pow_amp[vfo[VFO_A].Band_id] = AT24CXX_ReadLenByte( MENU_TX_AMP_MM+vfo[VFO_A].Band_id*4,4);
 }
 //
 Power_addr_GenInfo	Power_max[]=
@@ -3618,16 +3765,16 @@ void Enc2_UseManagement(void)
 	//static u16 Timing;
 	static u8  clk0=0;
 	//static u8  temp;
-	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ÓÐ°´¼ü²Ù×÷Óë¼üÅÌËø¿ª
 	{
-		if( ucKeyCode==KEY_12_LONG )//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		if( ucKeyCode==KEY_12_LONG )//ÒôÁ¿ÐýÅ¥°´¼ü³¤°´
 		{
 			ks.EC1_12_LONG = ~ks.EC1_12_LONG &0x01;
 			sd.Enc2_delay = VOL_WINDOW_DELAY;
 			if(ks.EC1_12_LONG==0)sd.Enc2_delay =0;
 		}
 		
-		if( ucKeyCode==KEY_12_UP )//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½ï¿½ï¿½
+		if( ucKeyCode==KEY_12_UP )//ÒôÁ¿ÐýÅ¥°´¼ü¶Ì°´°´
 		{
 			ks.EC1_12 +=1;
 			if(ks.EC1_12_LONG ==1 || (ks.NR_key==0 && vfo[VFO_A].Mode >= DEMOD_LSB))
@@ -3642,7 +3789,7 @@ void Enc2_UseManagement(void)
 			sd.Enc2_delay = VOL_WINDOW_DELAY;
 			if(ks.EC1_12 ==0)sd.Enc2_delay =0;
 		}
-		if( ucKeyCode==KEY_10_LONG && ks.rx_adjuset_key ==0)//ï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		if( ucKeyCode==KEY_10_LONG && ks.rx_adjuset_key ==0)//ÂË²¨Æ÷°´¼ü³¤°´
 		{
 			ks.IF_shift =~ks.IF_shift&0x01;
 			if(ks.IF_shift ==0)sd.Enc2_delay =0;
@@ -3650,8 +3797,8 @@ void Enc2_UseManagement(void)
 	}
 	if(ks.key_lock==0)
 	{
-		//sd.Enc2_Value = EncoderRead( ENC2 );/* ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-			/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½ */
+		//sd.Enc2_Value = EncoderRead( ENC2 );/* ¶ÁÈ¡ÒôÁ¿±àÂëÆ÷ */
+			/* ±àÂëÆ÷Ê¹ÓÃÈ¨·ÖÅä */
 		if(ks.F_11 ==0 && ks.EC1_12_LONG ==1 )
 		{
 			ks.Enc2_Use =1;
@@ -3663,19 +3810,19 @@ void Enc2_UseManagement(void)
 			{
 				if(ks.PWR_LONG ==0 && ks.PWR_key ==0 && ks.RIT_key ==0 )
 				{
-					//sd.Enc2_delay =100;/* ï¿½Ô¶ï¿½ï¿½Ë³ï¿½ï¿½ï¿½Ê±ï¿½è¶¨ */
-					ks.Enc2_Use =0;/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+					//sd.Enc2_delay =100;/* ×Ô¶¯ÍË³ö¼ÆÊ±Éè¶¨ */
+					ks.Enc2_Use =0;/* ÒôÁ¿µ÷Õû */
 				}
 				if( ks.menu_key ==0 && TR_READ ==0 && ks.agc_m_adjust ==0&&sd.amp_phase ==0)
 				{
-					//sd.Enc2_delay =100;/* ï¿½Ô¶ï¿½ï¿½Ë³ï¿½ï¿½ï¿½Ê±ï¿½è¶¨ */
-					ks.Enc2_Use =0;/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+					//sd.Enc2_delay =100;/* ×Ô¶¯ÍË³ö¼ÆÊ±Éè¶¨ */
+					ks.Enc2_Use =0;/* ÒôÁ¿µ÷Õû */
 				}
 				//else
 				if(ks.PWR_key ==1)// && TR_READ ==CONTROL_RX)
 				{
 					//sd.Enc2_delay = 300;
-					ks.Enc2_Use =2;/* ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ */
+					ks.Enc2_Use =2;/* ¹¦ÂÊµ÷½Ú */
 					//ks.RIT_key =0;
 					ks.agc_m_adjust =0;
 					ks.menu_key =0;
@@ -3686,7 +3833,7 @@ void Enc2_UseManagement(void)
 				//else
 				if(ks.menu_key ==1||sd.amp_phase ==1)
 				{
-					ks.Enc2_Use =3;/* ï¿½Ëµï¿½Ñ¡ï¿½ï¿½Ñ¡ï¿½ï¿½ */
+					ks.Enc2_Use =3;/* ²Ëµ¥Ñ¡ÏîÑ¡Ôñ */
 					//ks.RIT_key =0;
 					ks.PWR_key =0;
 					ks.PWR_LONG =0;
@@ -3700,7 +3847,7 @@ void Enc2_UseManagement(void)
 				//else
 				if(ks.PWR_key ==0 && TR_READ ==CONTROL_TX&&ks.menu_key ==0&&sd.amp_phase ==0)
 				{
-					ks.Enc2_Use =4;/* ï¿½Ëµï¿½Ñ¡ï¿½ï¿½Ñ¡ï¿½ï¿½ */
+					ks.Enc2_Use =4;/* ²Ëµ¥Ñ¡ÏîÑ¡Ôñ */
 					//ks.RIT_key =0;
 					ks.PWR_key =0;
 					ks.menu_key =0;
@@ -3713,7 +3860,7 @@ void Enc2_UseManagement(void)
 						sd.Enc2_delay =VOL_WINDOW_DELAY;
 						clk0=0;
 					}
-					ks.Enc2_Use =5;/* ï¿½Ö¶ï¿½AGCï¿½ï¿½ï¿½ï¿½ */
+					ks.Enc2_Use =5;/* ÊÖ¶¯AGCµ÷½Ú */
 					//ks.RIT_key =0;
 					ks.PWR_key =0;
 					ks.menu_key =0;
@@ -3727,7 +3874,7 @@ void Enc2_UseManagement(void)
 						//sd.Enc2_delay =VOL_WINDOW_DELAY;
 						clk0=0;
 					}
-					ks.Enc2_Use =6;/* SSBï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ */
+					ks.Enc2_Use =6;/* SSBÂË²¨Æ÷ÖÐÐÄµ÷½Ú */
 					//ks.RIT_key =0;
 					ks.PWR_key =0;
 					ks.menu_key =0;
@@ -3736,7 +3883,7 @@ void Enc2_UseManagement(void)
 				}
 //				if(ks.menu_key ==1&& TR_READ ==CONTROL_TX)
 //				{
-//					ks.Enc2_Use =7;/*ï¿½ï¿½ï¿½ï¿½I/QÆ½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+//					ks.Enc2_Use =7;/*·¢ÉäI/QÆ½ºâµ÷½Ú */
 //					ks.RIT_key =0;
 //					ks.PWR_key =0;
 //					//ks.menu_key =0;
@@ -3762,7 +3909,7 @@ void Enc2_UseManagement(void)
 				{
 					//sd.Enc2_delay =300;
 					ks.Enc2_Use =10;
-//					sd.mic_gain   += sd.Enc2_Value;/* ï¿½ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+//					sd.mic_gain   += sd.Enc2_Value;/* Âó¿Ë·çÔöÒæµ÷½Ú */
 //					if(sd.mic_gain >99)sd.mic_gain =99;
 //					if(sd.mic_gain < 1)sd.mic_gain =1;
 //					Menu_Values[13] = sd.mic_gain;
@@ -3772,7 +3919,7 @@ void Enc2_UseManagement(void)
 				if(ks.EC1_12 ==2 && ks.NR_key )
 				{
 					ks.Enc2_Use =11;
-//					nr.dsp_nr_strength += sd.Enc2_Value;/* NRï¿½ï¿½ï¿½ï¿½Ç¿ï¿½Èµï¿½ï¿½ï¿½ */
+//					nr.dsp_nr_strength += sd.Enc2_Value;/* NR½µÔëÇ¿¶Èµ÷½Ú */
 //					if(nr.dsp_nr_strength >99)nr.dsp_nr_strength =99;
 //					if(nr.dsp_nr_strength <10)nr.dsp_nr_strength =10;
 //					Menu_Values[14] = nr.dsp_nr_strength ;
@@ -3782,7 +3929,7 @@ void Enc2_UseManagement(void)
 				if(ks.EC1_12 ==3 && ks.NR_key )
 				{
 					ks.Enc2_Use =12;
-//					nr.dsp_nr_delaybuf_len += sd.Enc2_Value;/* NRï¿½ï¿½ï¿½ï¿½ï¿½Ó³Ù³ï¿½ï¿½Èµï¿½ï¿½ï¿½ */
+//					nr.dsp_nr_delaybuf_len += sd.Enc2_Value;/* NR½µÔëÑÓ³Ù³¤¶Èµ÷½Ú */
 //					if(nr.dsp_nr_delaybuf_len >99)nr.dsp_nr_delaybuf_len =99;
 //					if(nr.dsp_nr_delaybuf_len <10)nr.dsp_nr_delaybuf_len =10;
 //					Menu_Values[15] = nr.dsp_nr_delaybuf_len;
@@ -3797,7 +3944,7 @@ void Enc2_UseManagement(void)
 				{
 					//sd.Enc2_delay =300;
 					ks.Enc2_Use =15;
-//					sd.CW_vol += sd.Enc2_Value;/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+//					sd.CW_vol += sd.Enc2_Value;/* ²àÒôÒôÁ¿µ÷½Ú */
 //					if(sd.CW_vol >99)sd.CW_vol =99;
 //					if(sd.CW_vol < 0)sd.CW_vol =0;
 //					Menu_Values[5] = sd.CW_Sidetone;
@@ -3807,7 +3954,7 @@ void Enc2_UseManagement(void)
 				if(ks.EC1_12 ==2  )
 				{
 					ks.Enc2_Use =14;
-//					sd.CW_Sidetone += sd.Enc2_Value;/* ï¿½ï¿½ï¿½ï¿½Æµï¿½Êµï¿½ï¿½ï¿½ */
+//					sd.CW_Sidetone += sd.Enc2_Value;/* ²àÒôÆµÂÊµ÷½Ú */
 //					if(sd.CW_Sidetone >1000)sd.CW_Sidetone =1000;
 //					if(sd.CW_Sidetone < 500)sd.CW_Sidetone =500;
 //					Menu_Values[6] = sd.CW_Sidetone;
@@ -3817,7 +3964,7 @@ void Enc2_UseManagement(void)
 				if(ks.EC1_12 ==3  )
 				{
 					ks.Enc2_Use =13;
-//					sd.CW_Speed += sd.Enc2_Value;/* ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Ù¶Èµï¿½ï¿½ï¿½ */
+//					sd.CW_Speed += sd.Enc2_Value;/* ×Ô¶¯¼üËÙ¶Èµ÷½Ú */
 //					if(sd.CW_Speed >100)sd.CW_Speed =100;
 //					if(sd.CW_Speed < 1)sd.CW_Speed =1;
 //					Menu_Values[7] = sd.CW_Speed;
@@ -3827,7 +3974,7 @@ void Enc2_UseManagement(void)
 		}
 		
 		//
-		sd.Enc2_Value = EncoderRead( ENC2 ,0);/* ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */	
+		sd.Enc2_Value = EncoderRead( ENC2 ,0);/* ¶ÁÈ¡ÒôÁ¿±àÂëÆ÷ */	
 		if(sd.Enc2_Value !=0 &&  PIN_K12 ==1&& ks.F_11 ==0)
 		{
 			if(sd.amp_phase ==0&&ks.IF_shift ==0)sd.Enc2_delay =VOL_WINDOW_DELAY;
@@ -3835,7 +3982,7 @@ void Enc2_UseManagement(void)
 			if(ks.Enc2_Use ==0 && ks.menu_key  ==0)
 			{
 				//ads.vol_timer =VOL_WINDOW_DELAY;
-				sd.Vol += sd.Enc2_Value;/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+				sd.Vol += sd.Enc2_Value;/* ÒôÁ¿µ÷½Ú */
 				if(sd.Vol >99)sd.Vol =99;
 				if(sd.Vol < 1)sd.Vol =0;
 				AT24CXX_WriteOneByte(ADDR_VOL, sd.Vol);
@@ -3847,26 +3994,29 @@ void Enc2_UseManagement(void)
 				{
 					if(sd.Pow>10) 
 					{
-						sd.Pow += sd.Enc2_Value*10;/* ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ */
+						sd.Pow += sd.Enc2_Value*10;/* ¹¦ÂÊµ÷½Ú */
 						sd.Pow/=10;
 						sd.Pow*=10;
 					}
-					else sd.Pow += sd.Enc2_Value;/* ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ */
+					else sd.Pow += sd.Enc2_Value;/* ¹¦ÂÊµ÷½Ú */
 					if(vfo[VFO_A].Mode == DEMOD_LSB_DIG || vfo[VFO_A].Mode >= DEMOD_USB_DIG)
 					{
 						if(sd.Pow >100)sd.Pow =100;
 					}
-					else if(sd.Pow >200)sd.Pow =200;
-					if(vfo[VFO_A].Band_id == COUPLING_6M)
+					else //if(sd.Pow >200)sd.Pow =200;
 					{
-						if(sd.Pow >50)sd.Pow =50;
+						if(vfo[VFO_A].Band_id == COUPLING_6M)
+						{
+							if(sd.Pow >50)sd.Pow =50;
+						}
+						else if(sd.Pow >200)sd.Pow =200;
 					}
-					else if(sd.Pow >200)sd.Pow =200;
 					if(sd.Pow < 1)sd.Pow =1;
 					
-					//Menu_Values[9] = sd.Pow ;		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Þ¶ï¿½ */
+					//Menu_Values[9] = sd.Pow ;		/* ×î´ó¹¦ÂÊÏÞ¶¨ */
 					//if(sd.menu_page<1)
 					AT24CXX_WriteOneByte(ADDRPOW_MM+vfo[VFO_A].Band_id, sd.Pow);
+					//AT24CXX_WriteOneByte(MENU_POW, sd.Pow );
 				}
 				else sd.Pow =50;
 				pow_gain_set();
@@ -3875,7 +4025,7 @@ void Enc2_UseManagement(void)
 			//else
 			if(ks.Enc2_Use ==3 && (ks.menu_key  ==1||sd.amp_phase ==1))
 			{
-				sd.menu += sd.Enc2_Value ;/* ï¿½Ëµï¿½Ñ¡È¡ */
+				sd.menu += sd.Enc2_Value ;/* ²Ëµ¥Ñ¡È¡ */
 				if(sd.amp_phase==1)
 				{
 					//sd.menu += 1;
@@ -3909,19 +4059,20 @@ void Enc2_UseManagement(void)
 			if(ks.Enc2_Use ==4&& TR_READ ==CONTROL_TX)
 			{
 				//ads.pow_gain[vfo[VFO_A].Band_id ] = AT24CXX_ReadLenByte( Power_max[vfo[VFO_A].Band_id].addr,1 );
-				ads.pow_gain[vfo[VFO_A].Band_id ] += sd.Enc2_Value*5;
-				if(ads.pow_gain[vfo[VFO_A].Band_id ]<1 )	
-					ads.pow_gain[vfo[VFO_A].Band_id ] = 5;
-				if(ads.pow_gain[vfo[VFO_A].Band_id ]>300)
-					ads.pow_gain[vfo[VFO_A].Band_id ] = 5;
+				if(ads.pow <= sd.Pow )ads.pow_gain[vfo[VFO_A].Band_id ] += sd.Enc2_Value*10;
+				if(ads.pow > sd.Pow )ads.pow_gain[vfo[VFO_A].Band_id ] -=1;
+				if(ads.pow_gain[vfo[VFO_A].Band_id ]<2 )	
+					ads.pow_gain[vfo[VFO_A].Band_id ] = 2;
+				if(ads.pow_gain[vfo[VFO_A].Band_id ]>POW_GAIN_MAX)
+					ads.pow_gain[vfo[VFO_A].Band_id ] = 2;
 				
 				AT24CXX_WriteLenByte(vfo[VFO_A].Band_id*2 + ADDRPOWER_GAIN , ads.pow_gain[vfo[VFO_A].Band_id],2);
 			}
-			pow_gain_set();//ï¿½è¶¨ï¿½ï¿½ï¿½ï¿½ï¿½Â¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½
+			//pow_gain_set();//Éè¶¨¹¦ÂÊÏÂ¸÷¸ö²¨¶ÎµÄÔöÒæÏµÊý
 			//else
 			if(ks.Enc2_Use ==1)
 			{
-				sd.Sql += sd.Enc2_Value;/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+				sd.Sql += sd.Enc2_Value;/* ¾²Ôëµ÷Õû */
 				if(sd.Sql > 99)sd.Sql =99;
 				if(sd.Sql < 1)sd.Sql =0;
 				AT24CXX_WriteOneByte(MENU_SQL, sd.Sql);
@@ -3929,11 +4080,11 @@ void Enc2_UseManagement(void)
 			//else
 			if(ks.Enc2_Use ==5)
 			{
-				ads.IF_gain += sd.Enc2_Value;/* ï¿½Ö¶ï¿½AGCï¿½ï¿½ï¿½ï¿½ */
+				ads.IF_gain += sd.Enc2_Value;/* ÊÖ¶¯AGCµ÷Õû */
 				if(ads.IF_gain >63)ads.IF_gain =32;
 				if(ads.IF_gain < 1)ads.IF_gain =32;
 				sd.Riss = ads.IF_gain;
-				WM8978_MIC_Gain(ads.IF_gain&0x3f);//MICï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				WM8978_MIC_Gain(ads.IF_gain&0x3f);//MICÔöÒæÉèÖÃ
 				//if(ks.rt_rx )AT24CXX_WriteOneByte(ADDR_IF_RXGAIN+sd.band, ads.IF_gain );
 				AT24CXX_WriteOneByte(ADDR_IF_GAIN+ads.rx_amp_band, ads.IF_gain);
 			}
@@ -3946,14 +4097,14 @@ void Enc2_UseManagement(void)
 //				if(Filte_Center[vfo[VFO_A].FilterSelected_id] > filte_center[vfo[VFO_A].FilterSelected_id].max )
 //					Filte_Center[vfo[VFO_A].FilterSelected_id] = filte_center[vfo[VFO_A].FilterSelected_id].Default ;
 				//sd.Dsp_Bfo = Filte_Center[vfo[VFO_A].FilterSelected_id];
-				Rx_amp_user[ads.rx_amp_band] +=sd.Enc2_Value ;/* ï¿½Ëµï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+				Rx_amp_user[ads.rx_amp_band] +=sd.Enc2_Value ;/* ²Ëµ¥Ñ¡Ïî²ÎÊýµ÷Õû */
 				if(Rx_amp_user[ads.rx_amp_band]<200)Rx_amp_user[ads.rx_amp_band]=1000;
 				if(Rx_amp_user[ads.rx_amp_band]>2000)Rx_amp_user[ads.rx_amp_band]=1000;
 				
 				//ads.amp_adjust[ads.amp_adjust_num] = Rx_amp_adjust[ads.amp_adjust_num]*0.001f;
 				ads.rx_amp[ads.rx_amp_band] = Rx_amp_user[ads.rx_amp_band]*0.001f;
 				//ads.rx_phase[ads.rx_amp_band] = (Rx_phase_user[ads.rx_amp_band]-100)*0.001f;
-				/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ý´æ´¢ */
+				/* ²Ëµ¥Êý¾Ý´æ´¢ */
 				AT24CXX_WriteLenByte( ads.rx_amp_band*3+ADDR_RX_BAND_PHASE_M  , Rx_amp_user[ads.rx_amp_band],2);
 			}
 //			if(ks.Enc2_Use ==7)
@@ -3968,7 +4119,7 @@ void Enc2_UseManagement(void)
 			if(ks.Enc2_Use ==10)
 			{
 				//ks.Enc2_Use =10;
-				sd.mic_gain += sd.Enc2_Value;/* ï¿½ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+				sd.mic_gain += sd.Enc2_Value;/* Âó¿Ë·çÔöÒæµ÷½Ú */
 				if(sd.mic_gain >99)sd.mic_gain =99;
 				if(sd.mic_gain < 1)sd.mic_gain =0;
 				//sd.mic_gain = Menu_Values[13];
@@ -3978,7 +4129,7 @@ void Enc2_UseManagement(void)
 			if(ks.Enc2_Use ==11&& ks.NR_key)
 			{
 				//ks.Enc2_Use =11;
-				nr.dsp_nr_strength += sd.Enc2_Value;/* NRÇ¿ï¿½Èµï¿½ï¿½ï¿½ */
+				nr.dsp_nr_strength += sd.Enc2_Value;/* NRÇ¿¶Èµ÷½Ú */
 				if(nr.dsp_nr_strength >55)nr.dsp_nr_strength =55;
 				if(nr.dsp_nr_strength < 1)nr.dsp_nr_strength =1;
 				 //nr.dsp_nr_strength = Menu_Values[14];
@@ -3988,7 +4139,7 @@ void Enc2_UseManagement(void)
 			if(ks.Enc2_Use ==12&& ks.NR_key)
 			{
 				//ks.Enc2_Use =12;
-				nr.dsp_nr_delaybuf_len += sd.Enc2_Value;/* NRï¿½Ó³ï¿½ï¿½ï¿½ï¿½é³¤ï¿½Èµï¿½ï¿½ï¿½ */
+				nr.dsp_nr_delaybuf_len += sd.Enc2_Value;/* NRÑÓ³ÙÊý×é³¤¶Èµ÷½Ú */
 				if(nr.dsp_nr_delaybuf_len >512)nr.dsp_nr_delaybuf_len =512;
 				if(nr.dsp_nr_delaybuf_len < 32)nr.dsp_nr_delaybuf_len =32;
 				//nr.dsp_nr_delaybuf_len = Menu_Values[15];
@@ -3999,7 +4150,7 @@ void Enc2_UseManagement(void)
 			if(ks.Enc2_Use ==13)
 			{
 				//ks.Enc2_Use =13;
-				sd.CW_vol += sd.Enc2_Value;/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+				sd.CW_vol += sd.Enc2_Value;/* ²àÒôÒôÁ¿µ÷½Ú */
 				if(sd.CW_vol >32)sd.CW_vol =32;
 				if(sd.CW_vol < 1)sd.CW_vol =0;
 				//sd.CW_vol = Menu_Values[5];
@@ -4012,19 +4163,19 @@ void Enc2_UseManagement(void)
 			if(ks.Enc2_Use ==14)
 			{
 				//ks.Enc2_Use =14;
-				sd.CW_Sidetone += sd.Enc2_Value*10;/* CWï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+				sd.CW_Sidetone += sd.Enc2_Value*10;/* CW²àÒôÒôµ÷ */
 				if(sd.CW_Sidetone >990)sd.CW_Sidetone =990;
 				if(sd.CW_Sidetone < 500)sd.CW_Sidetone =500;
 				//sd.CW_Sidetone = Menu_Values[6];
 				//TIM1->ARR = 1000000/sd.CW_Sidetone-1;
-				sd.Dsp_Bfo = sd.CW_Sidetone;/* ï¿½ï¿½ï¿½ï¿½BFOï¿½ï¿½ÆµÆµï¿½ï¿½ */
+				sd.Dsp_Bfo = sd.CW_Sidetone;/* ÉèÖÃBFOÅÄÆµÆµÂÊ */
 				AT24CXX_WriteLenByte(MENU_CW_SI , sd.CW_Sidetone,2);
 			}
 			//else 
 			if(ks.Enc2_Use ==15)
 			{
 				//ks.Enc2_Use =15;
-				sd.CW_Speed += sd.Enc2_Value;/* CWï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Ù¶Èµï¿½ï¿½ï¿½ */
+				sd.CW_Speed += sd.Enc2_Value;/* CW×Ô¶¯¼üËÙ¶Èµ÷½Ú */
 				if(sd.CW_Speed >50)sd.CW_Speed =50;
 				if(sd.CW_Speed < 5)sd.CW_Speed =5;
 				//sd.CW_Speed = Menu_Values[7];
@@ -4039,7 +4190,7 @@ void Enc2_UseManagement(void)
 	//else
 //	if(sd.Enc2_delay >0)
 //	{
-//		sd.Enc2_delay -=1;/* ï¿½Ô¶ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ê¼ */
+//		sd.Enc2_delay -=1;/* ×Ô¶¯ÍË³öµ¹¼ÆÊ±¿ªÊ¼ */
 //		if(sd.Enc2_delay <2)
 //		{
 //			ks.Enc2_Use =0;
@@ -4053,7 +4204,7 @@ void Enc2_UseManagement(void)
 
 /*
 *************************************************************************************
-*	NR DSPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+*	NR DSP½µÔë¹ÜÀí
 *************************************************************************************
 */
  DSP_NR_parameter Dsp_nr[3]=
@@ -4063,7 +4214,7 @@ void Enc2_UseManagement(void)
 	{"NTS",		32,		96,		128},
 };
 /*
-*	NR DSPï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+*	NR DSP½µÔë¹ÜÀíº¯Êý
 */
 void key_DSP_NoiseProcessing()
 {
@@ -4075,7 +4226,7 @@ void key_DSP_NoiseProcessing()
 	static uint16_t nr_delaybuf0;
 	//static uint16_t nr_numtaps0;
 	//
-	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if(ks.key_lock== KEYLOCK_ON && ucKeyCode != KEY_NONE && ks.F_11 ==0)//ÓÐ°´¼ü²Ù×÷Óë¼üÅÌËø¿ª
 	{
 		if( ucKeyCode==KEY_1_LONG && vfo[VFO_A].Mode >= DEMOD_LSB )
 		{

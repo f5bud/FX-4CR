@@ -20,20 +20,20 @@
 #include "exti.h"
 #include "usart.h"
 #include "wm8978.h"
-//ALIENTEK ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½STM32H7ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Êµï¿½ï¿½52_2
-// DSP FFTï¿½ï¿½ï¿½ï¿½ Êµï¿½ï¿½  
-//ï¿½ï¿½ï¿½ï¿½Ö§ï¿½Ö£ï¿½www.openedv.com
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿Æ¼ï¿½ï¿½ï¿½ï¿½Þ¹ï¿½Ë¾ 
+//ALIENTEK °¢²¨ÂÞSTM32H7¿ª·¢°å ÊµÑé52_2
+// DSP FFT²âÊÔ ÊµÑé  
+//¼¼ÊõÖ§³Ö£ºwww.openedv.com
+//¹ãÖÝÊÐÐÇÒíµç×Ó¿Æ¼¼ÓÐÏÞ¹«Ë¾ 
 
 
 #define FX_4CR  			"FX-4CR"
-#define EXAMPLE_DATE	"2023/03/08"
-#define DEMO_VER 		"V_1.1"
+#define EXAMPLE_DATE	"2023/04/15"
+#define DEMO_VER 		"V_1.2"
 extern u32 m;
 extern u32 n;
-u8 Uart_tx[]={"FX_4C DMA ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½"};
+u8 Uart_tx[]={"FX_4C DMA ´®¿ÚÊµÑé"};
 extern u16  Rx_amp_user[10];
-void tx_band_no()//ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½
+void tx_band_no()//ÉèÖÃ·¢Éä½ûÖ¹²¨¶Î
 {
 	sd.txband_no = AT24CXX_ReadLenByte( ADDR_TX_BAND_NO,1 )&0x0F;
 	if(sd.txband_no >10)sd.txband_no =0;
@@ -55,15 +55,15 @@ int main(void)
 	static u8 dir;
 	static u8 menu_key;
 	//u16 i;
-	//Stm32_Clock_Init(200,2,2,4);	//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½,400Mhz
-	Stm32_Clock_Init(192,5,2,4);	//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½,480Mhz;25M
-    bsp_InitDWT();					//ï¿½ï¿½Ê±ï¿½ï¿½Ê¼ï¿½ï¿½  
-	MPU_Memory_Protection();		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´æ´¢ï¿½ï¿½ï¿½ï¿½ 
+	//Stm32_Clock_Init(200,2,2,4);	//ÉèÖÃÊ±ÖÓ,400Mhz
+	Stm32_Clock_Init(192,5,2,4);	//ÉèÖÃÊ±ÖÓ,480Mhz;25M
+    bsp_InitDWT();					//ÑÓÊ±³õÊ¼»¯  
+	MPU_Memory_Protection();		//±£»¤Ïà¹Ø´æ´¢ÇøÓò 
 	GPIO_Init();
-	TR_CONTROL(CONTROL_RX);/* ï¿½ï¿½ï¿½ä¿ªï¿½ï¿½ */
+	TR_CONTROL(CONTROL_RX);/* ·¢Éä¿ªÆô */
 	//AF_SQL(1);
-	bsp_InitKey();					//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
-	Lcd_Init();		//ï¿½ï¿½Ê¼ï¿½ï¿½LCD
+	bsp_InitKey();					//³õÊ¼»¯°´¼ü 
+	Lcd_Init();		//³õÊ¼»¯LCD
 	//KEY_BL1(1);
 	Lcd_Color(0,0,319,239,BLACK);
 	/******************************************************************************************/
@@ -75,7 +75,7 @@ int main(void)
 	//Data_init();
 	Lcd_Color(0,0,319,239,BLACK);
 	ui_TopBackground(0,0,320,24);
-	//RTC_Init();	//ï¿½ï¿½Ê¼ï¿½ï¿½RTC
+	//RTC_Init();	//³õÊ¼»¯RTC
 	AT24CXX_Init();
 	dir = AT24CXX_ReadLenByte( ADDR_ENC_DIR,1 );
 	if(dir>1)dir=0;
@@ -88,7 +88,7 @@ int main(void)
 		while(PIN_K13==0);
 	}
 	tx_band_no();
-	if( PIN_K9==0)//ï¿½ï¿½ï¿½ï¿½ï¿½ß²Ëµï¿½ï¿½ï¿½Ê¾
+	if( PIN_K9==0)//¿ª·¢Õß²Ëµ¥ÏÔÊ¾
 	{
 		sd.menu_end = MENU_HIDD_END;
 		sd.menu_page =1;
@@ -105,7 +105,7 @@ int main(void)
 		sd.menu_page =0;
 		menu_key =0;
 	}
-	if( PIN_K7==0)//ï¿½ï¿½ï¿½ï¿½ï¿½ß²Ëµï¿½ï¿½ï¿½Ê¾
+	if( PIN_K7==0)//¿ª·¢Õß²Ëµ¥ÏÔÊ¾
 	{
 		//sd.menu_end = 20;
 		ks.rx_adjuset_key =1;
@@ -121,22 +121,23 @@ int main(void)
 	
 	Audio_hardware_init();
 	Data_init();
-	uart1_init(120,115200);		//ï¿½ï¿½ï¿½Ú³ï¿½Ê¼ï¿½ï¿½Îª115200
-	uart3_init(120,115200);		//ï¿½ï¿½ï¿½Ú³ï¿½Ê¼ï¿½ï¿½Îª115200
+	uart1_init(120,115200);		//´®¿Ú³õÊ¼»¯Îª115200
+	uart3_init(120,115200);		//´®¿Ú³õÊ¼»¯Îª115200
 	SysTick_init(SYSTEM_CLK,1);
-	bsp_StartAutoTimer(0, 25); /* ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½100msï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½×°ï¿½Ä¶ï¿½Ê±ï¿½ï¿½ */
-	sd.key_BL_delay = 200;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½10ï¿½ï¿½Ø±Õ£ï¿½
+	bsp_StartAutoTimer(0, 25); /* Æô¶¯1¸ö100msµÄ×Ô¶¯ÖØ×°µÄ¶¨Ê±Æ÷ */
+	sd.key_BL_delay = 200;//°´¼ü±³¹âÑÓ³Ù10Ãë¹Ø±Õ£»
 	delay_ms(1000);
-	POWER_SET_ON;//ï¿½ï¿½Í¨ï¿½ï¿½Ô´
-	EXTIX_Init();
+	POWER_SET_ON;//½ÓÍ¨µçÔ´
+	//EXTIX_Init();//PTTÖÐ¶Ï¿ªÆôºó¡£·¢ÉäÊ±»áÓÐ¸ÉÈÅ£¬ËùÒÔ½ûÓÃ
+	//VOX_OUT(0);
 	//
     while(1)
 	{
-		PowerControl_off();		//POWER_OFFï¿½ï¿½Ô´ï¿½Ø»ï¿½
+		PowerControl_off();		//POWER_OFFµçÔ´¹Ø»ú
 		//ui_SideFunction_R_Display(TR_READ);
-		//bsp_KeyScan();	/* Ã¿ï¿½ï¿½10msï¿½ï¿½ï¿½ï¿½Ò»ï¿½Î´Ëºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½ key.c */
+		//bsp_KeyScan();	/* Ã¿¸ô10msµ÷ÓÃÒ»´Î´Ëº¯Êý£¬´Ëº¯ÊýÔÚ key.c */
 		//audio_DAC_wirte();
-		/* ï¿½Ð¶Ï¶ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ê±Ê±ï¿½ï¿½ */
+		/* ÅÐ¶Ï¶¨Ê±Æ÷³¬Ê±Ê±¼ä */
 		if (bsp_CheckTimer(0))	
 		{
 			if(sd.key_BL_delay >0)
@@ -153,7 +154,7 @@ int main(void)
 			}
 			if( Dormant ==0)
 			{
-				/* Ã¿ï¿½ï¿½100ms ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ */ 
+				/* Ã¿¸ô100ms ½øÀ´Ò»´Î */ 
 				key_voltage_Display();
 				//ui_Tim_Dispaly(260,12,GRAY1,BLACK,12,1);			
 				if(TR_READ ==CONTROL_RX || (TR_READ ==CONTROL_TX && sd.TX_spe==1 ))
@@ -167,7 +168,7 @@ int main(void)
 						lock = ~lock;
 						time =0;
 					}
-					/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½LOCKï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½Ä»LCDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+					/* °´¼üËø¶¨×´Ì¬£¬LOCK×Ö·ûÔÚÆÁÄ»LCD¶¥²¿ÉÁ¶¯ */
 					if(lock ==0 )
 					{
 						ui_TopBackground(250,4,12,16);
@@ -243,11 +244,11 @@ int main(void)
 		if(menu_key>0)
 		{
 			ks.menu_key= 1;
-			if(ks.rx_adjuset_key ==1)Lcd_Color(0, 182,319,239,BLACK);// Ë¢ï¿½ï¿½Ò³ï¿½ï¿½
-			Lcd_Color(0, 130,319,239,BLACK);// Ë¢ï¿½ï¿½Ò³ï¿½ï¿½
-			ks.StepSelected_idx = T_STEP_1HZ_IDX;//ï¿½ï¿½ï¿½Î²ï¿½ï¿½ï¿½Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª1kHz;
+			if(ks.rx_adjuset_key ==1)Lcd_Color(0, 182,319,239,BLACK);// Ë¢ÐÂÒ³Ãæ
+			Lcd_Color(0, 130,319,239,BLACK);// Ë¢ÐÂÒ³Ãæ
+			ks.StepSelected_idx = T_STEP_1HZ_IDX;//²¨¶Î²½½øÄ¬ÈÏÉèÖÃÎª1kHz;
 			ads.tx_delay =0;
-			sd.spe_fil_time=SPE_FIL_TIME;//Æµï¿½×´ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ø¸ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ö¾BAL
+			sd.spe_fil_time=SPE_FIL_TIME;//ÆµÆ×´ø¿íÏÔÊ¾»Ø¸´¼ÆÊ±±êÖ¾BAL
 			if( ks.CW_keySW<1)
 			{
 				ks.CW_keySW = 1;
@@ -259,33 +260,33 @@ int main(void)
 		//UART3_Task();
 		//UART_Task();
 		//UART_DMAEnd();
-		//LCD_ShowNum(150,150,GRAY1,BLACK, 4,16,ads.rx_amp[ads.rx_amp_band]*1000);
-		//LCD_ShowNum(100,150,GRAY1,BLACK, 7,24,sd.IF_1);
+		//LCD_ShowNum(150,150,GRAY1,BLACK, 10,16,PTT_RT);
+		//LCD_ShowNum(100,150,GRAY1,BLACK, 4,24,spk_vol);
 //		if(USART_RX_STA&0x8000)
 //		{					   
-//			len=USART_RX_STA&0x3fff;//ï¿½Ãµï¿½ï¿½Ë´Î½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½
-//			printf("\r\nï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½Ï¢Îª:\r\n");
+//			len=USART_RX_STA&0x3fff;//µÃµ½´Ë´Î½ÓÊÕµ½µÄÊý¾Ý³¤¶È
+//			printf("\r\nÄú·¢ËÍµÄÏûÏ¢Îª:\r\n");
 //			for(t=0;t<len;t++)
 //			{
 //				USART2->TDR=USART_RX_BUF[t];
-//				while((USART2->ISR&0X40)==0);//ï¿½È´ï¿½ï¿½ï¿½ï¿½Í½ï¿½ï¿½ï¿½
+//				while((USART2->ISR&0X40)==0);//µÈ´ý·¢ËÍ½áÊø
 //			}
-//			printf("\r\n\r\n");//ï¿½ï¿½ï¿½ë»»ï¿½ï¿½
+//			printf("\r\n\r\n");//²åÈë»»ÐÐ
 //			USART_RX_STA=0; 
 //		}else
 //		{
 //			times++;
 //			if(times%200==0)
 //			{
-//				printf("\r\nFX_4C ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½\r\n");
+//				printf("\r\nFX_4C ´®¿ÚÊµÑé\r\n");
 //				printf("BG2IXD\r\n\r\n\r\n");
 //			}
-//			if(times%100==0)printf("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½Ô»Ø³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\r\n");  
+//			if(times%100==0)printf("ÊäÈëÊý¾Ý,ÒÔ»Ø³µ¼ü½áÊø\r\n");  
 //		}
 //		times++;
 //		if(times%100==0)
 //		{
-//			//printf("\r\nFX_4C ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½\r\n");
+//			//printf("\r\nFX_4C ´®¿ÚÊµÑé\r\n");
 //			UartTx(Uart_tx, 64);
 //		}
 	}

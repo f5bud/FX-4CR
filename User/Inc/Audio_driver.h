@@ -7,19 +7,19 @@
 *
 ******************************************************************************
 */
-#define SAMPLE_SIZE			192	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-#define SAMPLING_RETE		96000	/* ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½ 192kHz*/
-//#define DSP_RETE			SAMPLING_RETE/Sample_size /* DSPï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½ */
+#define SAMPLE_SIZE			192	/* Ñù±¾ÊýÁ¿ */
+#define SAMPLING_RETE		96000	/* ²ÉÑùËÙ¶È 192kHz*/
+//#define DSP_RETE			SAMPLING_RETE/Sample_size /* DSPÒôÆµ´¦ÀíËÙ¶È */
 
-#define DSP_IF 				(SAMPLING_RETE/4) /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµ */
+#define DSP_IF 				(SAMPLING_RETE/4) /* Êý×ÖÖÐÆµ */
 
-#define PI_CALC				(2*PI/SAMPLING_RETE)	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½Äºï¿½ */
+#define PI_CALC				(2*PI/SAMPLING_RETE)	/* ¼ÆËãÊý×Ö±¾ÕñÓÃµ½µÄºê */
 
-#define TIM_ARR			((SYSTEM_CLK/2)/SAMPLING_RETE-1)	/* ï¿½ï¿½Ê±ï¿½ï¿½6ï¿½Ä³ï¿½×°Öµ */
+#define TIM_ARR			((SYSTEM_CLK/2)/SAMPLING_RETE-1)	/* ¶¨Ê±Æ÷6µÄ³õ×°Öµ */
 
-#define BUFF_LEN 			512		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+#define BUFF_LEN 			512		/* »º´æÊý×éÊýÁ¿ */
 
-#define DECIMATION_RATE 	8		/* ï¿½ï¿½È¡Ïµï¿½ï¿½ */
+#define DECIMATION_RATE 	8		/* ³éÈ¡ÏµÊý */
 //
 // -----------------------------
 // Half of total buffer
@@ -27,17 +27,18 @@
 
 // Audio filter
 
-#define IIR_NUM 			6 			/* IIRï¿½Ë²ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-#define IIR_NUM_TAPS		IIR_NUM*4	/* IIRï¿½Ë²ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
-#define IIR_BLOCK_SIZE		SAMPLE_SIZE/2	/* IIRï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+#define IIR_NUM 			6 			/* IIRÂË²¨µÄÏµÊý¸öÊý */
+#define IIR_NUM_TAPS		IIR_NUM*4	/* IIRÂË²¨Æ÷×´Ì¬»º´æÊýÁ¿ */
+#define IIR_BLOCK_SIZE		SAMPLE_SIZE/2	/* IIRÂË²¨Æ÷Ñù±¾ÊýÁ¿ */
 
-#define FIR_BLOCK_SIZE		SAMPLE_SIZE/2	/* FIRï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */	
-#define FIR_NUM_TAPS		96			/* FIRï¿½Ë²ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+#define FIR_BLOCK_SIZE		SAMPLE_SIZE/2	/* FIRÂË²¨Æ÷Ñù±¾ÊýÁ¿ */	
+#define FIR_NUM_TAPS		96			/* FIRÂË²¨Æ÷ÏµÊý¸öÊý */
 /*******************************************************************************/
 //
+#define POW_GAIN_MAX				2000
 #define ADC_SIZE					 SAMPLE_SIZE/4
 #define ADC_16LEN					16
-#define DAC_OFFSET_LEVEL			2048	// DACï¿½ï¿½ï¿½Æ«ï¿½ï¿½ 
+#define DAC_OFFSET_LEVEL			2048	// DACÊä³öÆ«ÖÃ 
 //
 #define AGC_GAIN_MAX_AM				1.0f
 #define AGC_GAIN_MAX_FM				10000.0f
@@ -53,23 +54,23 @@
 #define RISS_AMFM_THRESHOLD			65536*2
 #define RISS_AMFM_SCALE				1.0f/(float32_t)RISS_AMFM_THRESHOLD
 
-#define	AGC_SLOW					0.01f  // Mode setting for slow AGC 	AGCï¿½Ö¸ï¿½Ê±ï¿½ï¿½3ï¿½ï¿½
-#define	AGC_MED				        0.033f	// Mode setting for medium AGC  AGCï¿½Ö¸ï¿½Ê±ï¿½ï¿½1ï¿½ï¿½
-#define	AGC_FAST					0.1f	// Mode setting for fast AGC	 AGCï¿½Ö¸ï¿½Ê±ï¿½ï¿½0.1ï¿½ï¿½
+#define	AGC_SLOW					0.01f  // Mode setting for slow AGC 	AGC»Ö¸´Ê±¼ä3Ãë
+#define	AGC_MED				        0.033f	// Mode setting for medium AGC  AGC»Ö¸´Ê±¼ä1Ãë
+#define	AGC_FAST					0.1f	// Mode setting for fast AGC	 AGC»Ö¸´Ê±¼ä0.1Ãë
 #define	AGC_CUSTOM					0.25f	// Mode setting for custom AGC
 
-#define	RISS_SLOW					0.1f  // Mode setting for slow AGC 	AGCï¿½Ö¸ï¿½Ê±ï¿½ï¿½3ï¿½ï¿½
-#define	RISS_MED					0.01f	// Mode setting for medium AGC  AGCï¿½Ö¸ï¿½Ê±ï¿½ï¿½1ï¿½ï¿½
-#define	RISS_FAST					0.001f	// Mode setting for fast AGC	 AGCï¿½Ö¸ï¿½Ê±ï¿½ï¿½0.1ï¿½ï¿½
+#define	RISS_SLOW					0.1f  // Mode setting for slow AGC 	AGC»Ö¸´Ê±¼ä3Ãë
+#define	RISS_MED					0.01f	// Mode setting for medium AGC  AGC»Ö¸´Ê±¼ä1Ãë
+#define	RISS_FAST					0.001f	// Mode setting for fast AGC	 AGC»Ö¸´Ê±¼ä0.1Ãë
 //#define	AGC_CUSTOM					0.25f	// Mode setting for custom AGC
 
 #define CW_POW_GAIN_MAX				1500
 //
 // FM Demodulator parameters
 //
-#define	FM_OFFSET_2K5			4000			// Amplitude scaling factor of demodulated FM audio (normalized for +/- 2.5 kHz deviation at 1 kHZ)
-#define FM_OFFSET_5K			7000
-#define	FM_RX_SCALING_2K5		65536*8			// Amplitude scaling factor of demodulated FM audio (normalized for +/- 2.5 kHz deviation at 1 kHZ)
+#define	FM_OFFSET_2K5			2500			// Amplitude scaling factor of demodulated FM audio (normalized for +/- 2.5 kHz deviation at 1 kHZ)
+#define FM_OFFSET_5K			5000			// Amplitude scaling factor of demodulated FM audio (normalized for +/- 2.5 kHz deviation at 1 kHZ)
+#define	FM_RX_SCALING_2K5		65536*8
 #define FM_RX_SCALING_5K		(FM_RX_SCALING_2K5/2)	// 
 #define	FM_DEMOD_COEFF1			PI/4			// Factors used in arctan approximation used in FM demodulator
 #define	FM_DEMOD_COEFF2			PI*0.75
@@ -119,48 +120,46 @@
 #define	DSP_HIGH_LEVEL			10000	// output level from DSP LMS NR, indicating "noisy" crash
 #define	DSP_CRASH_COUNT_THRESHOLD	35	// "hit" detector/counter for determining if the DSP has crashed
 
-#define SPE_FIL_TIME			1//Æµï¿½×´ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ö¸ï¿½ï¿½ï¿½Ê±
-#define SPE_CENTER			159//Æµï¿½×´ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ö¸ï¿½ï¿½ï¿½Ê±
+#define SPE_FIL_TIME			1//ÆµÆ×´ø¿íÏÔÊ¾»Ö¸´¼ÆÊ±
+#define SPE_CENTER			159//ÆµÆ×´ø¿íÏÔÊ¾»Ö¸´¼ÆÊ±
 
-#define SIGNAl_SET			127//ï¿½ÅºÅ±ï¿½Ð£×¼
+#define SIGNAl_SET			127//ÐÅºÅ±íÐ£×¼
 //
-/* ï¿½ï¿½Æµï¿½á¹¹ï¿½ï¿½ */
+/* ÒôÆµ½á¹¹Ìå */
 typedef struct
 {
 	u16 tx_delay:16;
 	u16 cw_spe:16;
-	u8  Rate:8;			//ï¿½Ú²ï¿½Í³ï¿½È¡ï¿½ï¿½ï¿½ï¿½	
+	u8  Rate:8;			//ÄÚ²åºÍ³éÈ¡Òò×Ó	
 	u16 cw_time:16;
 	u8  cw_time_start:8;
 	float32_t dsp_IF;
-
-	float32_t si_i[SAMPLE_SIZE/2];/* DSP_LOï¿½ï¿½ï¿½ï¿½I */
-	float32_t si_q[SAMPLE_SIZE/2];/* DSP_LOï¿½ï¿½ï¿½ï¿½Q */
-
-	float32_t ddslo_i_tx[SAMPLE_SIZE/2];/* DSP_LOï¿½ï¿½ï¿½ï¿½I */
-	float32_t ddslo_q_tx[SAMPLE_SIZE/2];/* DSP_LOï¿½ï¿½ï¿½ï¿½Q */
-
-	float32_t ddslo_i[SAMPLE_SIZE/2];/* DSP_LOï¿½ï¿½ï¿½ï¿½I */
-	float32_t ddslo_q[SAMPLE_SIZE/2];/* DSP_LOï¿½ï¿½ï¿½ï¿½Q */
-
-	float32_t ddsbfo_i[SAMPLE_SIZE/8];/* DSP_BFOï¿½ï¿½ï¿½ï¿½I */
-	float32_t ddsbfo_q[SAMPLE_SIZE/8];/* DSP_BFOï¿½ï¿½ï¿½ï¿½Q */
-
-	float32_t ddssi_i[SAMPLE_SIZE/2];/* CWï¿½ï¿½ï¿½ï¿½I */
-	float32_t ddssi_q[SAMPLE_SIZE/2];/* CWï¿½ï¿½ï¿½ï¿½Q */
-
-	float32_t cw_gain[3];
-
+	/* ADC->DMAË«»º´æ */
+	float32_t si_i[SAMPLE_SIZE/2];/* DSP_LO»º´æI */
+	float32_t si_q[SAMPLE_SIZE/2];/* DSP_LO»º´æQ */
+	float32_t ddslo_i_tx[SAMPLE_SIZE/2];/* DSP_LO»º´æI */
+	float32_t ddslo_q_tx[SAMPLE_SIZE/2];/* DSP_LO»º´æQ */
+	float32_t ddslo_i[SAMPLE_SIZE/2];/* DSP_LO»º´æI */
+	float32_t ddslo_q[SAMPLE_SIZE/2];/* DSP_LO»º´æQ */
+	float32_t ddsbfo_i[SAMPLE_SIZE/8];/* DSP_BFO»º´æI */
+	float32_t ddsbfo_q[SAMPLE_SIZE/8];/* DSP_BFO»º´æQ */
+	float32_t ddssi_i[SAMPLE_SIZE/2];/* CW²àÒôI */
+	float32_t ddssi_q[SAMPLE_SIZE/2];/* CW²àÒôQ */
+	float32_t cw_gain[4];
+	//float32_t	dac_out[Sample_size];/* DAC1 DMA»º´æ1 */
+	/* SPE */
+	//float32_t	FFT_in[512];
+	//float32_t	SPE_in[512];
 	/* AUdio */
 	float32_t	a_buffer[BUFF_LEN/2];
 	float32_t	b_buffer[BUFF_LEN/2];
 	int32_t	out_buff[BUFF_LEN];
-
 	/* AGC */
 	float32_t	agc_constant;
 		u32 	agc_gain;
+	//float32_t	band_gain;
 		u8 IF_gain;
-
+		//u8 IF_rxgain[15];
 	/* TX */
 	u16		rx_delay:16;
 	float32_t 	tx_amp[10];
@@ -178,7 +177,9 @@ typedef struct
 	float32_t	pwr_rev;
 	float32_t	swr;
 	float32_t   power_v;
+		u32 pow_amp[10];
 		u16	pow_gain[10];
+		u16	pow_gain_temp;
 		u16 cw_alc_gain[10];
 		u16 cw_gain_time;
 		u8  vol_timer:8;
@@ -187,25 +188,31 @@ typedef struct
 		u16 Riss:16;
 		u8  spk_vol:8;
 		u8  hp_vol:8;
-
+	//float32_t 	alc_gain;
+	/* ¾²Òô */
 		u8	Af_mute:2;
 		u8  cw_fant:2;
-
+    //
+   // float					nb_agc_filt;			// used for the filtering/determination of the noise blanker AGC level
+   // float					nb_sig_filt;
     uint32_t				dsp_zero_count;			// used for detecting zero output from DSP which can occur if it crashes
     float					dsp_nr_sample;	
-} Audio_Digital_Signal;
-
+}Audio_Digital_Signal; 
 extern  Audio_Digital_Signal	ads;
-
-#define DSP_NR_ENABLE			0x01
-#define DSP_NR_POSTAGC_ENABLE	0x02
-#define DSP_NOTCH_ENABLE		0x04
-#define DSP_NB_ENABLE			0x08
 
 typedef struct 
 {
+#define DSP_NR_ENABLE 	  0x01
+#define DSP_NR_POSTAGC_ENABLE 	  0x02
+#define DSP_NOTCH_ENABLE 0x04
+#define DSP_NB_ENABLE 0x08
+
+	
     u8	dsp_active:8;					// Used to hold various aspects of DSP mode selection
     
+    //u8	dsp_mode;					// holds the mode chosen in the DSP
+    //u8 	digital_mode;				// holds actual digital mode
+    //u8	dsp_active_toggle;			// holder used on the press-hold of button G2 to "remember" the previous setting
     u8	dsp_nr_strength:8;			// "Strength" of DSP Noise reduction - to be converted to "Mu" factor
     u16	dsp_nr_delaybuf_len:16;		// size of DSP noise reduction delay buffer
     u8	dsp_nr_numtaps:8;				// Number of FFT taps on the DSP Noise reduction
@@ -218,20 +225,20 @@ typedef struct
     int32_t	dsp_timed_mute;				// TRUE if DSP is to be muted for a timed amount
     u32	dsp_inhibit_timing;				// used to time inhibiting of DSP when it must be turned off for some reason
     int32_t	reset_dsp_nr;				// TRUE if DSP NR coefficients are to be reset when "audio_driver_set_rx_audio_filter()" is called
-
+    //
 	u16 fm_Scaling:16;
-} Dspnr_typedef;
+}Dspnr_typedef;
 //
 extern 	__IO Dspnr_typedef nr;
 /**/
-#define FFT_LENGTH				1024	/* FFTï¿½ï¿½ï¿½ï¿½ */
+#define FFT_LENGTH				1024	/* FFTµãÊý */
 typedef struct 
 {
-//#define FFT_LENGTH				1024	/* FFTï¿½ï¿½ï¿½ï¿½ */
+//#define FFT_LENGTH				1024	/* FFTµãÊý */
 	u8 fft_flang:8;
 	u8 clk:8;
-	float32_t Phase_i[FFT_LENGTH]; /* Iï¿½ï¿½Î»*/
-	float32_t Phase_q[FFT_LENGTH]; /* Qï¿½ï¿½Î»*/
+	float32_t Phase_i[FFT_LENGTH]; /* IÏàÎ»*/
+	float32_t Phase_q[FFT_LENGTH]; /* QÏàÎ»*/
 	//float32_t fft_buf[FFT_LENGTH];
 	//float32_t spe_buf[FFT_LENGTH*2];
 	uint32_t fft_num;
@@ -241,7 +248,7 @@ typedef struct
 extern SpectrumProcessing_typedef	spe;
 
 /*
-*	ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+*	×Ô¶¯¼ü¹ÜÀí
 */
 typedef struct 
 {
@@ -259,7 +266,7 @@ typedef struct
 }CW_Auto_key_management;
 extern CW_Auto_key_management	cw_Auto_key;
 /*
-*	ï¿½ï¿½ï¿½Î¹ï¿½ï¿½Ê²ï¿½ï¿½ï¿½Ïµï¿½ï¿½
+*	²¨¶Î¹¦ÂÊ²¹³¥ÏµÊý
 */
 typedef struct 
 {
@@ -278,5 +285,15 @@ void Audio_Filter_init(void);
 void audio_DAC_wirte(void);
 void Spectrum_Dispaly(u16 x,u16 y,u16 width,u16 falls_h);
 u16 Get_Adc3(u8 ch);
+
+
+
+
+
+
+
+
+
+
 
 #endif

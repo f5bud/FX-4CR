@@ -124,7 +124,8 @@ void  Adc1_Init(void)
 	RCC->AHB4ENR|=1<<0;    		//使能PORTA时钟
 	RCC->AHB4ENR|=1<<2;    		//使能PORTC时钟
 	GPIO_Set(GPIOA,PIN0|PIN1,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PB2,模拟输入,不带上下拉   
-	GPIO_Set(GPIOC,PIN0|PIN3,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PC0/PC1,模拟输入,不带上下拉 
+	GPIO_Set(GPIOC,PIN3,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PC0/PC1,模拟输入,不带上下拉 
+	GPIO_Set(GPIOC,PIN0,GPIO_MODE_AIN,0,0,GPIO_PUPD_NONE);//PC0/PC1,模拟输入,不带上下拉 
 	//SYSCFG->PMCR =0;
 	//SYSCFG->PMCR |=1<<27;
 	//SYSCFG->PMCR |=1<<26;
@@ -173,16 +174,16 @@ void  Adc1_Init(void)
 	ADC1->CR|=1<<2;       		//启动规则转换通道 
 	//设置通道16的采样时间
 	ADC1->SMPR2&=~(7<<(3*6));	//PA0:通道16采样时间清空	  
- 	ADC1->SMPR2|=3<<(3*6); 		//通道5 16.5个周期,提高采样时间可以提高精确度
+ 	ADC1->SMPR2|=2<<(3*6); 		//通道16 8.5个周期,提高采样时间可以提高精确度
 	//设置通道17的采样时间
 	ADC1->SMPR2&=~(7<<(3*7));	//PA1通道17采样时间清空	  
- 	ADC1->SMPR2|=3<<(3*7); 		//通道5 16.5个周期,提高采样时间可以提高精确度
+ 	ADC1->SMPR2|=2<<(3*7); 		//通道17 8.5个周期,提高采样时间可以提高精确度
 	//设置通道10的采样时间
 	ADC1->SMPR2&=~(7<<(3*0));	//PC0:通道10采样时间清空	  
- 	ADC1->SMPR2|=3<<(3*0); 		//通道10 16.5个周期,提高采样时间可以提高精确度
+ 	ADC1->SMPR2|=2<<(3*0); 		//通道10 8.5个周期,提高采样时间可以提高精确度
 	//设置通道13的采样时间
 	ADC1->SMPR2&=~(7<<(3*3));	//PC3:通道13采样时间清空	  
- 	ADC1->SMPR2|=3<<(3*3); 		//通道13 16.5个周期,提高采样时间可以提高精确度
+ 	ADC1->SMPR2|=2<<(3*3); 		//通道13 8.5个周期,提高采样时间可以提高精确度
  	//ADC2->CR|=1<<0;	   			//开启AD转换器	  
 }
 //ADC通道选择

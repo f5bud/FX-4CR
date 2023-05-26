@@ -59,7 +59,7 @@ void GPIO_Init()
 	//
 	//	蓝牙音频连接指示
 	//
-	GPIO_Set(GPIOC,PIN8,GPIO_MODE_IN,0,0,GPIO_PUPD_PD);
+	//GPIO_Set(GPIOC,PIN8,GPIO_MODE_IN,0,0,GPIO_PUPD_PD);
 	//
 	//	蓝牙连接指示
 	//
@@ -68,6 +68,12 @@ void GPIO_Init()
 	//	MIC供电
 	//
 	GPIO_Set(GPIOA,PIN13,GPIO_MODE_OUT,0,0,GPIO_PUPD_PU);
+	GPIO_Set(GPIOB,PIN4,GPIO_MODE_OUT,0,0,GPIO_PUPD_PU);
+	//
+	// 耳机检测
+	//
+	GPIO_Set(GPIOC,PIN8,GPIO_MODE_IN,0,0,GPIO_PUPD_PU);
+	GPIO_Set(GPIOB,PIN4,GPIO_MODE_IN,0,0,GPIO_PUPD_PU);
 	//
 	// 声卡供电
 	//

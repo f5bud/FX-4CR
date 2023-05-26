@@ -4,59 +4,59 @@
 #include "dwt.h"
 
 //////////////////////////////////////////////////////////////////////////////////	 
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½Ñ§Ï°Ê¹ï¿½Ã£ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½Í¾
+//±¾³ÌÐòÖ»¹©Ñ§Ï°Ê¹ÓÃ£¬Î´¾­×÷ÕßÐí¿É£¬²»µÃÓÃÓÚÆäËüÈÎºÎÓÃÍ¾
 //STM32
-//SI5351A IICï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½	   
-//ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½ï¿½:20117/11/16
-//ï¿½æ±¾ï¿½ï¿½V1.0
-//ï¿½ï¿½È¨ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½
+//SI5351A IICÇý¶¯ ´úÂë	   
+//ÐÞ¸ÄÈÕÆÚ:20117/11/16
+//°æ±¾£ºV1.0
+//°æÈ¨ËùÓÐ£¬µÁ°æ±Ø¾¿¡£
 //BG2IXD
 //All rights reserved									  
 //////////////////////////////////////////////////////////////////////////////////
 //PA12 SCL
 //PA13 SDA
 //extern FREQ f_Data;
-#define I2C_WRITE 0Xc0 //Ð´ï¿½Ä´ï¿½ï¿½ï¿½
-#define I2C_READ  0Xc1 //ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½
-//ï¿½ï¿½Ê¼ï¿½ï¿½IIC
+#define I2C_WRITE 0Xc0 //Ð´¼Ä´æÆ÷
+#define I2C_READ  0Xc1 //¶Á¼Ä´æÆ÷
+//³õÊ¼»¯IIC
 //void SI5351A_IIC_Init(void)
 //{					     
-// 	RCC->AHB1ENR|=1<<1;//ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½IO PORTCÊ±ï¿½ï¿½
-//	RCC->AHB1ENR|=1<<2;//ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½IO PORTCÊ±ï¿½ï¿½	
-//	GPIO_Set(GPIOB,PIN14,GPIO_MODE_OUT,0,0,GPIO_PUPD_PU); //PA0ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-//	GPIO_Set(GPIOC,PIN8,GPIO_MODE_OUT,0,0,GPIO_PUPD_PU); //PA0ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 	
+// 	RCC->AHB1ENR|=1<<1;//ÏÈÊ¹ÄÜÍâÉèIO PORTCÊ±ÖÓ
+//	RCC->AHB1ENR|=1<<2;//ÏÈÊ¹ÄÜÍâÉèIO PORTCÊ±ÖÓ	
+//	GPIO_Set(GPIOB,PIN14,GPIO_MODE_OUT,0,0,GPIO_PUPD_PU); //PA0ÉèÖÃÎªÏÂÀ­ÊäÈë
+//	GPIO_Set(GPIOC,PIN8,GPIO_MODE_OUT,0,0,GPIO_PUPD_PU); //PA0ÉèÖÃÎªÏÂÀ­ÊäÈë 	
 //	SI5351A_IIC_SDA(1);
 //	SI5351A_IIC_SCL(1);
 //}
-////ï¿½ï¿½ï¿½ï¿½IICï¿½ï¿½Ê¼ï¿½Åºï¿½
+////²úÉúIICÆðÊ¼ÐÅºÅ
 //void SI5351A_IIC_Start(void)
 //{
-//	SI5351A_SDA_OUT();     //sdaï¿½ï¿½ï¿½ï¿½ï¿½
+//	SI5351A_SDA_OUT();     //sdaÏßÊä³ö
 //	SI5351A_IIC_SDA(1);	  	  
 //	SI5351A_IIC_SCL(1);
 //	delay_us(2);
 // 	SI5351A_IIC_SDA(0);//START:when CLK is high,DATA change form high to low 
 //	delay_us(2);
-//	SI5351A_IIC_SCL(0);//Ç¯×¡I2Cï¿½ï¿½ï¿½ß£ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+//	SI5351A_IIC_SCL(0);//Ç¯×¡I2C×ÜÏß£¬×¼±¸·¢ËÍ»ò½ÓÊÕÊý¾Ý 
 //}	  
-////ï¿½ï¿½ï¿½ï¿½IICÍ£Ö¹ï¿½Åºï¿½
+////²úÉúIICÍ£Ö¹ÐÅºÅ
 //void SI5351A_IIC_Stop(void)
 //{
-//	SI5351A_SDA_OUT();//sdaï¿½ï¿½ï¿½ï¿½ï¿½
+//	SI5351A_SDA_OUT();//sdaÏßÊä³ö
 //	SI5351A_IIC_SCL(0);
 //	SI5351A_IIC_SDA(0);
 // 	delay_us(2); 
 //	SI5351A_IIC_SCL(1);//STOP:when CLK is high DATA change form low to high
 // 	delay_us(2); 
-//	SI5351A_IIC_SDA(1);//ï¿½ï¿½ï¿½ï¿½I2Cï¿½ï¿½ï¿½ß½ï¿½ï¿½ï¿½ï¿½Åºï¿½ 						   	
+//	SI5351A_IIC_SDA(1);//·¢ËÍI2C×ÜÏß½áÊøÐÅºÅ 						   	
 //}
-////ï¿½È´ï¿½Ó¦ï¿½ï¿½ï¿½ÅºÅµï¿½ï¿½ï¿½
-////ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ê§ï¿½ï¿½
-////        0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½É¹ï¿½
+////µÈ´ýÓ¦´ðÐÅºÅµ½À´
+////·µ»ØÖµ£º1£¬½ÓÊÕÓ¦´ðÊ§°Ü
+////        0£¬½ÓÊÕÓ¦´ð³É¹¦
 //u8 SI5351A_IIC_Wait_Ack(void)
 //{
 //	u8 ucErrTime=0;
-//	SI5351A_SDA_IN();      //SDAï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½  
+//	SI5351A_SDA_IN();      //SDAÉèÖÃÎªÊäÈë  
 //	SI5351A_IIC_SDA(1);
 //	delay_us(2);	   
 //	SI5351A_IIC_SCL(1);
@@ -70,10 +70,10 @@
 //			return 1;
 //		}
 //	}
-//	SI5351A_IIC_SCL(0);//Ê±ï¿½ï¿½ï¿½ï¿½ï¿½0 	   
+//	SI5351A_IIC_SCL(0);//Ê±ÖÓÊä³ö0 	   
 //	return 0;  
 //} 
-////ï¿½ï¿½ï¿½ï¿½ACKÓ¦ï¿½ï¿½
+////²úÉúACKÓ¦´ð
 //void SI5351A_IIC_Ack(void)
 //{
 //	SI5351A_IIC_SCL(0);
@@ -84,7 +84,7 @@
 //	delay_us(2);
 //	SI5351A_IIC_SCL(0);
 //}
-////ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ACKÓ¦ï¿½ï¿½		    
+////²»²úÉúACKÓ¦´ð		    
 //void SI5351A_IIC_NAck(void)
 //{
 //	SI5351A_IIC_SCL(0);
@@ -95,31 +95,31 @@
 //	delay_us(2);
 //	SI5351A_IIC_SCL(0);
 //}					 				     
-////SI5351A_IICï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö½ï¿½
-////ï¿½ï¿½ï¿½Ø´Ó»ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½
-////1ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½
-////0ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½			  
+////SI5351A_IIC·¢ËÍÒ»¸ö×Ö½Ú
+////·µ»Ø´Ó»úÓÐÎÞÓ¦´ð
+////1£¬ÓÐÓ¦´ð
+////0£¬ÎÞÓ¦´ð			  
 //void SI5351A_IIC_Send_Byte(u8 txd)
 //{                        
 //    u8 t;   
 //	SI5351A_SDA_OUT(); 	    
-//    SI5351A_IIC_SCL(0);//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Ó¿ï¿½Ê¼ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½
+//    SI5351A_IIC_SCL(0);//À­µÍÊ±ÖÓ¿ªÊ¼Êý¾Ý´«Êä
 //    for(t=0;t<8;t++)
 //    {              
 //        SI5351A_IIC_SDA((txd&0x80)>>7);
 //        txd<<=1; 	  
-//		delay_us(2);   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½ï¿½
+//		delay_us(2);   //ÕâÈý¸öÑÓÊ±¶¼ÊÇ±ØÐëµÄ
 //		SI5351A_IIC_SCL(1);
 //		delay_us(2); 
 //		SI5351A_IIC_SCL(0);	
 //		delay_us(2);
 //    }	 
 //} 	    
-////ï¿½ï¿½1ï¿½ï¿½ï¿½Ö½Ú£ï¿½ack=1Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ACKï¿½ï¿½ack=0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½nACK   
+////¶Á1¸ö×Ö½Ú£¬ack=1Ê±£¬·¢ËÍACK£¬ack=0£¬·¢ËÍnACK   
 //u8 SI5351A_IIC_Read_Byte(u8 ack)
 //{
 //	unsigned char i,receive=0;
-//	SI5351A_SDA_IN();//SDAï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
+//	SI5351A_SDA_IN();//SDAÉèÖÃÎªÊäÈë
 //    for(i=0;i<8;i++ )
 //	{
 //        SI5351A_IIC_SCL(0); 
@@ -130,9 +130,9 @@
 //		delay_us(2); 
 //    }					 
 //    if (!ack)
-//        SI5351A_IIC_NAck();//ï¿½ï¿½ï¿½ï¿½nACK
+//        SI5351A_IIC_NAck();//·¢ËÍnACK
 //    else
-//        SI5351A_IIC_Ack(); //ï¿½ï¿½ï¿½ï¿½ACK   
+//        SI5351A_IIC_Ack(); //·¢ËÍACK   
 //    return receive;
 //}
 //
@@ -203,13 +203,13 @@ u8 Si5351_Write_Reg(u8 reg, u16 data)
 	IIC_Start();
 	IIC_Send_Byte( I2C_WRITE);
 	//IIC_Wait_Ack();
-	if(IIC_Wait_Ack())return 1;	//ï¿½È´ï¿½Ó¦ï¿½ï¿½(ï¿½É¹ï¿½?/Ê§ï¿½ï¿½?) 
+	if(IIC_Wait_Ack())return 1;	//µÈ´ýÓ¦´ð(³É¹¦?/Ê§°Ü?) 
 	//SI5351A_IIC_Ack();
 	IIC_Send_Byte(reg);
-	if(IIC_Wait_Ack())return 2;	//ï¿½È´ï¿½Ó¦ï¿½ï¿½(ï¿½É¹ï¿½?/Ê§ï¿½ï¿½?) 
+	if(IIC_Wait_Ack())return 2;	//µÈ´ýÓ¦´ð(³É¹¦?/Ê§°Ü?) 
 	//IIC_Wait_Ack();
 	IIC_Send_Byte(data);
-	if(IIC_Wait_Ack())return 3;	//ï¿½È´ï¿½Ó¦ï¿½ï¿½(ï¿½É¹ï¿½?/Ê§ï¿½ï¿½?)
+	if(IIC_Wait_Ack())return 3;	//µÈ´ýÓ¦´ð(³É¹¦?/Ê§°Ü?)
 	
 	IIC_Stop();
 
@@ -257,7 +257,7 @@ void SI5351A_Init()
 }
 void Si5351_I2c_exit(void)
 {
-	//SI5351A_SDA_IN();//SDAï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
+	//SI5351A_SDA_IN();//SDAÉèÖÃÎªÊäÈë
 	//SI5351A_SCL_IN();
 //	SI5351A_IIC_SCL=0;
 //	SI5351A_IIC_SDA=0;
@@ -314,7 +314,7 @@ void setupMultisynth(uint8_t synth, uint32_t divider, uint8_t rDiv)
 	Si5351_Write_Reg(synth + 7,   (P2 & 0x000000FF));
 }
 /**********************************************
-Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+Ð¡Êý³ý·¨ÉèÖÃ
 ************************************************/
 void setupMultisynth_FFT(uint8_t synth, uint32_t divider, uint8_t rDiv,uint8_t mult, uint32_t num,uint32_t denom)
 {
@@ -374,33 +374,33 @@ void si5351aSetFrequency_LoA(u32 Xtalfreq,u32 frequency)
 
 	//SI5351A_Init();						// Initialise the I2C
 
-	divider = 900000000 / frequency;// Calculate the division ratio. 900,000,000 is the maximum internal ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½900000000ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½
+	divider = 900000000 / frequency;// Calculate the division ratio. 900,000,000 is the maximum internal ¼ÆËã³ý·¨±È¡£900000000ÊÇÄÚ²¿×î´óÖµ¡£
 									// PLL frequency: 900MHz
-	if (divider % 2) divider--;		// Ensure an even integer division ratio È·ï¿½ï¿½Å¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if (divider % 2) divider--;		// Ensure an even integer division ratio È·±£Å¼ÊýÕû³ý±ÈÀý
 
-	pllFreq = divider * frequency;	// Calculate the pllFrequency: the divider * desired output frequencyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à»·ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½
+	pllFreq = divider * frequency;	// Calculate the pllFrequency: the divider * desired output frequency¼ÆËãËøÏà»··ÖÆµÆ÷Êä³öÆµÂÊ
 
-	mult = pllFreq / Xtalfreq;		//Determine the multiplier to get to the required pllFrequencyÈ·ï¿½ï¿½ï¿½ï¿½ï¿½à»·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	l = pllFreq % Xtalfreq;			// It has three parts:ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	f = l;							// mult is an integer that must be in the range 15..90ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½Î§15ï¿½ï¿½90
-	f *= 1048575;					// num and denom are the fractional parts, the numerator and denominatorNumï¿½Í±ï¿½×¼ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ÓºÍ·ï¿½Ä¸ï¿½ï¿½ï¿½Ö£ï¿½
-	f /= Xtalfreq; 	// each is 20 bits (range 0..1048575)Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½20Î»ï¿½ï¿½ï¿½ï¿½Î§0ï¿½ï¿½1048575ï¿½ï¿½
+	mult = pllFreq / Xtalfreq;		//Determine the multiplier to get to the required pllFrequencyÈ·¶¨ËøÏà»·³ËÊýµÄÕûÊý²¿·Ö
+	l = pllFreq % Xtalfreq;			// It has three parts:ÌáÈ¡·ÖÊý²¿·Ö
+	f = l;							// mult is an integer that must be in the range 15..90¶àÊÇÒ»¸öÕûÊý£¬±ØÐëÔÚ·¶Î§15µ½90
+	f *= 1048575;					// num and denom are the fractional parts, the numerator and denominatorNumºÍ±ê×¼ÊÇ·ÖÊýµÄ·Ö×ÓºÍ·ÖÄ¸²¿·Ö£¬
+	f /= Xtalfreq; 	// each is 20 bits (range 0..1048575)Ã¿Ò»¸ö¶¼ÊÇ20Î»£¨·¶Î§0¡­1048575£©
 	//f = f/xtalFreq * 1048575;
-	num = f;						// the actual multiplier is  mult + num / denomÊµï¿½Ê³ï¿½ï¿½ï¿½mult+ Num /denom
-	denom = 1048575;				// For simplicity we set the denominator to the maximum 1048575Îªï¿½Ë¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Îªï¿½ï¿½ï¿½Öµ1048575ï¿½ï¿½
+	num = f;						// the actual multiplier is  mult + num / denomÊµ¼Ê³ËÊýmult+ Num /denom
+	denom = 1048575;				// For simplicity we set the denominator to the maximum 1048575ÎªÁË¼òµ¥Æð¼û£¬ÎÒÃÇ½«·ÖÄ¸ÉèÎª×î´óÖµ1048575¡£
 
-									// Set up PLL A with the calculated multiplication ratioï¿½Ã¼ï¿½ï¿½ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½PLL A
+									// Set up PLL A with the calculated multiplication ratioÓÃ¼ÆËã³Ë·¨±ÈÉèÖÃPLL A
 	setupPLL(SI_SYNTH_PLL_A, mult, num, denom);
-									// Set up MultiSynth divider 0, with the calculated divider.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MultiSynthï¿½ï¿½Æµï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½Æµï¿½ï¿½ï¿½ï¿½ 
-									// The final R division stage can divide by a power of two, from 1..128.ï¿½ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½Ô³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê£ï¿½ï¿½ï¿½1ï¿½ï¿½128ï¿½ï¿½ 
-									// reprented by constants SI_R_DIV1 to SI_R_DIV128 (see si5351a.h header file)ï¿½ï¿½ï¿½ï¿½si_r_div128 si_r_div1ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½si5351aï¿½ï¿½HÍ·ï¿½Ä¼ï¿½ï¿½ï¿½
-									// If you want to output frequencies below 1MHz, you have to use the ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½Êµï¿½ï¿½ï¿½1MHzï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½×¶ï¿½
+									// Set up MultiSynth divider 0, with the calculated divider.½¨Á¢µÄMultiSynth·ÖÆµÆ÷0£¬Óë¼ÆËãµÄ·ÖÆµÆ÷¡£ 
+									// The final R division stage can divide by a power of two, from 1..128.×îºóµÄR¼¶¿ÉÒÔ³ýÒÔÁ½¸ö¹¦ÂÊ£¬´Ó1¡­128¡£ 
+									// reprented by constants SI_R_DIV1 to SI_R_DIV128 (see si5351a.h header file)ÓÃÒÔsi_r_div128 si_r_div1µÄ³£Êý£¨¼ûsi5351a¡£HÍ·ÎÄ¼þ£©
+									// If you want to output frequencies below 1MHz, you have to use the Èç¹ûÄãÏëÊä³öÆµÂÊµÍÓÚ1MHz£¬Äã±ØÐëÊ¹ÓÃ×îºóR½×¶Î
 									// final R division stage
 	setupMultisynth(SI_SYNTH_MS_2, divider, SI_R_DIV_1);
-									// Reset the PLL. This causes a glitch in the output. For small changes toï¿½ï¿½Î»ï¿½ï¿½ï¿½à»·ï¿½ï¿½ï¿½ï¿½áµ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½Ï¡ï¿½ï¿½ï¿½Ð¡ï¿½Ä¶ï¿½ 
-									// the parameters, you don't need to reset the PLL, and there is no glitch ï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã²»ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½PLLï¿½ï¿½Ò²Ã»ï¿½Ð¹ï¿½ï¿½Ï¡ï¿½
+									// Reset the PLL. This causes a glitch in the output. For small changes to¸´Î»ËøÏà»·¡£Õâ»áµ¼ÖÂÊä³ö³öÏÖ¹ÊÕÏ¡£¶ÔÐ¡¸Ä¶¯ 
+									// the parameters, you don't need to reset the PLL, and there is no glitch ÕâÐ©²ÎÊý£¬Äã²»ÐèÒªÖØÖÃPLL£¬Ò²Ã»ÓÐ¹ÊÕÏ¡£
 	//i2cSendRegister(SI_PLL_RESET, 0XA0);	
-									// Finally switch on the CLK0 output (0x4F) ï¿½ï¿½ï¿½ï¿½CLK0ï¿½ï¿½ï¿½ï¿½ï¿½0x4fï¿½ï¿½ //ï¿½ï¿½ï¿½ï¿½multisynth0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à»·A
+									// Finally switch on the CLK0 output (0x4F) ×îºó´ò¿ªCLK0Êä³ö£¨0x4f£© //ÉèÖÃmultisynth0ÊäÈëÊÇËøÏà»·A
 									// and set the MultiSynth0 input to be PLL A
 	Si5351_Write_Reg(SI_CLK2_CONTROL, 0X4c | SI_CLK_SRC_PLL_A
 	);
@@ -420,33 +420,33 @@ void si5351aSetFrequency_FFT(uint32_t bfo,uint32_t fft)
 
 //	SI5351A_Init();						// Initialise the I2C
 	
-	divider = 900000000 /bfo;// Calculate the division ratio. 900,000,000 is the maximum internal ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½900000000ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½
+	divider = 900000000 /bfo;// Calculate the division ratio. 900,000,000 is the maximum internal ¼ÆËã³ý·¨±È¡£900000000ÊÇÄÚ²¿×î´óÖµ¡£
 									// PLL frequency: 900MHz	
-	if (divider % 2) divider--;		// Ensure an even integer division ratio È·ï¿½ï¿½Å¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if (divider % 2) divider--;		// Ensure an even integer division ratio È·±£Å¼ÊýÕû³ý±ÈÀý
 
-	pllFreq = divider * bfo;	// ï¿½ï¿½ï¿½ï¿½ PLL ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½
+	pllFreq = divider * bfo;	// ¼ÆËã PLL ·ÖÆµÆ÷Êä³öÆµÂÊ
 
-	mult = pllFreq / fft;		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	l = pllFreq % fft;			// It has three parts:ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½
-	f = l;							// mult is an integer that must be in the range 15..90ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½Î§15ï¿½ï¿½90
-//	f *= 1048575;					// num and denom are the fractional parts, the numerator and denominatorNumï¿½Í±ï¿½×¼ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ÓºÍ·ï¿½Ä¸ï¿½ï¿½ï¿½Ö£ï¿½
-//	f /= xtalFreq; 	// each is 20 bits (range 0..1048575)Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½20Î»ï¿½ï¿½ï¿½ï¿½Î§0ï¿½ï¿½1048575ï¿½ï¿½
+	mult = pllFreq / fft;		//¼ÆËã¶à²ã·ÖÆµÆ÷µÄÕûÊý²¿·Ö
+	l = pllFreq % fft;			// It has three parts:ÌáÈ¡·Ö×Ó²¿·Ö
+	f = l;							// mult is an integer that must be in the range 15..90¶àÊÇÒ»¸öÕûÊý£¬±ØÐëÔÚ·¶Î§15µ½90
+//	f *= 1048575;					// num and denom are the fractional parts, the numerator and denominatorNumºÍ±ê×¼ÊÇ·ÖÊýµÄ·Ö×ÓºÍ·ÖÄ¸²¿·Ö£¬
+//	f /= xtalFreq; 	// each is 20 bits (range 0..1048575)Ã¿Ò»¸ö¶¼ÊÇ20Î»£¨·¶Î§0¡­1048575£©
 	f = f/fft * 1048575;
-	num = f;						// the actual multiplier is  mult + num / denomÊµï¿½Ê³ï¿½ï¿½ï¿½mult+ Num /denom
-	denom = 1048575;				// For simplicity we set the denominator to the maximum 1048575Îªï¿½Ë¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Îªï¿½ï¿½ï¿½Öµ1048575ï¿½ï¿½
+	num = f;						// the actual multiplier is  mult + num / denomÊµ¼Ê³ËÊýmult+ Num /denom
+	denom = 1048575;				// For simplicity we set the denominator to the maximum 1048575ÎªÁË¼òµ¥Æð¼û£¬ÎÒÃÇ½«·ÖÄ¸ÉèÎª×î´óÖµ1048575¡£
 
-									// Set up PLL A with the calculated multiplication ratioï¿½Ã¼ï¿½ï¿½ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½PLL A
+									// Set up PLL A with the calculated multiplication ratioÓÃ¼ÆËã³Ë·¨±ÈÉèÖÃPLL A
 	//setupPLL(SI_SYNTH_PLL_B, mult, num, denom);
-									// Set up MultiSynth divider 0, with the calculated divider.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MultiSynthï¿½ï¿½Æµï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½Æµï¿½ï¿½ï¿½ï¿½ 
-									// The final R division stage can divide by a power of two, from 1..128.ï¿½ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½Ô³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê£ï¿½ï¿½ï¿½1ï¿½ï¿½128ï¿½ï¿½ 
-									// reprented by constants SI_R_DIV1 to SI_R_DIV128 (see si5351a.h header file)ï¿½ï¿½ï¿½ï¿½si_r_div128 si_r_div1ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½si5351aï¿½ï¿½HÍ·ï¿½Ä¼ï¿½ï¿½ï¿½
-									// If you want to output frequencies below 1MHz, you have to use the ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½Êµï¿½ï¿½ï¿½1MHzï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½×¶ï¿½
+									// Set up MultiSynth divider 0, with the calculated divider.½¨Á¢µÄMultiSynth·ÖÆµÆ÷0£¬Óë¼ÆËãµÄ·ÖÆµÆ÷¡£ 
+									// The final R division stage can divide by a power of two, from 1..128.×îºóµÄR¼¶¿ÉÒÔ³ýÒÔÁ½¸ö¹¦ÂÊ£¬´Ó1¡­128¡£ 
+									// reprented by constants SI_R_DIV1 to SI_R_DIV128 (see si5351a.h header file)ÓÃÒÔsi_r_div128 si_r_div1µÄ³£Êý£¨¼ûsi5351a¡£HÍ·ÎÄ¼þ£©
+									// If you want to output frequencies below 1MHz, you have to use the Èç¹ûÄãÏëÊä³öÆµÂÊµÍÓÚ1MHz£¬Äã±ØÐëÊ¹ÓÃ×îºóR½×¶Î
 									// final R division stage
 	setupMultisynth_FFT(SI_SYNTH_MS_2, divider, SI_R_DIV_1, mult, num, denom);
-									// Reset the PLL. This causes a glitch in the output. For small changes toï¿½ï¿½Î»ï¿½ï¿½ï¿½à»·ï¿½ï¿½ï¿½ï¿½áµ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½Ï¡ï¿½ï¿½ï¿½Ð¡ï¿½Ä¶ï¿½ 
-									// the parameters, you don't need to reset the PLL, and there is no glitch ï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã²»ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½PLLï¿½ï¿½Ò²Ã»ï¿½Ð¹ï¿½ï¿½Ï¡ï¿½
+									// Reset the PLL. This causes a glitch in the output. For small changes to¸´Î»ËøÏà»·¡£Õâ»áµ¼ÖÂÊä³ö³öÏÖ¹ÊÕÏ¡£¶ÔÐ¡¸Ä¶¯ 
+									// the parameters, you don't need to reset the PLL, and there is no glitch ÕâÐ©²ÎÊý£¬Äã²»ÐèÒªÖØÖÃPLL£¬Ò²Ã»ÓÐ¹ÊÕÏ¡£
 	Si5351_Write_Reg(SI_PLL_RESET, 0XA0);	
-									// Finally switch on the CLK0 output (0x4F) ï¿½ï¿½ï¿½ï¿½CLK0ï¿½ï¿½ï¿½ï¿½ï¿½0x4fï¿½ï¿½ //ï¿½ï¿½ï¿½ï¿½multisynth0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à»·A
+									// Finally switch on the CLK0 output (0x4F) ×îºó´ò¿ªCLK0Êä³ö£¨0x4f£© //ÉèÖÃmultisynth0ÊäÈëÊÇËøÏà»·A
 									// and set the MultiSynth0 input to be PLL A
 	Si5351_Write_Reg(SI_CLK2_CONTROL, 0x0f | SI_CLK_SRC_PLL_B);
 	
@@ -467,33 +467,33 @@ void si5351aSetFrequency_Bfo(u32 Xtalfreq,uint32_t frequency)
 
 	SI5351A_Init();						// Initialise the I2C
 
-	divider = 900000000 / frequency;// Calculate the division ratio. 900,000,000 is the maximum internal ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½900000000ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½
+	divider = 900000000 / frequency;// Calculate the division ratio. 900,000,000 is the maximum internal ¼ÆËã³ý·¨±È¡£900000000ÊÇÄÚ²¿×î´óÖµ¡£
 									// PLL frequency: 900MHz
-	if (divider % 2) divider--;		// Ensure an even integer division ratio È·ï¿½ï¿½Å¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if (divider % 2) divider--;		// Ensure an even integer division ratio È·±£Å¼ÊýÕû³ý±ÈÀý
 
-	pllFreq = divider * frequency;	// Calculate the pllFrequency: the divider * desired output frequencyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à»·ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½
+	pllFreq = divider * frequency;	// Calculate the pllFrequency: the divider * desired output frequency¼ÆËãËøÏà»··ÖÆµÆ÷Êä³öÆµÂÊ
 
-	mult = pllFreq / Xtalfreq;		// Determine the multiplier to get to the required pllFrequencyÈ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à»·
-	l = pllFreq % Xtalfreq;			// It has three parts:ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	f = l;							// mult is an integer that must be in the range 15..90ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½Î§15ï¿½ï¿½90
-	f *= 1048575;					// num and denom are the fractional parts, the numerator and denominatorNumï¿½Í±ï¿½×¼ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ÓºÍ·ï¿½Ä¸ï¿½ï¿½ï¿½Ö£ï¿½
-	f /= Xtalfreq; 	// each is 20 bits (range 0..1048575)Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½20Î»ï¿½ï¿½ï¿½ï¿½Î§0ï¿½ï¿½1048575ï¿½ï¿½
+	mult = pllFreq / Xtalfreq;		// Determine the multiplier to get to the required pllFrequencyÈ·¶¨³ËÊýµÃµ½ËùÐèµÄËøÏà»·
+	l = pllFreq % Xtalfreq;			// It has three parts:ÌáÈ¡·ÖÊý²¿·Ö
+	f = l;							// mult is an integer that must be in the range 15..90¶àÊÇÒ»¸öÕûÊý£¬±ØÐëÔÚ·¶Î§15µ½90
+	f *= 1048575;					// num and denom are the fractional parts, the numerator and denominatorNumºÍ±ê×¼ÊÇ·ÖÊýµÄ·Ö×ÓºÍ·ÖÄ¸²¿·Ö£¬
+	f /= Xtalfreq; 	// each is 20 bits (range 0..1048575)Ã¿Ò»¸ö¶¼ÊÇ20Î»£¨·¶Î§0¡­1048575£©
 	//f = f/xtalFreq * 1048575;
-	num = f;						// the actual multiplier is  mult + num / denomÊµï¿½Ê³ï¿½ï¿½ï¿½mult+ Num /denom
-	denom = 1048575;				// For simplicity we set the denominator to the maximum 1048575Îªï¿½Ë¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½Îªï¿½ï¿½ï¿½Öµ1048575ï¿½ï¿½
+	num = f;						// the actual multiplier is  mult + num / denomÊµ¼Ê³ËÊýmult+ Num /denom
+	denom = 1048575;				// For simplicity we set the denominator to the maximum 1048575ÎªÁË¼òµ¥Æð¼û£¬ÎÒÃÇ½«·ÖÄ¸ÉèÎª×î´óÖµ1048575¡£
 
-									// Set up PLL A with the calculated multiplication ratioï¿½Ã¼ï¿½ï¿½ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½PLL A
+									// Set up PLL A with the calculated multiplication ratioÓÃ¼ÆËã³Ë·¨±ÈÉèÖÃPLL A
 	setupPLL(SI_SYNTH_PLL_B, mult, num, denom);
-									// Set up MultiSynth divider 0, with the calculated divider.ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MultiSynthï¿½ï¿½Æµï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä·ï¿½Æµï¿½ï¿½ï¿½ï¿½ 
-									// The final R division stage can divide by a power of two, from 1..128.ï¿½ï¿½ï¿½ï¿½Rï¿½ï¿½ï¿½ï¿½ï¿½Ô³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê£ï¿½ï¿½ï¿½1ï¿½ï¿½128ï¿½ï¿½ 
-									// reprented by constants SI_R_DIV1 to SI_R_DIV128 (see si5351a.h header file)ï¿½ï¿½ï¿½ï¿½si_r_div128 si_r_div1ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½si5351aï¿½ï¿½HÍ·ï¿½Ä¼ï¿½ï¿½ï¿½
-									// If you want to output frequencies below 1MHz, you have to use the ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½Êµï¿½ï¿½ï¿½1MHzï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½Rï¿½×¶ï¿½
+									// Set up MultiSynth divider 0, with the calculated divider.½¨Á¢µÄMultiSynth·ÖÆµÆ÷0£¬Óë¼ÆËãµÄ·ÖÆµÆ÷¡£ 
+									// The final R division stage can divide by a power of two, from 1..128.×îºóµÄR¼¶¿ÉÒÔ³ýÒÔÁ½¸ö¹¦ÂÊ£¬´Ó1¡­128¡£ 
+									// reprented by constants SI_R_DIV1 to SI_R_DIV128 (see si5351a.h header file)ÓÃÒÔsi_r_div128 si_r_div1µÄ³£Êý£¨¼ûsi5351a¡£HÍ·ÎÄ¼þ£©
+									// If you want to output frequencies below 1MHz, you have to use the Èç¹ûÄãÏëÊä³öÆµÂÊµÍÓÚ1MHz£¬Äã±ØÐëÊ¹ÓÃ×îºóR½×¶Î
 									// final R division stage
 	setupMultisynth(SI_SYNTH_MS_1, divider, SI_R_DIV_1);
-									// Reset the PLL. This causes a glitch in the output. For small changes toï¿½ï¿½Î»ï¿½ï¿½ï¿½à»·ï¿½ï¿½ï¿½ï¿½áµ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½Ï¡ï¿½ï¿½ï¿½Ð¡ï¿½Ä¶ï¿½ 
-									// the parameters, you don't need to reset the PLL, and there is no glitch ï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã²»ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½PLLï¿½ï¿½Ò²Ã»ï¿½Ð¹ï¿½ï¿½Ï¡ï¿½
+									// Reset the PLL. This causes a glitch in the output. For small changes to¸´Î»ËøÏà»·¡£Õâ»áµ¼ÖÂÊä³ö³öÏÖ¹ÊÕÏ¡£¶ÔÐ¡¸Ä¶¯ 
+									// the parameters, you don't need to reset the PLL, and there is no glitch ÕâÐ©²ÎÊý£¬Äã²»ÐèÒªÖØÖÃPLL£¬Ò²Ã»ÓÐ¹ÊÕÏ¡£
 	//i2cSendRegister(SI_PLL_RESET, 0XA0);	
-									// Finally switch on the CLK0 output (0x4F) ï¿½ï¿½ï¿½ï¿½CLK0ï¿½ï¿½ï¿½ï¿½ï¿½0x4fï¿½ï¿½ //ï¿½ï¿½ï¿½ï¿½multisynth0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½à»·A
+									// Finally switch on the CLK0 output (0x4F) ×îºó´ò¿ªCLK0Êä³ö£¨0x4f£© //ÉèÖÃmultisynth0ÊäÈëÊÇËøÏà»·A
 									// and set the MultiSynth0 input to be PLL A
 	Si5351_Write_Reg(SI_CLK1_CONTROL, 0X4c | SI_CLK_SRC_PLL_B);
 

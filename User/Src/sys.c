@@ -1,88 +1,88 @@
 #include "sys.h"  
 //////////////////////////////////////////////////////////////////////////////////	 
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½Ñ§Ï°Ê¹ï¿½Ã£ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½Í¾
-//FX-4C(STM32H750VBT6)×¨ï¿½ï¿½
-//ÏµÍ³Ê±ï¿½Ó³ï¿½Ê¼ï¿½ï¿½	
-//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½/ï¿½Ð¶Ï¹ï¿½ï¿½ï¿½/GPIOï¿½ï¿½ï¿½Ãµï¿½
+//±¾³ÌÐòÖ»¹©Ñ§Ï°Ê¹ÓÃ£¬Î´¾­×÷ÕßÐí¿É£¬²»µÃÓÃÓÚÆäËüÈÎºÎÓÃÍ¾
+//FX-4C(STM32H750VBT6)×¨ÓÃ
+//ÏµÍ³Ê±ÖÓ³õÊ¼»¯	
+//°üÀ¨Ê±ÖÓÉèÖÃ/ÖÐ¶Ï¹ÜÀí/GPIOÉèÖÃµÈ
 //BG2IXD
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:2020/9/8
-//ï¿½æ±¾ï¿½ï¿½V1.1
-//ï¿½ï¿½È¨ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½
+//´´½¨ÈÕÆÚ:2020/9/8
+//°æ±¾£ºV1.1
+//°æÈ¨ËùÓÐ£¬µÁ°æ±Ø¾¿¡£
 //********************************************************************************
-//ï¿½Þ¸ï¿½Ëµï¿½ï¿½
+//ÐÞ¸ÄËµÃ÷
 //V1.1 20180806
-//1,ï¿½Þ¸ï¿½PLL2ï¿½Ä±ï¿½ÆµÏµï¿½ï¿½Îª440,pll2_r_ck=220Mhz
-//2,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pll2_p_ckï¿½Ä·ï¿½Æµï¿½ï¿½ï¿½ï¿½,2ï¿½ï¿½Æµ,ï¿½Ãµï¿½220Mï¿½ï¿½Ê±ï¿½ï¿½Æµï¿½ï¿½
-//3,ï¿½Þ¸ï¿½pll1_q_ckï¿½ï¿½×¢ï¿½ï¿½,ï¿½ï¿½Îª4ï¿½ï¿½Æµ,200Mhzï¿½ï¿½Æµï¿½ï¿½Ëµï¿½ï¿½
+//1,ÐÞ¸ÄPLL2µÄ±¶ÆµÏµÊýÎª440,pll2_r_ck=220Mhz
+//2,ÐÂÔö¶Ôpll2_p_ckµÄ·ÖÆµÉèÖÃ,2·ÖÆµ,µÃµ½220MµÄÊ±ÖÓÆµÂÊ
+//3,ÐÞ¸Äpll1_q_ckµÄ×¢ÊÍ,¸ÄÎª4·ÖÆµ,200MhzµÄÆµÂÊËµÃ÷
 //////////////////////////////////////////////////////////////////////////////////  
 
 
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ«ï¿½Æµï¿½Ö·
-//NVIC_VectTab:ï¿½ï¿½Ö·
-//Offset:Æ«ï¿½ï¿½ï¿½ï¿½		 
+//ÉèÖÃÏòÁ¿±íÆ«ÒÆµØÖ·
+//NVIC_VectTab:»ùÖ·
+//Offset:Æ«ÒÆÁ¿		 
 void MY_NVIC_SetVectorTable(u32 NVIC_VectTab,u32 Offset)	 
 { 	   	  
-	SCB->VTOR=NVIC_VectTab|(Offset&(u32)0xFFFFFE00);//ï¿½ï¿½ï¿½ï¿½NVICï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ«ï¿½Æ¼Ä´ï¿½ï¿½ï¿½,VTORï¿½ï¿½9Î»ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½[8:0]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	SCB->VTOR=NVIC_VectTab|(Offset&(u32)0xFFFFFE00);//ÉèÖÃNVICµÄÏòÁ¿±íÆ«ÒÆ¼Ä´æÆ÷,VTORµÍ9Î»±£Áô,¼´[8:0]±£Áô¡£
 }
-//ï¿½ï¿½ï¿½ï¿½NVICï¿½ï¿½ï¿½ï¿½
-//NVIC_Group:NVICï¿½ï¿½ï¿½ï¿½ 0~4 ï¿½Ü¹ï¿½5ï¿½ï¿½ 		   
+//ÉèÖÃNVIC·Ö×é
+//NVIC_Group:NVIC·Ö×é 0~4 ×Ü¹²5×é 		   
 void MY_NVIC_PriorityGroupConfig(u8 NVIC_Group)	 
 { 
 	u32 temp,temp1;	  
-	temp1=(~NVIC_Group)&0x07;//È¡ï¿½ï¿½ï¿½ï¿½Î»
+	temp1=(~NVIC_Group)&0x07;//È¡ºóÈýÎ»
 	temp1<<=8;
-	temp=SCB->AIRCR;  //ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	temp&=0X0000F8FF; //ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½
-	temp|=0X05FA0000; //Ð´ï¿½ï¿½Ô¿ï¿½ï¿½
+	temp=SCB->AIRCR;  //¶ÁÈ¡ÏÈÇ°µÄÉèÖÃ
+	temp&=0X0000F8FF; //Çå¿ÕÏÈÇ°·Ö×é
+	temp|=0X05FA0000; //Ð´ÈëÔ¿³×
 	temp|=temp1;	   
-	SCB->AIRCR=temp;  //ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½	    	  				   
+	SCB->AIRCR=temp;  //ÉèÖÃ·Ö×é	    	  				   
 }
-//ï¿½ï¿½ï¿½ï¿½NVIC 
-//NVIC_PreemptionPriority:ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½È¼ï¿½
-//NVIC_SubPriority       :ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½È¼ï¿½
-//NVIC_Channel           :ï¿½Ð¶Ï±ï¿½ï¿½
-//NVIC_Group             :ï¿½Ð¶Ï·ï¿½ï¿½ï¿½ 0~4
-//×¢ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½Ü³ï¿½ï¿½ï¿½ï¿½è¶¨ï¿½ï¿½ï¿½ï¿½Ä·ï¿½Î§!ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë²»ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½
-//ï¿½é»®ï¿½ï¿½:
-//ï¿½ï¿½0:0Î»ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½È¼ï¿½,4Î»ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½È¼ï¿½
-//ï¿½ï¿½1:1Î»ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½È¼ï¿½,3Î»ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½È¼ï¿½
-//ï¿½ï¿½2:2Î»ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½È¼ï¿½,2Î»ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½È¼ï¿½
-//ï¿½ï¿½3:3Î»ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½È¼ï¿½,1Î»ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½È¼ï¿½
-//ï¿½ï¿½4:4Î»ï¿½ï¿½Õ¼ï¿½ï¿½ï¿½È¼ï¿½,0Î»ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½È¼ï¿½
-//NVIC_SubPriorityï¿½ï¿½NVIC_PreemptionPriorityï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ÖµÔ½Ð¡,Ô½ï¿½ï¿½ï¿½ï¿½	   
+//ÉèÖÃNVIC 
+//NVIC_PreemptionPriority:ÇÀÕ¼ÓÅÏÈ¼¶
+//NVIC_SubPriority       :ÏìÓ¦ÓÅÏÈ¼¶
+//NVIC_Channel           :ÖÐ¶Ï±àºÅ
+//NVIC_Group             :ÖÐ¶Ï·Ö×é 0~4
+//×¢ÒâÓÅÏÈ¼¶²»ÄÜ³¬¹ýÉè¶¨µÄ×éµÄ·¶Î§!·ñÔò»áÓÐÒâÏë²»µ½µÄ´íÎó
+//×é»®·Ö:
+//×é0:0Î»ÇÀÕ¼ÓÅÏÈ¼¶,4Î»ÏìÓ¦ÓÅÏÈ¼¶
+//×é1:1Î»ÇÀÕ¼ÓÅÏÈ¼¶,3Î»ÏìÓ¦ÓÅÏÈ¼¶
+//×é2:2Î»ÇÀÕ¼ÓÅÏÈ¼¶,2Î»ÏìÓ¦ÓÅÏÈ¼¶
+//×é3:3Î»ÇÀÕ¼ÓÅÏÈ¼¶,1Î»ÏìÓ¦ÓÅÏÈ¼¶
+//×é4:4Î»ÇÀÕ¼ÓÅÏÈ¼¶,0Î»ÏìÓ¦ÓÅÏÈ¼¶
+//NVIC_SubPriorityºÍNVIC_PreemptionPriorityµÄÔ­ÔòÊÇ,ÊýÖµÔ½Ð¡,Ô½ÓÅÏÈ	   
 void MY_NVIC_Init(u8 NVIC_PreemptionPriority,u8 NVIC_SubPriority,u8 NVIC_Channel,u8 NVIC_Group)	 
 { 
 	u32 temp;	  
-	MY_NVIC_PriorityGroupConfig(NVIC_Group);//ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½
+	MY_NVIC_PriorityGroupConfig(NVIC_Group);//ÉèÖÃ·Ö×é
 	temp=NVIC_PreemptionPriority<<(4-NVIC_Group);	  
 	temp|=NVIC_SubPriority&(0x0f>>NVIC_Group);
-	temp&=0xf;								//È¡ï¿½ï¿½ï¿½ï¿½Î»
-	NVIC->ISER[NVIC_Channel/32]|=1<<NVIC_Channel%32;//Ê¹ï¿½ï¿½ï¿½Ð¶ï¿½Î»(Òªï¿½ï¿½ï¿½ï¿½Ä»ï¿½,ï¿½ï¿½ï¿½ï¿½ICERï¿½ï¿½Ó¦Î»Îª1ï¿½ï¿½ï¿½ï¿½)
-	NVIC->IP[NVIC_Channel]|=temp<<4;				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½È¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½   	    	  				   
+	temp&=0xf;								//È¡µÍËÄÎ»
+	NVIC->ISER[NVIC_Channel/32]|=1<<NVIC_Channel%32;//Ê¹ÄÜÖÐ¶ÏÎ»(ÒªÇå³ýµÄ»°,ÉèÖÃICER¶ÔÓ¦Î»Îª1¼´¿É)
+	NVIC->IP[NVIC_Channel]|=temp<<4;				//ÉèÖÃÏìÓ¦ÓÅÏÈ¼¶ºÍÇÀ¶ÏÓÅÏÈ¼¶   	    	  				   
 } 
-//ï¿½â²¿ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½,Ö»ï¿½ï¿½ï¿½GPIOA~GPIOK 
-//ï¿½ï¿½ï¿½ï¿½:
-//GPIOx:0~10,ï¿½ï¿½ï¿½ï¿½GPIOA~GPIOK
-//BITx:0~15,ï¿½ï¿½ï¿½ï¿½IOï¿½ï¿½ï¿½Å±ï¿½ï¿½.
-//TRIM:ï¿½ï¿½ï¿½ï¿½Ä£Ê½,1,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;2,ï¿½Ï½ï¿½ï¿½ï¿½;3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ½ï¿½ï¿½ï¿½ï¿½
-//ï¿½Ãºï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½IOï¿½ï¿½,ï¿½ï¿½ï¿½IOï¿½ï¿½,ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½
-//ï¿½Ãºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½Ð¶ï¿½,ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   	    
+//Íâ²¿ÖÐ¶ÏÅäÖÃº¯Êý,Ö»Õë¶ÔGPIOA~GPIOK 
+//²ÎÊý:
+//GPIOx:0~10,´ú±íGPIOA~GPIOK
+//BITx:0~15,´ú±íIOÒý½Å±àºÅ.
+//TRIM:´¥·¢Ä£Ê½,1,ÏÂÉýÑØ;2,ÉÏ½µÑØ;3£¬ÈÎÒâµçÆ½´¥·¢
+//¸Ãº¯ÊýÒ»´ÎÖ»ÄÜÅäÖÃ1¸öIO¿Ú,¶à¸öIO¿Ú,Ðè¶à´Îµ÷ÓÃ
+//¸Ãº¯Êý»á×Ô¶¯¿ªÆô¶ÔÓ¦ÖÐ¶Ï,ÒÔ¼°ÆÁ±ÎÏß   	    
 void Ex_NVIC_Config(u8 GPIOx,u8 BITx,u8 TRIM) 
 { 
 	u8 EXTOFFSET=(BITx%4)*4;  
-	RCC->APB4ENR|=1<<1;								//SYSCFGEN=1,Ê¹ï¿½ï¿½SYSCFGÊ±ï¿½ï¿½  
-	SYSCFG->EXTICR[BITx/4]&=~(0x000F<<EXTOFFSET);	//ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½
-	SYSCFG->EXTICR[BITx/4]|=GPIOx<<EXTOFFSET;		//EXTI.BITxÓ³ï¿½äµ½GPIOx.BITx 
-	//ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½
-	EXTI_D1->IMR1|=1<<BITx;				//ï¿½ï¿½ï¿½ï¿½line BITxï¿½Ïµï¿½ï¿½Ð¶ï¿½(ï¿½ï¿½ï¿½Òªï¿½ï¿½Ö¹ï¿½Ð¶Ï£ï¿½ï¿½ò·´²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
-	if(TRIM&0x01)EXTI->FTSR1|=1<<BITx;	//line BITxï¿½ï¿½ï¿½Â¼ï¿½ï¿½Â½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½
-	if(TRIM&0x02)EXTI->RTSR1|=1<<BITx;	//line BITxï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½
+	RCC->APB4ENR|=1<<1;								//SYSCFGEN=1,Ê¹ÄÜSYSCFGÊ±ÖÓ  
+	SYSCFG->EXTICR[BITx/4]&=~(0x000F<<EXTOFFSET);	//Çå³ýÔ­À´ÉèÖÃ£¡£¡£¡
+	SYSCFG->EXTICR[BITx/4]|=GPIOx<<EXTOFFSET;		//EXTI.BITxÓ³Éäµ½GPIOx.BITx 
+	//×Ô¶¯ÉèÖÃ
+	EXTI_D1->IMR1|=1<<BITx;				//¿ªÆôline BITxÉÏµÄÖÐ¶Ï(Èç¹ûÒª½ûÖ¹ÖÐ¶Ï£¬Ôò·´²Ù×÷¼´¿É)
+	if(TRIM&0x01)EXTI->FTSR1|=1<<BITx;	//line BITxÉÏÊÂ¼þÏÂ½µÑØ´¥·¢
+	if(TRIM&0x02)EXTI->RTSR1|=1<<BITx;	//line BITxÉÏÊÂ¼þÉÏÉý½µÑØ´¥·¢
 } 	
-//GPIOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//GPIO¸´ÓÃÉèÖÃ
 //GPIOx:GPIOA~GPIOK.
-//BITx:0~15,ï¿½ï¿½ï¿½ï¿½IOï¿½ï¿½ï¿½Å±ï¿½ï¿½.
-//AFx:0~15,ï¿½ï¿½ï¿½ï¿½AF0~AF15.
-//AF0~15ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð³ï¿½ï¿½ï¿½ï¿½Ãµï¿½,ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ï¿½ï¿½STM32H743xxï¿½ï¿½ï¿½ï¿½ï¿½Ö²ï¿½,Table 9~19):
+//BITx:0~15,´ú±íIOÒý½Å±àºÅ.
+//AFx:0~15,´ú±íAF0~AF15.
+//AF0~15ÉèÖÃÇé¿ö(ÕâÀï½öÊÇÁÐ³ö³£ÓÃµÄ,ÏêÏ¸µÄÇë¼ûSTM32H743xxÊý¾ÝÊÖ²á,Table 9~19):
 //AF0:MCO/SWD/SWCLK/RTC;   		AF1:TIM1/2/TIM16/17/LPTIM1;		AF2:TIM3~5/TIM12/HRTIM1/SAI1;	AF3:TIM8/LPTIM2~5/HRTIM1/LPUART1;
 //AF4:I2C1~I2C4/TIM15/USART1;	AF5:SPI1~SPI6/CEC;         		AF6:SPI3/SAI1~3/UART4/I2C4; 	AF7:SPI2/3/6/USART1~3/6/UART7/SDIO1;
 //AF8:USART4/5/8/SPDIF/SAI2/4;	AF9;FDCAN1~2/TIM13/14/LCD/QSPI; AF10:USB_OTG1/2/SAI2/4/QSPI;  	AF11:ETH/UART7/SDIO2/I2C4/COMP1/2;
@@ -92,197 +92,204 @@ void GPIO_AF_Set(GPIO_TypeDef* GPIOx,u8 BITx,u8 AFx)
 	GPIOx->AFR[BITx>>3]&=~(0X0F<<((BITx&0X07)*4));
 	GPIOx->AFR[BITx>>3]|=(u32)AFx<<((BITx&0X07)*4);
 }   
-//GPIOÍ¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+//GPIOÍ¨ÓÃÉèÖÃ 
 //GPIOx:GPIOA~GPIOK.
-//BITx:0X0000~0XFFFF,Î»ï¿½ï¿½ï¿½ï¿½,Ã¿ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½IO,ï¿½ï¿½0Î»ï¿½ï¿½ï¿½ï¿½Px0,ï¿½ï¿½1Î»ï¿½ï¿½ï¿½ï¿½Px1,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.ï¿½ï¿½ï¿½ï¿½0X0101,ï¿½ï¿½ï¿½ï¿½Í¬Ê±ï¿½ï¿½ï¿½ï¿½Px0ï¿½ï¿½Px8.
-//MODE:0~3;Ä£Ê½Ñ¡ï¿½ï¿½,0,ï¿½ï¿½ï¿½ï¿½(ÏµÍ³ï¿½ï¿½Î»Ä¬ï¿½ï¿½×´Ì¬);1,ï¿½ï¿½Í¨ï¿½ï¿½ï¿½;2,ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½;3,Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
-//OTYPE:0/1;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½,0,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;1,ï¿½ï¿½Â©ï¿½ï¿½ï¿½.
-//OSPEED:0~3;ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½ï¿½ï¿½ï¿½ï¿½,0,ï¿½ï¿½ï¿½ï¿½;1,ï¿½ï¿½ï¿½ï¿½;2,ï¿½ï¿½ï¿½ï¿½;3,ï¿½ï¿½ï¿½ï¿½. 
-//PUPD:0~3:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,0,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½;1,ï¿½ï¿½ï¿½ï¿½;2,ï¿½ï¿½ï¿½ï¿½;3,ï¿½ï¿½ï¿½ï¿½.
-//×¢ï¿½ï¿½:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½(ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½/Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½,OTYPEï¿½ï¿½OSPEEDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§!!
+//BITx:0X0000~0XFFFF,Î»ÉèÖÃ,Ã¿¸öÎ»´ú±íÒ»¸öIO,µÚ0Î»´ú±íPx0,µÚ1Î»´ú±íPx1,ÒÀ´ÎÀàÍÆ.±ÈÈç0X0101,´ú±íÍ¬Ê±ÉèÖÃPx0ºÍPx8.
+//MODE:0~3;Ä£Ê½Ñ¡Ôñ,0,ÊäÈë(ÏµÍ³¸´Î»Ä¬ÈÏ×´Ì¬);1,ÆÕÍ¨Êä³ö;2,¸´ÓÃ¹¦ÄÜ;3,Ä£ÄâÊäÈë.
+//OTYPE:0/1;Êä³öÀàÐÍÑ¡Ôñ,0,ÍÆÍìÊä³ö;1,¿ªÂ©Êä³ö.
+//OSPEED:0~3;Êä³öËÙ¶ÈÉèÖÃ,0,µÍËÙ;1,ÖÐËÙ;2,¿ìËÙ;3,¸ßËÙ. 
+//PUPD:0~3:ÉÏÏÂÀ­ÉèÖÃ,0,²»´øÉÏÏÂÀ­;1,ÉÏÀ­;2,ÏÂÀ­;3,±£Áô.
+//×¢Òâ:ÔÚÊäÈëÄ£Ê½(ÆÕÍ¨ÊäÈë/Ä£ÄâÊäÈë)ÏÂ,OTYPEºÍOSPEED²ÎÊýÎÞÐ§!!
 void GPIO_Set(GPIO_TypeDef* GPIOx,u32 BITx,u32 MODE,u32 OTYPE,u32 OSPEED,u32 PUPD)
 {  
 	u32 pinpos=0,pos=0,curpin=0;
 	for(pinpos=0;pinpos<16;pinpos++)
 	{
-		pos=1<<pinpos;	//Ò»ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ 
-		curpin=BITx&pos;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Òªï¿½ï¿½ï¿½ï¿½
-		if(curpin==pos)	//ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½
+		pos=1<<pinpos;	//Ò»¸ö¸öÎ»¼ì²é 
+		curpin=BITx&pos;//¼ì²éÒý½ÅÊÇ·ñÒªÉèÖÃ
+		if(curpin==pos)	//ÐèÒªÉèÖÃ
 		{
-			GPIOx->MODER&=~(3<<(pinpos*2));	//ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-			GPIOx->MODER|=MODE<<(pinpos*2);	//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½Ä£Ê½ 
-			if((MODE==0X01)||(MODE==0X02))	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½/ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½Ä£Ê½
+			GPIOx->MODER&=~(3<<(pinpos*2));	//ÏÈÇå³ýÔ­À´µÄÉèÖÃ
+			GPIOx->MODER|=MODE<<(pinpos*2);	//ÉèÖÃÐÂµÄÄ£Ê½ 
+			if((MODE==0X01)||(MODE==0X02))	//Èç¹ûÊÇÊä³öÄ£Ê½/¸´ÓÃ¹¦ÄÜÄ£Ê½
 			{  
-				GPIOx->OSPEEDR&=~(3<<(pinpos*2));	//ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-				GPIOx->OSPEEDR|=(OSPEED<<(pinpos*2));//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½Ù¶ï¿½Öµ  
-				GPIOx->OTYPER&=~(1<<pinpos) ;		//ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-				GPIOx->OTYPER|=OTYPE<<pinpos;		//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½Ä£Ê½
+				GPIOx->OSPEEDR&=~(3<<(pinpos*2));	//Çå³ýÔ­À´µÄÉèÖÃ
+				GPIOx->OSPEEDR|=(OSPEED<<(pinpos*2));//ÉèÖÃÐÂµÄËÙ¶ÈÖµ  
+				GPIOx->OTYPER&=~(1<<pinpos) ;		//Çå³ýÔ­À´µÄÉèÖÃ
+				GPIOx->OTYPER|=OTYPE<<pinpos;		//ÉèÖÃÐÂµÄÊä³öÄ£Ê½
 			}  
-			GPIOx->PUPDR&=~(3<<(pinpos*2));	//ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-			GPIOx->PUPDR|=PUPD<<(pinpos*2);	//ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			GPIOx->PUPDR&=~(3<<(pinpos*2));	//ÏÈÇå³ýÔ­À´µÄÉèÖÃ
+			GPIOx->PUPDR|=PUPD<<(pinpos*2);	//ÉèÖÃÐÂµÄÉÏÏÂÀ­
 		}
 	}
 } 
-//ï¿½ï¿½ï¿½ï¿½GPIOÄ³ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ï¿½×´Ì¬
+//ÉèÖÃGPIOÄ³¸öÒý½ÅµÄÊä³ö×´Ì¬
 //GPIOx:GPIOA~GPIOK.
-//pinx:ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½,ï¿½ï¿½Î§:1<<0 ~ 1<<15
-//status:ï¿½ï¿½ï¿½ï¿½×´Ì¬(ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½Ð§),0,ï¿½ï¿½ï¿½ï¿½Íµï¿½Æ½;1,ï¿½ï¿½ï¿½ï¿½ßµï¿½Æ½
+//pinx:Òý½ÅÎ»ÖÃ,·¶Î§:1<<0 ~ 1<<15
+//status:Òý½Å×´Ì¬(½ö×îµÍÎ»ÓÐÐ§),0,Êä³öµÍµçÆ½;1,Êä³ö¸ßµçÆ½
 void GPIO_Pin_Set(GPIO_TypeDef* GPIOx,u16 pinx,u8 status)
 {
-	if(status&0X01)GPIOx->BSRR=pinx<<0;	//ï¿½ï¿½ï¿½ï¿½GPIOxï¿½ï¿½pinxÎª1
-	else GPIOx->BSRR=pinx<<16;				//ï¿½ï¿½ï¿½ï¿½GPIOxï¿½ï¿½pinxÎª0
+	if(status&0X01)GPIOx->BSRR=pinx<<0;	//ÉèÖÃGPIOxµÄpinxÎª1
+	else GPIOx->BSRR=pinx<<16;				//ÉèÖÃGPIOxµÄpinxÎª0
 }
-//ï¿½ï¿½È¡GPIOÄ³ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½×´Ì¬
+//¶ÁÈ¡GPIOÄ³¸öÒý½ÅµÄ×´Ì¬
 //GPIOx:GPIOA~GPIOK.
-//pinx:ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½,ï¿½ï¿½Î§:1<<0 ~ 1<<15
-//ï¿½ï¿½ï¿½ï¿½Öµ:ï¿½ï¿½ï¿½ï¿½×´Ì¬,0,ï¿½ï¿½ï¿½ÅµÍµï¿½Æ½;1,ï¿½ï¿½ï¿½Å¸ßµï¿½Æ½
+//pinx:Òý½ÅÎ»ÖÃ,·¶Î§:1<<0 ~ 1<<15
+//·µ»ØÖµ:Òý½Å×´Ì¬,0,Òý½ÅµÍµçÆ½;1,Òý½Å¸ßµçÆ½
 u8 GPIO_Pin_Get(GPIO_TypeDef* GPIOx,u16 pinx)
 { 
-	if(GPIOx->IDR&pinx)return 1;		//pinxï¿½ï¿½×´Ì¬Îª1
-	else return 0;						//pinxï¿½ï¿½×´Ì¬Îª0
+	if(GPIOx->IDR&pinx)return 1;		//pinxµÄ×´Ì¬Îª1
+	else return 0;						//pinxµÄ×´Ì¬Îª0
 }
-//THUMBÖ¸ï¿½î²»Ö§ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½Êµï¿½ï¿½Ö´ï¿½Ð»ï¿½ï¿½Ö¸ï¿½ï¿½WFI  
+//THUMBÖ¸Áî²»Ö§³Ö»ã±àÄÚÁª
+//²ÉÓÃÈçÏÂ·½·¨ÊµÏÖÖ´ÐÐ»ã±àÖ¸ÁîWFI  
 void WFI_SET(void)
 {
 	__ASM volatile("wfi");		  
 }
-//ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½(ï¿½ï¿½ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½faultï¿½ï¿½NMIï¿½Ð¶ï¿½)
+//¹Ø±ÕËùÓÐÖÐ¶Ï(µ«ÊÇ²»°üÀ¨faultºÍNMIÖÐ¶Ï)
 void INTX_DISABLE(void)
 {
 	__ASM volatile("cpsid i");
 }
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
+//¿ªÆôËùÓÐÖÐ¶Ï
 void INTX_ENABLE(void)
 {
 	__ASM volatile("cpsie i");		  
 }
-//ï¿½ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½Ö·
-//addr:Õ»ï¿½ï¿½ï¿½ï¿½Ö·
+//ÉèÖÃÕ»¶¥µØÖ·
+//addr:Õ»¶¥µØÖ·
 void MSR_MSP(u32 addr)
 {
 	asm("MSR MSP, r0"); 			//set Main Stack value
 	asm("BX r14");
 }
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½	  
+#if daniel
+__asm void MSR_MSP(u32 addr) 
+{
+	MSR MSP, r0 			//set Main Stack value
+	BX r14
+}
+#endif
+//½øÈë´ý»úÄ£Ê½	  
 void Sys_Standby(void)
 { 
- 	PWR->WKUPEPR|=1<<0;		//WKUPEN0=1,PA0ï¿½ï¿½ï¿½ï¿½WKUPï¿½ï¿½ï¿½ï¿½
- 	PWR->WKUPEPR&=~(1<<8);	//WKUPP0=0,PA0ï¿½ßµï¿½Æ½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)	
- 	PWR->WKUPEPR&=~(3<<16);	//ï¿½ï¿½ï¿½WKUPPUPDÔ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	PWR->WKUPEPR|=2<<16;	//WKUPPUPD=10,PA0ï¿½ï¿½ï¿½ï¿½ 
-	PWR->WKUPCR|=0X3F<<0;	//ï¿½ï¿½ï¿½WKUP0~5ï¿½ï¿½ï¿½Ñ±ï¿½Ö¾
-	PWR->CPUCR|=7<<0;		//PDDS_D1/D2/D3=1,ï¿½ï¿½ï¿½ï¿½D1/D2/D3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¯ï¿½ï¿½Ä£Ê½(PDDS) 
-	SCB->SCR|=1<<2;			//Ê¹ï¿½ï¿½SLEEPDEEPÎ» (SYS->CTRL)	 
-	WFI_SET();				//Ö´ï¿½ï¿½WFIÖ¸ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½		 
+ 	PWR->WKUPEPR|=1<<0;		//WKUPEN0=1,PA0ÓÃÓÚWKUP»½ÐÑ
+ 	PWR->WKUPEPR&=~(1<<8);	//WKUPP0=0,PA0¸ßµçÆ½»½ÐÑ(ÉÏÉýÑØ)	
+ 	PWR->WKUPEPR&=~(3<<16);	//Çå³ýWKUPPUPDÔ­À´µÄÉèÖÃ
+	PWR->WKUPEPR|=2<<16;	//WKUPPUPD=10,PA0ÏÂÀ­ 
+	PWR->WKUPCR|=0X3F<<0;	//Çå³ýWKUP0~5»½ÐÑ±êÖ¾
+	PWR->CPUCR|=7<<0;		//PDDS_D1/D2/D3=1,ÔÊÐíD1/D2/D3½øÈëÉî¶ÈË¯ÃßÄ£Ê½(PDDS) 
+	SCB->SCR|=1<<2;			//Ê¹ÄÜSLEEPDEEPÎ» (SYS->CTRL)	 
+	WFI_SET();				//Ö´ÐÐWFIÖ¸Áî,½øÈë´ý»úÄ£Ê½		 
 }
-//ÏµÍ³ï¿½ï¿½Î»   
+//ÏµÍ³Èí¸´Î»   
 void Sys_Soft_Reset(void)
 {   
 	SCB->AIRCR =0X05FA0000|(u32)0x04;	  
 } 
-//Ê¹ï¿½ï¿½STM32H7ï¿½ï¿½L1-Cache,Í¬Ê±ï¿½ï¿½ï¿½ï¿½D cacheï¿½ï¿½Ç¿ï¿½ï¿½Í¸Ð´
+//Ê¹ÄÜSTM32H7µÄL1-Cache,Í¬Ê±¿ªÆôD cacheµÄÇ¿ÖÆÍ¸Ð´
 void Cache_Enable(void)
 {
-    SCB_EnableICache();	//Ê¹ï¿½ï¿½I-Cache,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½core_cm7.hï¿½ï¿½ï¿½æ¶¨ï¿½ï¿½
-    SCB_EnableDCache();	//Ê¹ï¿½ï¿½D-Cache,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½core_cm7.hï¿½ï¿½ï¿½æ¶¨ï¿½ï¿½ 
-	SCB->CACR|=1<<2;	//Ç¿ï¿½ï¿½D-CacheÍ¸Ð´,ï¿½ç²»ï¿½ï¿½ï¿½ï¿½Í¸Ð´,Êµï¿½ï¿½Ê¹ï¿½ï¿½ï¿½Ð¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    SCB_EnableICache();	//Ê¹ÄÜI-Cache,º¯ÊýÔÚcore_cm7.hÀïÃæ¶¨Òå
+    SCB_EnableDCache();	//Ê¹ÄÜD-Cache,º¯ÊýÔÚcore_cm7.hÀïÃæ¶¨Òå 
+	SCB->CACR|=1<<2;	//Ç¿ÖÆD-CacheÍ¸Ð´,Èç²»¿ªÆôÍ¸Ð´,Êµ¼ÊÊ¹ÓÃÖÐ¿ÉÄÜÓöµ½¸÷ÖÖÎÊÌâ
 }
-//Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½
+//Ê±ÖÓÉèÖÃº¯Êý
 //Fvco=Fs*(plln/pllm);
 //Fsys=Fvco/pllp=Fs*(plln/(pllm*pllp));
 //Fq=Fvco/pllq=Fs*(plln/(pllm*pllq));
 
-//Fvco:VCOÆµï¿½ï¿½
-//Fsys:ÏµÍ³Ê±ï¿½ï¿½Æµï¿½ï¿½,Ò²ï¿½ï¿½PLL1ï¿½ï¿½pï¿½ï¿½Æµï¿½ï¿½ï¿½Ê±ï¿½ï¿½Æµï¿½ï¿½
-//Fq:PLL1ï¿½ï¿½qï¿½ï¿½Æµï¿½ï¿½ï¿½Ê±ï¿½ï¿½Æµï¿½ï¿½
-//Fs:PLLï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Æµï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½HSI,CSI,HSEï¿½ï¿½. 
+//Fvco:VCOÆµÂÊ
+//Fsys:ÏµÍ³Ê±ÖÓÆµÂÊ,Ò²ÊÇPLL1µÄp·ÖÆµÊä³öÊ±ÖÓÆµÂÊ
+//Fq:PLL1µÄq·ÖÆµÊä³öÊ±ÖÓÆµÂÊ
+//Fs:PLLÊäÈëÊ±ÖÓÆµÂÊ,¿ÉÒÔÊÇHSI,CSI,HSEµÈ. 
 
-//plln:PLL1ï¿½ï¿½ÆµÏµï¿½ï¿½(PLLï¿½ï¿½Æµ),È¡Öµï¿½ï¿½Î§:4~512.
-//pllm:PLL1Ô¤ï¿½ï¿½ÆµÏµï¿½ï¿½(ï¿½ï¿½PLLÖ®Ç°ï¿½Ä·ï¿½Æµ),È¡Öµï¿½ï¿½Î§:2~63.
-//pllp:PLL1ï¿½ï¿½pï¿½ï¿½ÆµÏµï¿½ï¿½(PLLÖ®ï¿½ï¿½Ä·ï¿½Æµ),ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ÎªÏµÍ³Ê±ï¿½ï¿½,È¡Öµï¿½ï¿½Î§:2~128.(ï¿½Ò±ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½Ä±ï¿½ï¿½ï¿½)
-//pllq:PLL1ï¿½ï¿½qï¿½ï¿½ÆµÏµï¿½ï¿½(PLLÖ®ï¿½ï¿½Ä·ï¿½Æµ),È¡Öµï¿½ï¿½Î§:1~128.
+//plln:PLL1±¶ÆµÏµÊý(PLL±¶Æµ),È¡Öµ·¶Î§:4~512.
+//pllm:PLL1Ô¤·ÖÆµÏµÊý(½øPLLÖ®Ç°µÄ·ÖÆµ),È¡Öµ·¶Î§:2~63.
+//pllp:PLL1µÄp·ÖÆµÏµÊý(PLLÖ®ºóµÄ·ÖÆµ),·ÖÆµºó×÷ÎªÏµÍ³Ê±ÖÓ,È¡Öµ·¶Î§:2~128.(ÇÒ±ØÐëÊÇ2µÄ±¶Êý)
+//pllq:PLL1µÄq·ÖÆµÏµÊý(PLLÖ®ºóµÄ·ÖÆµ),È¡Öµ·¶Î§:1~128.
 
-//CPUÆµï¿½ï¿½(rcc_c_ck)=sys_d1cpre_ck=400Mhz 
+//CPUÆµÂÊ(rcc_c_ck)=sys_d1cpre_ck=400Mhz 
 //rcc_aclk=rcc_hclk3=200Mhz
 //AHB1/2/3/4(rcc_hclk1/2/3/4)=200Mhz  
 //APB1/2/3/4(rcc_pclk1/2/3/4)=100Mhz  
 //pll2_p_ck=(25/25)*440/2)=220Mhz
-//pll2_r_ck=FMCÊ±ï¿½ï¿½Æµï¿½ï¿½=((25/25)*440/2)=110Mhz
+//pll2_r_ck=FMCÊ±ÖÓÆµÂÊ=((25/25)*440/2)=110Mhz
 
-//ï¿½â²¿ï¿½ï¿½ï¿½ï¿½Îª25Mï¿½ï¿½Ê±ï¿½ï¿½,ï¿½Æ¼ï¿½Öµ:plln=160,pllm=5,pllp=2,pllq=4.
-//ï¿½Ãµï¿½:Fvco=25*(160/5)=800Mhz
+//Íâ²¿¾§ÕñÎª25MµÄÊ±ºò,ÍÆ¼öÖµ:plln=160,pllm=5,pllp=2,pllq=4.
+//µÃµ½:Fvco=25*(160/5)=800Mhz
 //     Fsys=pll1_p_ck=800/2=400Mhz
 //     Fq=pll1_q_ck=800/4=200Mhz
-//ï¿½ï¿½ï¿½ï¿½Öµ:0,ï¿½É¹ï¿½;1,Ê§ï¿½Ü¡ï¿½
+//·µ»ØÖµ:0,³É¹¦;1,Ê§°Ü¡£
 u8 Sys_Clock_Set(u32 plln,u32 pllm,u32 pllp,u32 pllq)
 { 
 	u16 retry=0;
 	u8 status=0;
 	
-	PWR->CR3&=~(1<<2);				//SCUEN=0,ï¿½ï¿½ï¿½ï¿½LDOENï¿½ï¿½BYPASSÎ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	PWR->D3CR|=3<<14;				//VOS=3,Scale1,1.15~1.26Vï¿½ÚºËµï¿½Ñ¹,FLASHï¿½ï¿½ï¿½Ê¿ï¿½ï¿½ÔµÃµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	while((PWR->D3CR&(1<<13))==0);	//ï¿½È´ï¿½ï¿½ï¿½Ñ¹ï¿½È¶ï¿½ 
-	RCC->CR|=1<<16;					//HSEON=1,ï¿½ï¿½ï¿½ï¿½HSE
-	while(((RCC->CR&(1<<17))==0)&&(retry<0X7FFF))retry++;//ï¿½È´ï¿½HSE RDY
-	if(retry==0X7FFF)status=1;		//HSEï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½
+	PWR->CR3&=~(1<<2);				//SCUEN=0,Ëø¶¨LDOENºÍBYPASSÎ»µÄÉèÖÃ
+	PWR->D3CR|=3<<14;				//VOS=3,Scale1,1.15~1.26VÄÚºËµçÑ¹,FLASH·ÃÎÊ¿ÉÒÔµÃµ½×î¸ßÐÔÄÜ
+	while((PWR->D3CR&(1<<13))==0);	//µÈ´ýµçÑ¹ÎÈ¶¨ 
+	RCC->CR|=1<<16;					//HSEON=1,¿ªÆôHSE
+	while(((RCC->CR&(1<<17))==0)&&(retry<0X7FFF))retry++;//µÈ´ýHSE RDY
+	if(retry==0X7FFF)status=1;		//HSEÎÞ·¨¾ÍÐ÷
 	else   
 	{
-		RCC->PLLCKSELR|=2<<0;		//PLLSRC[1:0]=2,Ñ¡ï¿½ï¿½HSEï¿½ï¿½ÎªPLLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ô´
-		RCC->PLLCKSELR|=pllm<<4;	//DIVM1[5:0]=pllm,ï¿½ï¿½ï¿½ï¿½PLL1ï¿½ï¿½Ô¤ï¿½ï¿½ÆµÏµï¿½ï¿½
-		RCC->PLL1DIVR|=(plln-1)<<0;	//DIVN1[8:0]=plln-1,ï¿½ï¿½ï¿½ï¿½PLL1ï¿½Ä±ï¿½ÆµÏµï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½1
-		RCC->PLL1DIVR|=(pllp-1)<<9;	//DIVP1[6:0]=pllp-1,ï¿½ï¿½ï¿½ï¿½PLL1ï¿½ï¿½pï¿½ï¿½ÆµÏµï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½1
-		RCC->PLL1DIVR|=(pllq-1)<<16;//DIVQ1[6:0]=pllq-1,ï¿½ï¿½ï¿½ï¿½PLL1ï¿½ï¿½qï¿½ï¿½ÆµÏµï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½1
-		RCC->PLL1DIVR|=1<<24;		//DIVR1[6:0]=pllr-1,ï¿½ï¿½ï¿½ï¿½PLL1ï¿½ï¿½rï¿½ï¿½ÆµÏµï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½1,rï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ã»ï¿½Ãµï¿½
-		RCC->PLLCFGR|=2<<2;			//PLL1RGE[1:0]=2,PLL1ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½4~8MhzÖ®ï¿½ï¿½(25/5=5Mhz),ï¿½ï¿½ï¿½Þ¸ï¿½pllm,ï¿½ï¿½È·ï¿½Ï´Ë²ï¿½ï¿½ï¿½
-		RCC->PLLCFGR|=0<<1;			//PLL1VCOSEL=0,PLL1ï¿½ï¿½ï¿½VCOï¿½ï¿½Î§,192~836Mhz
-		RCC->PLLCFGR|=3<<16;		//DIVP1EN=1,DIVQ1EN=1,Ê¹ï¿½ï¿½pll1_p_ckï¿½ï¿½pll1_q_ck
-		RCC->CR|=1<<24;				//PLL1ON=1,Ê¹ï¿½ï¿½PLL1
-		while((RCC->CR&(1<<25))==0);//PLL1RDY=1?,ï¿½È´ï¿½PLL1×¼ï¿½ï¿½ï¿½ï¿½  
+		RCC->PLLCKSELR|=2<<0;		//PLLSRC[1:0]=2,Ñ¡ÔñHSE×÷ÎªPLLµÄÊäÈëÊ±ÖÓÔ´
+		RCC->PLLCKSELR|=pllm<<4;	//DIVM1[5:0]=pllm,ÉèÖÃPLL1µÄÔ¤·ÖÆµÏµÊý
+		RCC->PLL1DIVR|=(plln-1)<<0;	//DIVN1[8:0]=plln-1,ÉèÖÃPLL1µÄ±¶ÆµÏµÊý,ÉèÖÃÖµÐè¼õ1
+		RCC->PLL1DIVR|=(pllp-1)<<9;	//DIVP1[6:0]=pllp-1,ÉèÖÃPLL1µÄp·ÖÆµÏµÊý,ÉèÖÃÖµÐè¼õ1
+		RCC->PLL1DIVR|=(pllq-1)<<16;//DIVQ1[6:0]=pllq-1,ÉèÖÃPLL1µÄq·ÖÆµÏµÊý,ÉèÖÃÖµÐè¼õ1
+		RCC->PLL1DIVR|=1<<24;		//DIVR1[6:0]=pllr-1,ÉèÖÃPLL1µÄr·ÖÆµÏµÊý,ÉèÖÃÖµÐè¼õ1,r·ÖÆµ³öÀ´µÄÊ±ÖÓÃ»ÓÃµ½
+		RCC->PLLCFGR|=2<<2;			//PLL1RGE[1:0]=2,PLL1ÊäÈëÊ±ÖÓÆµÂÊÔÚ4~8MhzÖ®¼ä(25/5=5Mhz),ÈçÐÞ¸Äpllm,ÇëÈ·ÈÏ´Ë²ÎÊý
+		RCC->PLLCFGR|=0<<1;			//PLL1VCOSEL=0,PLL1¿íµÄVCO·¶Î§,192~836Mhz
+		RCC->PLLCFGR|=3<<16;		//DIVP1EN=1,DIVQ1EN=1,Ê¹ÄÜpll1_p_ckºÍpll1_q_ck
+		RCC->CR|=1<<24;				//PLL1ON=1,Ê¹ÄÜPLL1
+		while((RCC->CR&(1<<25))==0);//PLL1RDY=1?,µÈ´ýPLL1×¼±¸ºÃ  
 	
-		//ï¿½ï¿½ï¿½ï¿½PLL2ï¿½ï¿½Rï¿½ï¿½Æµï¿½ï¿½ï¿½,Îª220Mhz,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SDRAMÊ±ï¿½ï¿½,ï¿½ÉµÃµï¿½110Mï¿½ï¿½SDRAMÊ±ï¿½ï¿½Æµï¿½ï¿½
-		RCC->PLLCKSELR|=8<<12;		//DIVM2[5:0]=25,ï¿½ï¿½ï¿½ï¿½PLL2ï¿½ï¿½Ô¤ï¿½ï¿½ÆµÏµï¿½ï¿½
-		RCC->PLL2DIVR|=(440-1)<<0;	//DIVN2[8:0]=440-1,ï¿½ï¿½ï¿½ï¿½PLL2ï¿½Ä±ï¿½ÆµÏµï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½1
-		RCC->PLL2DIVR|=(2-1)<<9;	//DIVP2[6:0]=2-1,ï¿½ï¿½ï¿½ï¿½PLL2ï¿½ï¿½pï¿½ï¿½ÆµÏµï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½1
-		RCC->PLL2DIVR|=(2-1)<<24;	//DIVR2[6:0]=2-1,ï¿½ï¿½ï¿½ï¿½PLL2ï¿½ï¿½rï¿½ï¿½ÆµÏµï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½1
-		RCC->PLLCFGR|=0<<6;			//PLL2RGE[1:0]=0,PLL2ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½1~2MhzÖ®ï¿½ï¿½(25/25=1Mhz)
-		RCC->PLLCFGR|=0<<5;			//PLL2VCOSEL=0,PLL2ï¿½ï¿½ï¿½VCOï¿½ï¿½Î§,192~836Mhz
-		RCC->PLLCFGR|=1<<19;		//DIVP2EN=1,Ê¹ï¿½ï¿½pll2_p_ck
-		RCC->PLLCFGR|=1<<21;		//DIVR2EN=1,Ê¹ï¿½ï¿½pll2_r_ck
-		RCC->D1CCIPR&=~(3<<0);		//ï¿½ï¿½ï¿½FMCSEL[1:0]Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-		RCC->D1CCIPR|=2<<0;			//FMCSEL[1:0]=2,FMCÊ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pll2_r_ck		
-		RCC->CR|=1<<26;				//PLL2ON=1,Ê¹ï¿½ï¿½PLL2
-		while((RCC->CR&(1<<27))==0);//PLL2RDY=1?,ï¿½È´ï¿½PLL2×¼ï¿½ï¿½ï¿½ï¿½  
+		//ÉèÖÃPLL2µÄR·ÖÆµÊä³ö,Îª220Mhz,ºóÐø×öSDRAMÊ±ÖÓ,¿ÉµÃµ½110MµÄSDRAMÊ±ÖÓÆµÂÊ
+		RCC->PLLCKSELR|=8<<12;		//DIVM2[5:0]=25,ÉèÖÃPLL2µÄÔ¤·ÖÆµÏµÊý
+		RCC->PLL2DIVR|=(440-1)<<0;	//DIVN2[8:0]=440-1,ÉèÖÃPLL2µÄ±¶ÆµÏµÊý,ÉèÖÃÖµÐè¼õ1
+		RCC->PLL2DIVR|=(2-1)<<9;	//DIVP2[6:0]=2-1,ÉèÖÃPLL2µÄp·ÖÆµÏµÊý,ÉèÖÃÖµÐè¼õ1
+		RCC->PLL2DIVR|=(2-1)<<24;	//DIVR2[6:0]=2-1,ÉèÖÃPLL2µÄr·ÖÆµÏµÊý,ÉèÖÃÖµÐè¼õ1
+		RCC->PLLCFGR|=0<<6;			//PLL2RGE[1:0]=0,PLL2ÊäÈëÊ±ÖÓÆµÂÊÔÚ1~2MhzÖ®¼ä(25/25=1Mhz)
+		RCC->PLLCFGR|=0<<5;			//PLL2VCOSEL=0,PLL2¿íµÄVCO·¶Î§,192~836Mhz
+		RCC->PLLCFGR|=1<<19;		//DIVP2EN=1,Ê¹ÄÜpll2_p_ck
+		RCC->PLLCFGR|=1<<21;		//DIVR2EN=1,Ê¹ÄÜpll2_r_ck
+		RCC->D1CCIPR&=~(3<<0);		//Çå³ýFMCSEL[1:0]Ô­À´µÄÉèÖÃ
+		RCC->D1CCIPR|=2<<0;			//FMCSEL[1:0]=2,FMCÊ±ÖÓÀ´×ÔÓÚpll2_r_ck		
+		RCC->CR|=1<<26;				//PLL2ON=1,Ê¹ÄÜPLL2
+		while((RCC->CR&(1<<27))==0);//PLL2RDY=1?,µÈ´ýPLL2×¼±¸ºÃ  
 	
-		RCC->D1CFGR|=8<<0;			//HREF[3:0]=8,rcc_hclk1/2/3/4=sys_d1cpre_ck/2=400/2=200Mhz,ï¿½ï¿½AHB1/2/3/4=200Mhz
-		RCC->D1CFGR|=0<<8;			//D1CPRE[2:0]=0,sys_d1cpre_ck=sys_clk/1=400/1=400Mhz,ï¿½ï¿½CPUÊ±ï¿½ï¿½=400Mhz
-		RCC->CFGR|=3<<0;			//SW[2:0]=3,ÏµÍ³Ê±ï¿½ï¿½(sys_clk)Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pll1_p_ck,ï¿½ï¿½400Mhz
+		RCC->D1CFGR|=8<<0;			//HREF[3:0]=8,rcc_hclk1/2/3/4=sys_d1cpre_ck/2=400/2=200Mhz,¼´AHB1/2/3/4=200Mhz
+		RCC->D1CFGR|=0<<8;			//D1CPRE[2:0]=0,sys_d1cpre_ck=sys_clk/1=400/1=400Mhz,¼´CPUÊ±ÖÓ=400Mhz
+		RCC->CFGR|=3<<0;			//SW[2:0]=3,ÏµÍ³Ê±ÖÓ(sys_clk)Ñ¡ÔñÀ´×Ôpll1_p_ck,¼´400Mhz
 		while(1)
 		{
-			retry=(RCC->CFGR&(7<<3))>>3;	//ï¿½ï¿½È¡SWS[2:0]ï¿½ï¿½×´Ì¬,ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½Ð»ï¿½ï¿½É¹ï¿½
-			if(retry==3)break;		//ï¿½É¹ï¿½ï¿½ï¿½ÏµÍ³Ê±ï¿½ï¿½Ô´ï¿½Ð»ï¿½Îªpll1_p_ck
+			retry=(RCC->CFGR&(7<<3))>>3;	//»ñÈ¡SWS[2:0]µÄ×´Ì¬,ÅÐ¶ÏÊÇ·ñÇÐ»»³É¹¦
+			if(retry==3)break;		//³É¹¦½«ÏµÍ³Ê±ÖÓÔ´ÇÐ»»Îªpll1_p_ck
 		}
 			
-		FLASH->ACR|=3<<0;			//LATENCY[2:0]=2,2ï¿½ï¿½CPUï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½(@VOS1 Level,maxclock=210Mhz)
-		FLASH->ACR|=2<<4;			//WRHIGHFREQ[1:0]=2,flashï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½<285Mhz
+		FLASH->ACR|=3<<0;			//LATENCY[2:0]=2,2¸öCPUµÈ´ýÖÜÆÚ(@VOS1 Level,maxclock=210Mhz)
+		FLASH->ACR|=2<<4;			//WRHIGHFREQ[1:0]=2,flash·ÃÎÊÆµÂÊ<285Mhz
 		
-		RCC->D1CFGR|=4<<4;			//D1PPRE[2:0]=4,rcc_pclk3=rcc_hclk3/2=100Mhz,ï¿½ï¿½APB3=100Mhz
-		RCC->D2CFGR|=4<<4;			//D2PPRE1[2:0]=4,rcc_pclk1=rcc_hclk1/2=100Mhz,ï¿½ï¿½APB1=100Mhz
-		RCC->D2CFGR|=4<<8;			//D2PPRE2[2:0]=4,rcc_pclk2=rcc_hclk1/2=100Mhz,ï¿½ï¿½APB2=100Mhz
-		RCC->D3CFGR|=4<<4;			//D3PPRE[2:0]=4,rcc_pclk4=rcc_hclk4/2=100Mhz,ï¿½ï¿½APB4=100Mhz
+		RCC->D1CFGR|=4<<4;			//D1PPRE[2:0]=4,rcc_pclk3=rcc_hclk3/2=100Mhz,¼´APB3=100Mhz
+		RCC->D2CFGR|=4<<4;			//D2PPRE1[2:0]=4,rcc_pclk1=rcc_hclk1/2=100Mhz,¼´APB1=100Mhz
+		RCC->D2CFGR|=4<<8;			//D2PPRE2[2:0]=4,rcc_pclk2=rcc_hclk1/2=100Mhz,¼´APB2=100Mhz
+		RCC->D3CFGR|=4<<4;			//D3PPRE[2:0]=4,rcc_pclk4=rcc_hclk4/2=100Mhz,¼´APB4=100Mhz
  
-		RCC->CR|=1<<7;				//CSION=1,Ê¹ï¿½ï¿½CSI,ÎªIOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½á¹©Ê±ï¿½ï¿½
-		RCC->APB4ENR|=1<<1;			//SYSCFGEN=1,Ê¹ï¿½ï¿½SYSCFGÊ±ï¿½ï¿½
-		SYSCFG->CCCSR|=1<<0;		//EN=1,Ê¹ï¿½ï¿½IOï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôª 
+		RCC->CR|=1<<7;				//CSION=1,Ê¹ÄÜCSI,ÎªIO²¹³¥µ¥ÔªÌá¹©Ê±ÖÓ
+		RCC->APB4ENR|=1<<1;			//SYSCFGEN=1,Ê¹ÄÜSYSCFGÊ±ÖÓ
+		SYSCFG->CCCSR|=1<<0;		//EN=1,Ê¹ÄÜIO²¹³¥µ¥Ôª 
 	} 
 	return status;
 }  
 
-//ÏµÍ³Ê±ï¿½Ó³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-//plln:PLL1ï¿½ï¿½ÆµÏµï¿½ï¿½(PLLï¿½ï¿½Æµ),È¡Öµï¿½ï¿½Î§:4~512.
-//pllm:PLL1Ô¤ï¿½ï¿½ÆµÏµï¿½ï¿½(ï¿½ï¿½PLLÖ®Ç°ï¿½Ä·ï¿½Æµ),È¡Öµï¿½ï¿½Î§:2~63.
-//pllp:PLL1ï¿½ï¿½pï¿½ï¿½ÆµÏµï¿½ï¿½(PLLÖ®ï¿½ï¿½Ä·ï¿½Æµ),ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ÎªÏµÍ³Ê±ï¿½ï¿½,È¡Öµï¿½ï¿½Î§:2~128.(ï¿½Ò±ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½Ä±ï¿½ï¿½ï¿½)
-//pllq:PLL1ï¿½ï¿½qï¿½ï¿½ÆµÏµï¿½ï¿½(PLLÖ®ï¿½ï¿½Ä·ï¿½Æµ),È¡Öµï¿½ï¿½Î§:2~128.
+//ÏµÍ³Ê±ÖÓ³õÊ¼»¯º¯Êý
+//plln:PLL1±¶ÆµÏµÊý(PLL±¶Æµ),È¡Öµ·¶Î§:4~512.
+//pllm:PLL1Ô¤·ÖÆµÏµÊý(½øPLLÖ®Ç°µÄ·ÖÆµ),È¡Öµ·¶Î§:2~63.
+//pllp:PLL1µÄp·ÖÆµÏµÊý(PLLÖ®ºóµÄ·ÖÆµ),·ÖÆµºó×÷ÎªÏµÍ³Ê±ÖÓ,È¡Öµ·¶Î§:2~128.(ÇÒ±ØÐëÊÇ2µÄ±¶Êý)
+//pllq:PLL1µÄq·ÖÆµÏµÊý(PLLÖ®ºóµÄ·ÖÆµ),È¡Öµ·¶Î§:2~128.
 void Stm32_Clock_Init(u32 plln,u32 pllm,u32 pllp,u32 pllq)
 {  
 	/* FPU settings ------------------------------------------------------------*/
@@ -335,20 +342,20 @@ void Stm32_Clock_Init(u32 plln,u32 pllm,u32 pllp,u32 pllq)
 
   /* Disable all interrupts */
     RCC->CIER = 0x00000000;
-	RCC->CR=0x00000001;				//ï¿½ï¿½ï¿½ï¿½HISON,ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½RCï¿½ñµ´£ï¿½ï¿½ï¿½ï¿½ï¿½Î»È«ï¿½ï¿½ï¿½ï¿½
-	RCC->CFGR=0x00000000;			//CFGRï¿½ï¿½ï¿½ï¿½ 
-	RCC->D1CFGR=0x00000000;			//D1CFGRï¿½ï¿½ï¿½ï¿½ 
-	RCC->D2CFGR=0x00000000;			//D2CFGRï¿½ï¿½ï¿½ï¿½ 
-	RCC->D3CFGR=0x00000000;			//D3CFGRï¿½ï¿½ï¿½ï¿½ 
-	RCC->PLLCKSELR=0x00000000;		//PLLCKSELRï¿½ï¿½ï¿½ï¿½ 
-	RCC->PLLCFGR=0x00000000;		//PLLCFGRï¿½ï¿½ï¿½ï¿½ 
-	RCC->CIER=0x00000000;			//CIERï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½RCCï¿½ï¿½ï¿½ï¿½Ð¶ï¿½  
-	//AXI_TARG7_FN_MODï¿½Ä´ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½stm32h743xx.hï¿½ï¿½ï¿½æ¶¨ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½,Ö»ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ï¿½
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½Ä·ï¿½Ê½,ï¿½ï¿½ï¿½Þ¸ï¿½,ï¿½Ã¼Ä´ï¿½ï¿½ï¿½ï¿½ï¿½<<STM32H7xxï¿½Î¿ï¿½ï¿½Ö²ï¿½>>ï¿½ï¿½119Ò³,table 5
-	//*((vu32*)0x51008108)=0x00000001;//ï¿½ï¿½ï¿½ï¿½AXI SRAMï¿½Ä¾ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Îª1 
-	Cache_Enable();					//Ê¹ï¿½ï¿½L1 Cache
-	Sys_Clock_Set(plln,pllm,pllp,pllq);//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ 
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½				  
+	RCC->CR=0x00000001;				//ÉèÖÃHISON,¿ªÆôÄÚ²¿¸ßËÙRCÕñµ´£¬ÆäËûÎ»È«ÇåÁã
+	RCC->CFGR=0x00000000;			//CFGRÇåÁã 
+	RCC->D1CFGR=0x00000000;			//D1CFGRÇåÁã 
+	RCC->D2CFGR=0x00000000;			//D2CFGRÇåÁã 
+	RCC->D3CFGR=0x00000000;			//D3CFGRÇåÁã 
+	RCC->PLLCKSELR=0x00000000;		//PLLCKSELRÇåÁã 
+	RCC->PLLCFGR=0x00000000;		//PLLCFGRÇåÁã 
+	RCC->CIER=0x00000000;			//CIERÇåÁã,½ûÖ¹ËùÓÐRCCÏà¹ØÖÐ¶Ï  
+	//AXI_TARG7_FN_MOD¼Ä´æÆ÷,ÓÉÓÚÃ»ÓÐÔÚstm32h743xx.hÀïÃæ¶¨Òå,ËùÒÔ,Ö»ÄÜÓÃÖ±½Ó
+	//²Ù×÷µØÖ·µÄ·½Ê½,À´ÐÞ¸Ä,¸Ã¼Ä´æÆ÷ÔÚ<<STM32H7xx²Î¿¼ÊÖ²á>>µÚ119Ò³,table 5
+	//*((vu32*)0x51008108)=0x00000001;//ÉèÖÃAXI SRAMµÄ¾ØÕó¶ÁÈ¡ÄÜÁ¦Îª1 
+	Cache_Enable();					//Ê¹ÄÜL1 Cache
+	Sys_Clock_Set(plln,pllm,pllp,pllq);//ÉèÖÃÊ±ÖÓ 
+	//ÅäÖÃÏòÁ¿±í				  
 #ifdef  VECT_TAB_RAM
 	MY_NVIC_SetVectorTable(D1_AXISRAM_BASE,0x0);
 #else   

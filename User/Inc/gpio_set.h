@@ -39,9 +39,9 @@
 #define ATT_OFF			GPIO_Pin_Set(GPIOC,PIN1,1) 	//
 #define ATT_READ	 	GPIO_Pin_Get(GPIOC,PIN1)
 //
-// SQL静音  
+//VOX  
 //
-//#define AF_SQL(x)		GPIO_Pin_Set(GPIOB,PIN0,x) 	//LCD_BL
+//#define VOX_OUT(x)		GPIO_Pin_Set(GPIOC,PIN0,x) 	//LCD_BL
 //
 // MIC电源  
 //
@@ -56,9 +56,14 @@
 //	蓝牙供电
 //
 #define BLUETOOTH_POWER(x)		GPIO_Pin_Set(GPIOD,PIN14,x)//1 供电；0 断电
-#define BLUETOOTH_ON		GPIO_Pin_Get(GPIOC,PIN8)
+//#define BLUETOOTH_ON		GPIO_Pin_Get(GPIOC,PIN8)
 #define BLUETOOTH_DAT		GPIO_Pin_Get(GPIOC,PIN9)
-//#define MIC			PEout(15)	//MIC VDD
+//#define MIC			PEout(15)	//MIC VDDDETEC
+/*
+*	耳机检测
+*/
+#define HP_DETEC_1	GPIO_Pin_Get(GPIOC,PIN8)
+#define HP_DETEC_2	GPIO_Pin_Get(GPIOB,PIN4)
 //
 // CW 电键 
 //
@@ -71,7 +76,7 @@
 //
 //声卡电源
 //
-#define SOUND_CARD_POW(x)		GPIO_Pin_Set(GPIOB,PIN3,x) 	//KEY_BL 
+//#define SOUND_CARD_POW(x)		GPIO_Pin_Set(GPIOB,PIN3,x) 	//KEY_BL 
 //
 // RF输入带通控制IO 
 //

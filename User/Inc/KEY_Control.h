@@ -109,7 +109,7 @@ typedef struct
 	__IO  int16_t  rit:16;
 	
 		  int16_t	Pow; /*功率设置 */
-	__IO  int8_t menu:8;
+	__IO  uint8_t menu:8;
 	__IO  uint8_t menu_read:8;
 	//__IO  uint32_t tune_step;
 	int8_t addr_a:8;
@@ -464,31 +464,35 @@ extern __IO At24c_addr_GenInfo	vfo[2];
 */
 //#define ADDR_RT_BAND_FIL_M	1890//波段频率存储地址
 #define ADDR_RX_BAND_PHASE_M	1700//波段频率存储地址
-#define MENU_RX_AMP_80M			1700//TX发射IQ平衡
-#define MENU_RX_PHASE_80M		1702//TX发射IQ平衡
-#define MENU_RX_AMP_60M			1703//TX发射IQ平衡
-#define MENU_RX_PHASE_60M		1705//TX发射IQ平衡
-#define MENU_RX_AMP_40M			1706//TX发射IQ平衡
-#define MENU_RX_PHASE_40M		1708//TX发射IQ平衡
-#define MENU_RX_AMP_30M			1709//TX发射IQ平衡
-#define MENU_RX_PHASE_30M		1711//TX发射IQ平衡
-#define MENU_RX_AMP_20M			1712//TX发射IQ平衡
-#define MENU_RX_PHASE_20M		1714//TX发射IQ平衡
-#define MENU_RX_AMP_17M			1715//TX发射IQ平衡
-#define MENU_RX_PHASE_17M		1717//TX发射IQ平衡
-#define MENU_RX_AMP_15M			1718//TX发射IQ平衡
-#define MENU_RX_PHASE_15M		1720//TX发射IQ平衡
-#define MENU_RX_AMP_12M			1721//TX发射IQ平衡
-#define MENU_RX_PHASE_12M		1723//TX发射IQ平衡
-#define MENU_RX_AMP_10M			1724//TX发射IQ平衡
-#define MENU_RX_PHASE_10M		1726//TX发射IQ平衡
-#define MENU_RX_AMP_6M			1727//TX发射IQ平衡
-#define MENU_RX_PHASE_6M		1729//TX发射IQ平衡
+#define MENU_RX_AMP_80M			1700//RX接收IQ幅度平衡
+#define MENU_RX_PHASE_80M		1702//RX接收IQ相位校准
+#define MENU_RX_AMP_60M			1703//RX接收IQ幅度平衡
+#define MENU_RX_PHASE_60M		1705//RX接收IQ相位校准
+#define MENU_RX_AMP_40M			1706//RX接收IQ幅度平衡
+#define MENU_RX_PHASE_40M		1708//RX接收IQ相位校准
+#define MENU_RX_AMP_30M			1709//RX接收IQ幅度平衡
+#define MENU_RX_PHASE_30M		1711//RX接收IQ相位校准
+#define MENU_RX_AMP_20M			1712//RX接收IQ幅度平衡
+#define MENU_RX_PHASE_20M		1714//RX接收IQ相位校准
+#define MENU_RX_AMP_17M			1715//RX接收IQ幅度平衡
+#define MENU_RX_PHASE_17M		1717//RX接收IQ相位校准
+#define MENU_RX_AMP_15M			1718//RX接收IQ幅度平衡
+#define MENU_RX_PHASE_15M		1720//RX接收IQ相位校准
+#define MENU_RX_AMP_12M			1721//RX接收IQ幅度平衡
+#define MENU_RX_PHASE_12M		1723//RX接收IQ相位校准
+#define MENU_RX_AMP_10M			1724//RX接收IQ幅度平衡
+#define MENU_RX_PHASE_10M		1726//RX接收IQ相位校准
+#define MENU_RX_AMP_6M			1727//RX接收IQ幅度平衡
+#define MENU_RX_PHASE_6M		1729//RX接收IQ相位校准
 //
 /*
 *	RX幅度修正
 */
-#define MENU_RX_AMP_JUSET		1730
+//#define MENU_RX_AMP_JUSET		1730
+/*
+*	
+*/
+#define MENU_TX_AMP_MM		1730
 /*
 *	POWER_MAX
 */
@@ -550,12 +554,14 @@ void KeyCode_lock_settings(void);
 void Key_Band_Control(void);
 void key_Filter_Control(u8 idx);
 void key_Step_Control(u8 step_idx);
+void Hp_set(void);
 void pow_gain_set(void);
 void Data_init(void);
 void Key_AGC_RecoveryTime_set(void);
 void key_ATT_Control(void);
 void key_bluetooth_control(void);
 void key_voltage_Display(void);
+void Pow_max_set(void);
 void RXandTX_Control_Management(void);
 void Menus_Set(void);
 void key_Spectrum_Control(void);

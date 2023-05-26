@@ -739,16 +739,18 @@ void ui_Signal_intensity_Display(u16 x,u16 y,u16 fc,u16 bc,u16 riss,u8 RT_key)
 //			}
 			//LCD_RectangleWindow(x-1, y-1, 26, 18, BLACK);/* 窗口边框 */
 			//LCD_RectangleWindow(x-1, y-1, 26, 18, RED);/* 窗口边框 */
+			Lcd_Color(160,132,160,180,BLACK);
 			Lcd_Color(5,130,70,180,BLACK);
 			LCD_RectangleWindow(5, 131, 64, 20, RED);/* 窗口边框 */
 			LCD_ShowString(55,133,YELLOW,GRAY5 ,16, 1, "W");
 			LCD_RectangleWindow(5, 153, 64, 20, RED);/* 窗口边框 */
 			LCD_ShowString(9,155,YELLOW ,BLACK , 16, 0, "SWR "); /* 大于0显示正号 */
-			
+				
 			//start_ptt++;
 		}
 		else 
 		{
+			Lcd_Color(160,132,160,180,BLACK);
 			Lcd_Color(5,130,70,180,BLACK);
 		}
 		if( RT_key_0 != RT_key)
@@ -800,19 +802,19 @@ void ui_Signal_intensity_Display(u16 x,u16 y,u16 fc,u16 bc,u16 riss,u8 RT_key)
 		if(ads.swr<20)
 		{	
 			ui_Decimal_Dispaly(34,155,GRAY0,BLACK,16, ads.swr);/* 驻波小于2数值显示底色为黑色 */
-			sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
+			//sd.Pow = AT24CXX_ReadLenByte(ADDRPOW_MM+vfo[VFO_A].Band_id, 1);
 		}
 		else
 		if(ads.swr>=20 && ads.swr <30)
 		{
 			ui_Decimal_Dispaly(34,155,GRAY0,YELLOW2 ,16, ads.swr);/* 驻波大于2与小于3数值底色为黄色 */
-			if(sd.Pow >100)sd.Pow =100;
+			//if(sd.Pow >100)sd.Pow =100;
 		}
 		else
 		if(ads.swr>=30)
 		{
-			if(sd.Pow >100)sd.Pow =100;
-			if(ads.swr>=99)ads.swr=99;
+			//if(sd.Pow >100)sd.Pow =100;
+			//if(ads.swr>=99)ads.swr=99;
 			ui_Decimal_Dispaly(34,155,GRAY0,RED ,16, ads.swr);/* 驻波大于3数值底色为红色 */
 		}
 		if(++p>5)p=0;
@@ -829,7 +831,12 @@ void ui_Signal_intensity_Display(u16 x,u16 y,u16 fc,u16 bc,u16 riss,u8 RT_key)
 		ads.Signal_table = (u8)(pow_0 * 0.75f);
 			
 		if(p==0)ui_Decimal_Dispaly(9,133,GRAY0,BLACK  , 16, (u16)pow_0);/* 显示数值 */
-		//if(ks.PWR_key ==1) AT24CXX_WriteLenByte( ADDR_CW_POW_GAIN(vfo[VFO_A].Band_id), ads.cw_alc_gain[vfo[VFO_A].Band_id],2 );
+		//if(sd.menu_page ==1)sd.Pow =50;
+		if(sd.Pow ==50&&vfo[VFO_A].Mode <  DEMOD_LSB)
+		{			
+			if(ads.pow>50&&ads.pow<53)AT24CXX_WriteLenByte(vfo[VFO_A].Band_id*2 + ADDRPOWER_GAIN , ads.pow_gain[vfo[VFO_A].Band_id],2);
+			if(sd.menu_page ==1)LCD_ShowNum(160,132,GRAY1,BLACK, 4,16,ads.pow_gain[vfo[VFO_A].Band_id ]);
+		}
 	}
 	else
 	{

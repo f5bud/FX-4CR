@@ -53,7 +53,7 @@ void WM8978_MIC_Gain(u8 gain);
 void WM8978_ALC_Cfg(u8 sel,u8 gain);
 void WM8978_ADC_Gain(u8 gain);
 void WM8978_DAC_Gain(u8 gain);
-void WM8978_LINEIN_Gain(u8 gain);
+void WM8978_LINEIN_Gain(u8 l_gain,u8 r_gain);
 void WM8978_AUX_Gain(u8 aux_l,u8 aux_r);
 u8 WM8978_Write_Reg(u8 reg,u16 val); 
 u16 WM8978_Read_Reg(u8 reg);

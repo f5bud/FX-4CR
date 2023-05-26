@@ -2,22 +2,22 @@
 #include "myiic.h"
 #include "dwt.h"
 //////////////////////////////////////////////////////////////////////////////////	 
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½Ñ§Ï°Ê¹ï¿½Ã£ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½Í¾
-//ALIENTEK STM32H7ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-//WM8978 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	   
-//ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½@ALIENTEK
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì³:www.openedv.com
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:2018/8/15
-//ï¿½æ±¾ï¿½ï¿½V1.0
-//ï¿½ï¿½È¨ï¿½ï¿½ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½
-//Copyright(C) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¿Æ¼ï¿½ï¿½ï¿½ï¿½Þ¹ï¿½Ë¾ 2014-2024
+//±¾³ÌÐòÖ»¹©Ñ§Ï°Ê¹ÓÃ£¬Î´¾­×÷ÕßÐí¿É£¬²»µÃÓÃÓÚÆäËüÈÎºÎÓÃÍ¾
+//ALIENTEK STM32H7¿ª·¢°å
+//WM8978 Çý¶¯´úÂë	   
+//ÕýµãÔ­×Ó@ALIENTEK
+//¼¼ÊõÂÛÌ³:www.openedv.com
+//´´½¨ÈÕÆÚ:2018/8/15
+//°æ±¾£ºV1.0
+//°æÈ¨ËùÓÐ£¬µÁ°æ±Ø¾¿¡£
+//Copyright(C) ¹ãÖÝÊÐÐÇÒíµç×Ó¿Æ¼¼ÓÐÏÞ¹«Ë¾ 2014-2024
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 	
 
-//WM8978ï¿½Ä´ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ü¹ï¿½58ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½,0~57),Õ¼ï¿½ï¿½116ï¿½Ö½ï¿½ï¿½Ú´ï¿½
-//ï¿½ï¿½ÎªWM8978ï¿½ï¿½IICï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö§ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½Ú±ï¿½ï¿½Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¼Ä´ï¿½ï¿½ï¿½Öµ
-//Ð´WM8978ï¿½Ä´ï¿½ï¿½ï¿½Ê±,Í¬ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½Ø¼Ä´ï¿½ï¿½ï¿½Öµ,ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½Ê±,Ö±ï¿½Ó·ï¿½ï¿½Ø±ï¿½ï¿½Ø±ï¿½ï¿½ï¿½Ä¼Ä´ï¿½ï¿½ï¿½Öµ.
-//×¢ï¿½ï¿½:WM8978ï¿½Ä¼Ä´ï¿½ï¿½ï¿½Öµï¿½ï¿½9Î»ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½u16ï¿½ï¿½ï¿½æ´¢. 
+//WM8978¼Ä´æÆ÷Öµ»º´æÇø(×Ü¹²58¸ö¼Ä´æÆ÷,0~57),Õ¼ÓÃ116×Ö½ÚÄÚ´æ
+//ÒòÎªWM8978µÄIIC²Ù×÷²»Ö§³Ö¶Á²Ù×÷,ËùÒÔÔÚ±¾µØ±£´æËùÓÐ¼Ä´æÆ÷Öµ
+//Ð´WM8978¼Ä´æÆ÷Ê±,Í¬²½¸üÐÂµ½±¾µØ¼Ä´æÆ÷Öµ,¶Á¼Ä´æÆ÷Ê±,Ö±½Ó·µ»Ø±¾µØ±£´æµÄ¼Ä´æÆ÷Öµ.
+//×¢Òâ:WM8978µÄ¼Ä´æÆ÷ÖµÊÇ9Î»µÄ,ËùÒÔÒªÓÃu16À´´æ´¢. 
 static u16 WM8978_REGVAL_TBL[58]=
 {
 	0X0000,0X0000,0X0000,0X0000,0X0050,0X0000,0X0140,0X0000,
@@ -29,85 +29,85 @@ static u16 WM8978_REGVAL_TBL[58]=
 	0X0100,0X0002,0X0001,0X0001,0X0039,0X0039,0X0039,0X0039,
 	0X0001,0X0001
 }; 
-//WM8978ï¿½ï¿½Ê¼ï¿½ï¿½
-//ï¿½ï¿½ï¿½ï¿½Öµ:0,ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-//    ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//WM8978³õÊ¼»¯
+//·µ»ØÖµ:0,³õÊ¼»¯Õý³£
+//    ÆäËû,´íÎó´úÂë
 u8 WM8978_Init(void)
 {
 	u8 res;
 	u16 regval;
- 	RCC->AHB4ENR|=1<<4;			//Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½PORTEÊ±ï¿½ï¿½   
- 	GPIO_Set(GPIOE,PIN2|PIN3|PIN4|PIN5|PIN6,GPIO_MODE_AF,GPIO_OTYPE_PP,GPIO_SPEED_HIGH,GPIO_PUPD_PU);	//PE2~6 ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ 	RCC->AHB4ENR|=1<<4;			//Ê¹ÄÜÍâÉèPORTEÊ±ÖÓ   
+ 	GPIO_Set(GPIOE,PIN2|PIN3|PIN4|PIN5|PIN6,GPIO_MODE_AF,GPIO_OTYPE_PP,GPIO_SPEED_HIGH,GPIO_PUPD_PU);	//PE2~6 ¸´ÓÃ¹¦ÄÜÊä³ö
  	GPIO_AF_Set(GPIOE,2,6);		//PE2,AF6  SAI_MCLKA
-	GPIO_AF_Set(GPIOE,3,6);		//PE3,AF6  SAI_SDB    WM8978 I2S ADCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	GPIO_AF_Set(GPIOE,3,6);		//PE3,AF6  SAI_SDB    WM8978 I2S ADCÊý¾ÝÊä³ö½Å
 	GPIO_AF_Set(GPIOE,4,6);		//PE4,AF6  SAI_FSA
 	GPIO_AF_Set(GPIOE,5,6);		//PE5,AF6  SAI_SCKA
  	GPIO_AF_Set(GPIOE,6,6);		//PE6,AF6  SAI_SDA  
 	
-	IIC_Init();//ï¿½ï¿½Ê¼ï¿½ï¿½IICï¿½Ó¿ï¿½
-	res=WM8978_Write_Reg(0,0);	//ï¿½ï¿½Î»WM8978
+	IIC_Init();//³õÊ¼»¯IIC½Ó¿Ú
+	res=WM8978_Write_Reg(0,0);	//Èí¸´Î»WM8978
 	delay_ms(200);
-	if(res)return 1;			//ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ê§ï¿½ï¿½,WM8978ï¿½ì³£
-	//ï¿½ï¿½ï¿½ï¿½ÎªÍ¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	WM8978_Write_Reg(1,0X1CF);	//R1,MICENï¿½ï¿½ï¿½ï¿½Îª1(MICÊ¹ï¿½ï¿½),BIASENï¿½ï¿½ï¿½ï¿½Îª1(Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½),VMIDSEL[1:0]ï¿½ï¿½ï¿½ï¿½Îª:11(5K)
-	WM8978_Write_Reg(2,0X1BF);	//R2,ROUT1,LOUT1ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¹ï¿½ï¿½ï¿½),BOOSTENR,BOOSTENLÊ¹ï¿½ï¿½
-	WM8978_Write_Reg(3,0X1EF);	//R3,LOUT2,ROUT2ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½(ï¿½ï¿½ï¿½È¹ï¿½ï¿½ï¿½),RMIX,LMIXÊ¹ï¿½ï¿½	LOUT3,ROUT4ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½(TX I Qï¿½ï¿½ï¿½ï¿½),
-	WM8978_Write_Reg(6,0);		//R6,MCLKï¿½ï¿½ï¿½â²¿ï¿½á¹©
-	WM8978_Write_Reg(43,1<<4);	//R43,INVROUT2ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if(res)return 1;			//·¢ËÍÖ¸ÁîÊ§°Ü,WM8978Òì³£
+	//ÒÔÏÂÎªÍ¨ÓÃÉèÖÃ
+	WM8978_Write_Reg(1,0X1CF);	//R1,MICENÉèÖÃÎª1(MICÊ¹ÄÜ),BIASENÉèÖÃÎª1(Ä£ÄâÆ÷¹¤×÷),VMIDSEL[1:0]ÉèÖÃÎª:11(5K)
+	WM8978_Write_Reg(2,0X1BF);	//R2,ROUT1,LOUT1Êä³öÊ¹ÄÜ(¶ú»ú¿ÉÒÔ¹¤×÷),BOOSTENR,BOOSTENLÊ¹ÄÜ
+	WM8978_Write_Reg(3,0X1EF);	//R3,LOUT2,ROUT2Êä³öÊ¹ÄÜ(À®°È¹¤×÷),RMIX,LMIXÊ¹ÄÜ	LOUT3,ROUT4Êä³öÊ¹ÄÜ(TX I Q¹¤×÷),
+	WM8978_Write_Reg(6,0);		//R6,MCLKÓÉÍâ²¿Ìá¹©
+	WM8978_Write_Reg(43,1<<4);	//R43,INVROUT2·´Ïò,Çý¶¯À®°È
 	
 	regval =0;
 	regval &=~(1<<8);
 	//regval |= 1<<8;
-	WM8978_Write_Reg(47,regval);	//R47ï¿½ï¿½ï¿½ï¿½,PGABOOSTL,ï¿½ï¿½Í¨ï¿½ï¿½MICï¿½ï¿½ï¿½20ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	WM8978_Write_Reg(48,regval);	//R48ï¿½ï¿½ï¿½ï¿½,PGABOOSTR,ï¿½ï¿½Í¨ï¿½ï¿½MICï¿½ï¿½ï¿½20ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	WM8978_Write_Reg(47,regval);	//R47ÉèÖÃ,PGABOOSTL,×óÍ¨µÀMIC»ñµÃ20±¶ÔöÒæ
+	WM8978_Write_Reg(48,regval);	//R48ÉèÖÃ,PGABOOSTR,ÓÒÍ¨µÀMIC»ñµÃ20±¶ÔöÒæ
 	regval =0;
-	regval |= 1<<1;//R49,TSDEN,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È±ï¿½ï¿½ï¿½
+	regval |= 1<<1;//R49,TSDEN,¿ªÆô¹ýÈÈ±£»¤
 	regval |= 1<<2;//R49,SPEAKER BOOST,1.5x 
 	regval |= 1<<3;
 	regval |= 1<<4;
-	WM8978_Write_Reg(49,regval);	//R49,TSDEN,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È±ï¿½ï¿½ï¿½ 
+	WM8978_Write_Reg(49,regval);	//R49,TSDEN,¿ªÆô¹ýÈÈ±£»¤ 
 	//WM8978_Write_Reg(49,1<<2);	//R49,SPEAKER BOOST,1.5x 
-	WM8978_Write_Reg(10,1<<3);	//R10,SOFTMUTEï¿½Ø±ï¿½,128xï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½SNR 
-	WM8978_Write_Reg(14,1<<3);	//R14,ADC 128xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	//WM8978_Write_Reg(24,1<<8);	//ï¿½ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ 
-	//WM8978_Write_Reg(25,2<<0);	//ï¿½ï¿½ï¿½ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼
+	WM8978_Write_Reg(10,1<<3);	//R10,SOFTMUTE¹Ø±Õ,128x²ÉÑù,×î¼ÑSNR 
+	WM8978_Write_Reg(14,1<<3);	//R14,ADC 128x²ÉÑùÂÊ
+	//WM8978_Write_Reg(24,1<<8);	//Êý×ÖÏÞ·ùÆ÷Ê¹ÄÜ 
+	//WM8978_Write_Reg(25,2<<0);	//Êý×ÖÏÞ·ùÆ÷ÆðÊ¼
 	
 	WM8978_out34_Cfg(1); 
 	WM8978_ADC_Gain(255);
 	WM8978_DAC_Gain(255);
-	WM8978_I2S_Cfg(2,2);		//ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½×¼,32Î»ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½
+	WM8978_I2S_Cfg(2,2);		//·ÉÀûÆÖ±ê×¼,32Î»Êý¾Ý³¤¶È
 	// WM8978_HPread_Cfg();
 	WM8978_AUXIN_Cfg(7);
 	return 0;
 } 
-//WM8978Ð´ï¿½Ä´ï¿½ï¿½ï¿½
-//reg:ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ö·
-//val:ÒªÐ´ï¿½ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Öµ 
-//ï¿½ï¿½ï¿½ï¿½Öµ:0,ï¿½É¹ï¿½;
-//    ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//WM8978Ð´¼Ä´æÆ÷
+//reg:¼Ä´æÆ÷µØÖ·
+//val:ÒªÐ´Èë¼Ä´æÆ÷µÄÖµ 
+//·µ»ØÖµ:0,³É¹¦;
+//    ÆäËû,´íÎó´úÂë
 u8 WM8978_Write_Reg(u8 reg,u16 val)
 { 
 	IIC_Start(); 
-	IIC_Send_Byte((WM8978_ADDR<<1)|0);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·+Ð´ï¿½ï¿½ï¿½ï¿½	 
-	if(IIC_Wait_Ack())return 1;	//ï¿½È´ï¿½Ó¦ï¿½ï¿½(ï¿½É¹ï¿½?/Ê§ï¿½ï¿½?) 
-    IIC_Send_Byte((reg<<1)|((val>>8)&0X01));//Ð´ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ö·+ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ï¿½Î»
-	if(IIC_Wait_Ack())return 2;	//ï¿½È´ï¿½Ó¦ï¿½ï¿½(ï¿½É¹ï¿½?/Ê§ï¿½ï¿½?) 
-	IIC_Send_Byte(val&0XFF);	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	if(IIC_Wait_Ack())return 3;	//ï¿½È´ï¿½Ó¦ï¿½ï¿½(ï¿½É¹ï¿½?/Ê§ï¿½ï¿½?) 
+	IIC_Send_Byte((WM8978_ADDR<<1)|0);//·¢ËÍÆ÷¼þµØÖ·+Ð´ÃüÁî	 
+	if(IIC_Wait_Ack())return 1;	//µÈ´ýÓ¦´ð(³É¹¦?/Ê§°Ü?) 
+    IIC_Send_Byte((reg<<1)|((val>>8)&0X01));//Ð´¼Ä´æÆ÷µØÖ·+Êý¾ÝµÄ×î¸ßÎ»
+	if(IIC_Wait_Ack())return 2;	//µÈ´ýÓ¦´ð(³É¹¦?/Ê§°Ü?) 
+	IIC_Send_Byte(val&0XFF);	//·¢ËÍÊý¾Ý
+	if(IIC_Wait_Ack())return 3;	//µÈ´ýÓ¦´ð(³É¹¦?/Ê§°Ü?) 
     IIC_Stop();
-	WM8978_REGVAL_TBL[reg]=val;	//ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	WM8978_REGVAL_TBL[reg]=val;	//±£´æ¼Ä´æÆ÷Öµµ½±¾µØ
 	return 0;	
 }  
-//WM8978ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½
-//ï¿½ï¿½ï¿½Ç¶ï¿½È¡ï¿½ï¿½ï¿½Ø¼Ä´ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÚµÄ¶ï¿½Ó¦Öµ
-//reg:ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ö· 
-//ï¿½ï¿½ï¿½ï¿½Öµ:ï¿½Ä´ï¿½ï¿½ï¿½Öµ
+//WM8978¶Á¼Ä´æÆ÷
+//¾ÍÊÇ¶ÁÈ¡±¾µØ¼Ä´æÆ÷Öµ»º³åÇøÄÚµÄ¶ÔÓ¦Öµ
+//reg:¼Ä´æÆ÷µØÖ· 
+//·µ»ØÖµ:¼Ä´æÆ÷Öµ
 u16 WM8978_Read_Reg(u8 reg)
 {  
 	return WM8978_REGVAL_TBL[reg];	
 }
 //
-//WM8978ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//WM8978¶ú»ú¼ì²â
 //
 void WM8978_HPread_Cfg(void)
 {
@@ -129,16 +129,16 @@ void WM8978_HPread_Cfg(void)
 	regval |= 3<<6;
 	WM8978_Write_Reg(13,0X0ED);//
 }
-//WM8978 AUX_IN ï¿½ï¿½ï¿½ï¿½
-//auxr>0ï¿½ï¿½Í¨ 0~7 -15db~6db 
-//auxl>0ï¿½ï¿½Í¨ 0~7  
+//WM8978 AUX_IN ÅäÖÃ
+//auxr>0½ÓÍ¨ 0~7 -15db~6db 
+//auxl>0½ÓÍ¨ 0~7  
 void WM8978_AUXIN_Cfg(u8 auxr)
 {
 	u8 regval;
 	
 	if(auxr>0)
 	{
-		regval=WM8978_Read_Reg(51);	//ï¿½ï¿½È¡R51
+		regval=WM8978_Read_Reg(51);	//¶ÁÈ¡R51
 		regval &=~(0XF<<5);
 		//regval |=  1<<5;
 		
@@ -148,70 +148,76 @@ void WM8978_AUXIN_Cfg(u8 auxr)
 	}
 	else
 	{
-		regval=WM8978_Read_Reg(51);	//ï¿½ï¿½È¡R3
+		regval=WM8978_Read_Reg(51);	//¶ÁÈ¡R3
 		regval &=~(0XF<<0);
 		WM8978_Write_Reg(51,regval);//AUX_R
 	}
 }
-//WM8978 OUT3/4 ï¿½ï¿½ï¿½ï¿½
+//WM8978 OUT3/4 ÅäÖÃ
 void WM8978_out34_Cfg(u8 outen)
 {
 	u8 regval;
 	
-	regval=WM8978_Read_Reg(56);	//ï¿½ï¿½È¡R3
+	regval=WM8978_Read_Reg(56);	//¶ÁÈ¡R3
 	regval &=~(1<<0);
 	if(outen)regval |=  1<<0;
-	WM8978_Write_Reg(56,regval);//L_DACï¿½ï¿½ï¿½ï¿½OUT3
+	WM8978_Write_Reg(56,regval);//L_DACÁ¬½ÓOUT3
 	//
-	regval=WM8978_Read_Reg(57);	//ï¿½ï¿½È¡R3
+	regval=WM8978_Read_Reg(57);	//¶ÁÈ¡R3
 	regval &=~(1<<0);
 	if(outen)regval |=  1<<0;
-	WM8978_Write_Reg(57,regval);//R_DACï¿½ï¿½ï¿½ï¿½OUT4	
+	WM8978_Write_Reg(57,regval);//R_DACÁ¬½ÓOUT4	
 }
-//WM8978 DAC/ADCï¿½ï¿½ï¿½ï¿½
-//adcen:adcÊ¹ï¿½ï¿½(1)/ï¿½Ø±ï¿½(0)
-//dacen:dacÊ¹ï¿½ï¿½(1)/ï¿½Ø±ï¿½(0)
+//WM8978 DAC/ADCÅäÖÃ
+//adcen:adcÊ¹ÄÜ(1)/¹Ø±Õ(0)
+//dacen:dacÊ¹ÄÜ(1)/¹Ø±Õ(0)
 void WM8978_ADDA_Cfg(u8 dacen,u8 adcen)
 {
 	u16 regval;
-	regval=WM8978_Read_Reg(3);	//ï¿½ï¿½È¡R3
+	regval=WM8978_Read_Reg(3);	//¶ÁÈ¡R3
 	regval&=~(3<<0);
-	if(dacen)regval|=3<<0;		//R3ï¿½ï¿½ï¿½2ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½Îª1,ï¿½ï¿½ï¿½ï¿½DACR&DACL
-	else regval&=~(3<<0);		//R3ï¿½ï¿½ï¿½2ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½,ï¿½Ø±ï¿½DACR&DACL.
-	WM8978_Write_Reg(3,regval);	//ï¿½ï¿½ï¿½ï¿½R3
-	regval=WM8978_Read_Reg(2);	//ï¿½ï¿½È¡R2
+	if(dacen)regval|=3<<0;		//R3×îµÍ2¸öÎ»ÉèÖÃÎª1,¿ªÆôDACR&DACL
+	else regval&=~(3<<0);		//R3×îµÍ2¸öÎ»ÇåÁã,¹Ø±ÕDACR&DACL.
+	WM8978_Write_Reg(3,regval);	//ÉèÖÃR3
+	regval=WM8978_Read_Reg(2);	//¶ÁÈ¡R2
 	regval&=~(3<<0);
-	if(adcen)regval|=3<<0;		//R2ï¿½ï¿½ï¿½2ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½Îª1,ï¿½ï¿½ï¿½ï¿½ADCR&ADCL
-	else regval&=~(3<<0);		//R2ï¿½ï¿½ï¿½2ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½,ï¿½Ø±ï¿½ADCR&ADCL.
-	WM8978_Write_Reg(2,regval);	//ï¿½ï¿½ï¿½ï¿½R2
+	if(adcen)regval|=3<<0;		//R2×îµÍ2¸öÎ»ÉèÖÃÎª1,¿ªÆôADCR&ADCL
+	else regval&=~(3<<0);		//R2×îµÍ2¸öÎ»ÇåÁã,¹Ø±ÕADCR&ADCL.
+	WM8978_Write_Reg(2,regval);	//ÉèÖÃR2
 	//WM8978_Write_Reg(14,0x100);
-	WM8978_Input_Cfg(0,0);//ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½(MIC&LINE IN)
-	WM8978_Output_Cfg(0,0);		//ï¿½ï¿½ï¿½ï¿½BYPASSï¿½ï¿½ï¿½ 
-	WM8978_MIC_Gain(63);//MICï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ALCï¿½ï¿½ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	WM8978_Input_Cfg(0,0);//ÊäÈëÍ¨µÀ(MIC&LINE IN)
+	WM8978_Output_Cfg(0,0);		//¿ªÆôBYPASSÊä³ö 
+	WM8978_MIC_Gain(63);//MICÔöÒæÉèÖÃ,±ØÐë·ÅÔÚALCºóÃæ£¬·ñÔòÔöÒæ»Ö¸´²»Æð×÷ÓÃ
 }
-//WM8978 ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
-//micen:MICï¿½ï¿½ï¿½ï¿½(1)/ï¿½Ø±ï¿½(0)
-//lineinen:Line Inï¿½ï¿½ï¿½ï¿½(1)/ï¿½Ø±ï¿½(0)
-//auxen:auxï¿½ï¿½ï¿½ï¿½(1)/ï¿½Ø±ï¿½(0) 
+//WM8978 ·¢ÉäÊ±ÊäÈëÍ¨µÀÅäÖÃ 
+//micen:MIC¿ªÆô(1)/¹Ø±Õ(0)
+//lineinen:Line In¿ªÆô(1)/¹Ø±Õ(0)
+//auxen:aux¿ªÆô(1)/¹Ø±Õ(0) 
 void WM8978_Input_Cfg(u8 micen_l,u8 micen_r)
 {
 	//static u8 clk;
 	u16 regval;
 	//if(clk==0)
 	//{		
-		//regval=WM8978_Read_Reg(44);	//ï¿½ï¿½È¡R44
+		//regval=WM8978_Read_Reg(44);	//¶ÁÈ¡R44
 		regval&=~((7<<4)|(7<<0));
-		if(micen_l==1)regval|=(3<<0);	//ï¿½ï¿½ï¿½ï¿½LIN1INPPGA,LIP1INPGA,RIN1INPPGA,RIP1INPGA.
-		else regval|=(3<<1);	//ï¿½ï¿½ï¿½ï¿½LIN2INPPGA,LIP2INPGA,RIN2INPPGA,RIP2INPGA.
+		if(micen_l==2)regval&=~(7<<0);
+		else
+		if(micen_l==1)regval|=(3<<0);	//¿ªÆôLIN1INPPGA,LIP1INPGA,RIN1INPPGA,RIP1INPGA.
+		else 
+		if(micen_l==0)regval|=(3<<1);	//¿ªÆôLIN2INPPGA,LIP2INPGA,RIN2INPPGA,RIP2INPGA.
 		
+		if(micen_r==2)regval&=~(7<<4);
+		else
 		if(micen_r==1)regval|=3<<4;
-		else regval|=3<<5;	//ï¿½Ø±ï¿½LIN2INPPGA,LIP2INPGA,RIN2INPPGA,RIP2INPGA.
-		WM8978_Write_Reg(44,regval);//ï¿½ï¿½ï¿½ï¿½R44 
+		else 
+		if(micen_r==0)regval|=3<<5;	//¹Ø±ÕLIN2INPPGA,LIP2INPGA,RIN2INPPGA,RIP2INPGA.
+		WM8978_Write_Reg(44,regval);//ÉèÖÃR44 
 	//}
 }
 
-//WM8978 DACï¿½ï¿½ï¿½ï¿½ 
-//dacen:DACï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½(1)/ï¿½Ø±ï¿½(0)
+//WM8978 DACÅäÖÃ 
+//dacen:DACÊä³ö(·ÅÒô)¿ªÆô(1)/¹Ø±Õ(0)
 void WM8978_Output_Cfg(u8 dac_l,u8 dac_r)
 {
 	static u8 regval=0;
@@ -219,15 +225,15 @@ void WM8978_Output_Cfg(u8 dac_l,u8 dac_r)
 	regval &=~(1<<0);
 	if(dac_l==0)regval |=1<<0;
 	else regval &=~(1<<0);
-	WM8978_Write_Reg(50,regval);//R50ï¿½ï¿½ï¿½ï¿½
+	WM8978_Write_Reg(50,regval);//R50ÉèÖÃ
 	regval=WM8978_Read_Reg(51);
 	regval &=~(1<<0);
 	if(dac_r==0)regval |=1<<0;
 	else regval &=~(1<<0);
-	WM8978_Write_Reg(51,regval);//R50ï¿½ï¿½ï¿½ï¿½
+	WM8978_Write_Reg(51,regval);//R50ÉèÖÃ
 }
-//WM8978 MICï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½BOOSTï¿½ï¿½20dB,MIC-->ADCï¿½ï¿½ï¿½ë²¿ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½)
-//gain:0~89,ï¿½ï¿½Ó¦-12dB~55.25dB,0.75dB/Step
+//WM8978 MICÔöÒæÉèÖÃ(°üÀ¨BOOSTµÄ20dB,MIC-->ADCÊäÈë²¿·ÖµÄÔöÒæ)
+//gain:0~89,¶ÔÓ¦-12dB~55.25dB,0.75dB/Step
 void WM8978_MIC_Gain(u8 gain)
 {
 	static u8 clk;
@@ -238,16 +244,16 @@ void WM8978_MIC_Gain(u8 gain)
 		//regval=WM8978_Read_Reg(45);
 		regval &=~(0x3F<<0);
 		regval |= gain<<0;
-		WM8978_Write_Reg(45,regval<<0|1<<8);	//R45,ï¿½ï¿½Í¨ï¿½ï¿½PGAï¿½ï¿½ï¿½ï¿½
+		WM8978_Write_Reg(45,regval<<0|1<<8);	//R45,×óÍ¨µÀPGAÉèÖÃ
 		//WM8978_Write_Reg(45,1<<8);
 		//regval=WM8978_Read_Reg(46);
 		regval &=~(0x3F<<0);
 		regval |= gain<<0;
-		WM8978_Write_Reg(46,regval<<0|1<<8);	//R46,ï¿½ï¿½Í¨ï¿½ï¿½PGAï¿½ï¿½ï¿½ï¿½
+		WM8978_Write_Reg(46,regval<<0|1<<8);	//R46,ÓÒÍ¨µÀPGAÉèÖÃ
 		//WM8978_Write_Reg(46,1<<8);
 	}
 }
-//WM8978_ALCï¿½ï¿½ï¿½ï¿½
+//WM8978_ALCÅäÖÃ
 //
 void WM8978_ALC_Cfg(u8 sel,u8 gain)
 {
@@ -263,8 +269,8 @@ void WM8978_ALC_Cfg(u8 sel,u8 gain)
 	
 	//alc=WM8978_Read_Reg(33);
 	alc=0;
-	alc|=gain<<0;//ALCÄ¿ï¿½ê¡ªï¿½ï¿½ADCï¿½ï¿½ï¿½ï¿½ï¿½ÅºÅµÄ±ï¿½×¼0000=-28.5dB FS0001=-27.0dB FSï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª 1.5dBï¿½ï¿½1110=-7.5dB FS1111=-6dB FS
-	alc|=7<<4;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ ALC ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½0000=0ms0001=2.67ms0010=5.33msï¿½ï¿½ï¿½ï¿½Ã¿Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ó±ï¿½ï¿½ï¿½
+	alc|=gain<<0;//ALCÄ¿±ê¡ª¡ªADCÊäÈëÐÅºÅµÄ±ê×¼0000=-28.5dB FS0001=-27.0dB FS¡­£¨²½µ÷Îª 1.5dB£©1110=-7.5dB FS1111=-6dB FS
+	alc|=7<<4;//ÔöÒæÔö¼ÓÇ°µÄ ALC ±£³ÖÊ±¼ä0000=0ms0001=2.67ms0010=5.33ms¡­£¨Ã¿Ò»¸ö²½µ÷Ê±¼ä¼Ó±¶£©
 	alc|=1<<8;
 	WM8978_Write_Reg(33,alc);
 	
@@ -275,83 +281,84 @@ void WM8978_ALC_Cfg(u8 sel,u8 gain)
 	WM8978_Write_Reg(34,alc);
 	//WM8978_Write_Reg(70,1<<8);
 }
-//WM8978 ADCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(DACï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
-//gain:0~255,ï¿½ï¿½Ó¦-127dB~0dB,0.5dB/Step
+//WM8978 ADCÔöÒæÉèÖÃ(DACµÄÊý×ÖÔöÒæ)
+//gain:0~255,¶ÔÓ¦-127dB~0dB,0.5dB/Step
 void WM8978_ADC_Gain(u8 gain)
 {
 	//gain&=0Xff;
 	
- 	WM8978_Write_Reg(15,gain);//ï¿½ï¿½ï¿½ï¿½R11
- 	WM8978_Write_Reg(16,gain);//ï¿½ï¿½ï¿½ï¿½R12
+ 	WM8978_Write_Reg(15,gain);//ÉèÖÃR11
+ 	WM8978_Write_Reg(16,gain);//ÉèÖÃR12
 }
-//WM8978 DACï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(DACï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
-//gain:0~255,ï¿½ï¿½Ó¦-127dB~0dB,0.5dB/Step
+//WM8978 DACÔöÒæÉèÖÃ(DACµÄÊý×ÖÔöÒæ)
+//gain:0~255,¶ÔÓ¦-127dB~0dB,0.5dB/Step
 void WM8978_DAC_Gain(u8 gain)
 {
 	gain&=0Xff;
- 	WM8978_Write_Reg(11,gain);//ï¿½ï¿½ï¿½ï¿½R11
- 	WM8978_Write_Reg(12,gain|1<<8);//ï¿½ï¿½ï¿½ï¿½R12
+ 	WM8978_Write_Reg(11,gain);//ÉèÖÃR11
+ 	WM8978_Write_Reg(12,gain|1<<8);//ÉèÖÃR12
 }
-//WM8978 L2/R2(Ò²ï¿½ï¿½ï¿½ï¿½Line In)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(L2/R2-->ADCï¿½ï¿½ï¿½ë²¿ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½)
-//gain:0~7,0ï¿½ï¿½Ê¾Í¨ï¿½ï¿½ï¿½ï¿½Ö¹,1~7,ï¿½ï¿½Ó¦-12dB~6dB,3dB/Step
-void WM8978_LINEIN_Gain(u8 gain)
+//WM8978 L2/R2(Ò²¾ÍÊÇLine In)ÔöÒæÉèÖÃ(L2/R2-->ADCÊäÈë²¿·ÖµÄÔöÒæ)
+//gain:0~7,0±íÊ¾Í¨µÀ½ûÖ¹,1~7,¶ÔÓ¦-12dB~6dB,3dB/Step
+void WM8978_LINEIN_Gain(u8 l_gain,u8 r_gain)
 {
 	u16 regval;
-	gain&=0X07;
-	regval=WM8978_Read_Reg(47);	//ï¿½ï¿½È¡R47
-	regval&=~(7<<4);			//ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	regval |= gain<<4;	
- 	WM8978_Write_Reg(47,regval);//ï¿½ï¿½ï¿½ï¿½R47
-	regval=WM8978_Read_Reg(48);	//ï¿½ï¿½È¡R48
-	regval&=~(7<<4);	//ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
-	regval |= gain<<4;
- 	WM8978_Write_Reg(48,regval);//ï¿½ï¿½ï¿½ï¿½R48
+	l_gain&=0X07;
+	regval=WM8978_Read_Reg(47);	//¶ÁÈ¡R47
+	regval&=~(7<<4);			//Çå³ýÔ­À´µÄÉèÖÃ
+	regval |= l_gain<<4;	
+ 	WM8978_Write_Reg(47,regval);//ÉèÖÃR47
+	r_gain&=0X07;
+	regval=WM8978_Read_Reg(48);	//¶ÁÈ¡R48
+	regval&=~(7<<4);	//Çå³ýÔ­À´µÄÉèÖÃ 
+	regval |= r_gain<<4;
+ 	WM8978_Write_Reg(48,regval);//ÉèÖÃR48
 } 
-//WM8978 AUXR,AUXL(PWMï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(AUXR/L-->ADCï¿½ï¿½ï¿½ë²¿ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½)
-//gain:0~7,0ï¿½ï¿½Ê¾Í¨ï¿½ï¿½ï¿½ï¿½Ö¹,1~7,ï¿½ï¿½Ó¦-12dB~6dB,3dB/Step
+//WM8978 AUXR,AUXL(PWMÒôÆµ²¿·Ö)ÔöÒæÉèÖÃ(AUXR/L-->ADCÊäÈë²¿·ÖµÄÔöÒæ)
+//gain:0~7,0±íÊ¾Í¨µÀ½ûÖ¹,1~7,¶ÔÓ¦-12dB~6dB,3dB/Step
 void WM8978_AUX_Gain(u8 aux_l,u8 aux_r)
 {
 	u16 regval;
 	
-	regval=WM8978_Read_Reg(47);	//ï¿½ï¿½È¡R47
-	regval&=~(7<<0);	//ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	regval=WM8978_Read_Reg(47);	//¶ÁÈ¡R47
+	regval&=~(7<<0);	//Çå³ýÔ­À´µÄÉèÖÃ
 	regval |= aux_l<<0;
- 	WM8978_Write_Reg(47,regval);//ï¿½ï¿½ï¿½ï¿½R47
-	regval=WM8978_Read_Reg(48);	//ï¿½ï¿½È¡R48
-	regval&=~(7<<0);	//ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ 	WM8978_Write_Reg(47,regval);//ÉèÖÃR47
+	regval=WM8978_Read_Reg(48);	//¶ÁÈ¡R48
+	regval&=~(7<<0);	//Çå³ýÔ­À´µÄÉèÖÃ
 	regval |= aux_r<<0;
- 	WM8978_Write_Reg(48,regval);//ï¿½ï¿½ï¿½ï¿½R48
+ 	WM8978_Write_Reg(48,regval);//ÉèÖÃR48
 }  
-//ï¿½ï¿½ï¿½ï¿½I2Sï¿½ï¿½ï¿½ï¿½Ä£Ê½
-//fmt:0,LSB(ï¿½Ò¶ï¿½ï¿½ï¿½);1,MSB(ï¿½ï¿½ï¿½ï¿½ï¿½);2,ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½×¼I2S;3,PCM/DSP;
+//ÉèÖÃI2S¹¤×÷Ä£Ê½
+//fmt:0,LSB(ÓÒ¶ÔÆë);1,MSB(×ó¶ÔÆë);2,·ÉÀûÆÖ±ê×¼I2S;3,PCM/DSP;
 //len:0,16Î»;1,20Î»;2,24Î»;3,32Î»;  
 void WM8978_I2S_Cfg(u8 fmt,u8 len)
 {
 	fmt&=0X03;
-	len&=0X03;//ï¿½Þ¶ï¿½ï¿½ï¿½Î§
-	WM8978_Write_Reg(4,(fmt<<3)|(len<<5));	//R4,WM8978ï¿½ï¿½ï¿½ï¿½Ä£Ê½ï¿½ï¿½ï¿½ï¿½	
+	len&=0X03;//ÏÞ¶¨·¶Î§
+	WM8978_Write_Reg(4,(fmt<<3)|(len<<5));	//R4,WM8978¹¤×÷Ä£Ê½ÉèÖÃ	
 }	
 
-//ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-//voll:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(0~63)
-//volr:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(0~63)
+//ÉèÖÃ¶ú»ú×óÓÒÉùµÀÒôÁ¿
+//voll:×óÉùµÀÒôÁ¿(0~63)
+//volr:ÓÒÉùµÀÒôÁ¿(0~63)
 void WM8978_HPvol_Set(u8 voll,u8 volr)
 {
 	voll&=0X3F;
-	volr&=0X3F;//ï¿½Þ¶ï¿½ï¿½ï¿½Î§
-	if(voll==0)voll|=1<<6;//ï¿½ï¿½ï¿½ï¿½Îª0Ê±,Ö±ï¿½ï¿½mute
-	if(volr==0)volr|=1<<6;//ï¿½ï¿½ï¿½ï¿½Îª0Ê±,Ö±ï¿½ï¿½mute 
-	WM8978_Write_Reg(52,voll|1<<8);			//R52,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	WM8978_Write_Reg(53,volr|1<<8);	//R53,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(HPVU=1)
+	volr&=0X3F;//ÏÞ¶¨·¶Î§
+	if(voll==0)voll|=1<<6;//ÒôÁ¿Îª0Ê±,Ö±½Ómute
+	if(volr==0)volr|=1<<6;//ÒôÁ¿Îª0Ê±,Ö±½Ómute 
+	WM8978_Write_Reg(52,voll|1<<8);			//R52,¶ú»ú×óÉùµÀÒôÁ¿ÉèÖÃ
+	WM8978_Write_Reg(53,volr|1<<8);	//R53,¶ú»úÓÒÉùµÀÒôÁ¿ÉèÖÃ,Í¬²½¸üÐÂ(HPVU=1)
 }
-//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-//voll:ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(0~63) 
+//ÉèÖÃÀ®°ÈÒôÁ¿
+//voll:×óÉùµÀÒôÁ¿(0~63) 
 void WM8978_SPKvol_Set(u8 volx)
 { 
-	volx&=0X3F;//ï¿½Þ¶ï¿½ï¿½ï¿½Î§
-	if(volx==0)volx|=1<<6;//ï¿½ï¿½ï¿½ï¿½Îª0Ê±,Ö±ï¿½ï¿½mute 
- 	WM8978_Write_Reg(54,volx|1<<8);			//R54,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-	WM8978_Write_Reg(55,volx|1<<8);	//R55,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(SPKVU=1)	
+	volx&=0X3F;//ÏÞ¶¨·¶Î§
+	if(volx==0)volx|=1<<6;//ÒôÁ¿Îª0Ê±,Ö±½Ómute 
+ 	WM8978_Write_Reg(54,volx|1<<8);			//R54,À®°È×óÉùµÀÒôÁ¿ÉèÖÃ
+	WM8978_Write_Reg(55,volx|1<<8);	//R55,À®°ÈÓÒÉùµÀÒôÁ¿ÉèÖÃ,Í¬²½¸üÐÂ(SPKVU=1)	
 }
 void WM8978_Inpga_muter(u8 l_mute,u8 r_mute)
 {
@@ -366,7 +373,7 @@ void WM8978_Inpga_muter(u8 l_mute,u8 r_mute)
 	else regval &=~(1<<6);
 	WM8978_Write_Reg(46,regval);
 }
-//RX/TXï¿½Õ·ï¿½ï¿½ï¿½ï¿½ï¿½
+//RX/TXÊÕ·¢¿ØÖÆ
 //0: RX
 //1: TX_CW
 //2: TX_SSB/AM/FM
@@ -376,9 +383,9 @@ void WM8978_TR_set(u8 trvolue,u8 gain,u8 alc)
 	{
 		WM8978_ALC_Cfg(0,15);
 		WM8978_AUXIN_Cfg(7);
-		WM8978_Input_Cfg(1,1);//ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½(MIC&LINE IN)
-		WM8978_Output_Cfg(0,0);		//ï¿½ï¿½ï¿½ï¿½BYPASSï¿½ï¿½ï¿½ 
-		WM8978_MIC_Gain(gain&0x3f);//MICï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ALCï¿½ï¿½ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		WM8978_Input_Cfg(1,1);//ÊäÈëÍ¨µÀ(MIC&LINE IN)
+		WM8978_Output_Cfg(0,0);		//¿ªÆôBYPASSÊä³ö 
+		WM8978_MIC_Gain(gain&0x3f);//MICÔöÒæÉèÖÃ,±ØÐë·ÅÔÚALCºóÃæ£¬·ñÔòÔöÒæ»Ö¸´²»Æð×÷ÓÃ
 		WM8978_Inpga_muter(0,0);
 		WM8978_AUX_Gain(0,0);
 	}
@@ -391,9 +398,9 @@ void WM8978_TR_set(u8 trvolue,u8 gain,u8 alc)
 	if(trvolue ==2)
 	{
 		WM8978_MIC_Gain(gain&0x3f);
-		WM8978_Input_Cfg(0,0);//ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½(MIC&LINE IN)
+		WM8978_Input_Cfg(0,0);//ÊäÈëÍ¨µÀ(MIC&LINE IN)
 		WM8978_ALC_Cfg(3,alc);
-		WM8978_Output_Cfg(1,1);		//ï¿½ï¿½ï¿½ï¿½BYPASSï¿½ï¿½ï¿½ 
+		WM8978_Output_Cfg(1,1);		//¿ªÆôBYPASSÊä³ö 
 	}
 }
 

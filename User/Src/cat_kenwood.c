@@ -1,6 +1,5 @@
 /*
   本软件 没有设置和读取 滤波器状态的命令 (N和W)
-  This software does not have commands to set and read filter status (N and W)
 */
 
 #include "cat_kenwood.h"
@@ -27,9 +26,9 @@
 #include "usart.h"
 
 /**
- * itoa() 将整型值转换为字符串 Convert an integer value to a string
- * itoa() 将长整型值转换为字符串 Convert a long value to a string
- * ultoa() 将无符号长整型值转换为字符串 Converts an unsigned long value to a string
+ * itoa() 将整型值转换为字符串
+ * itoa() 将长整型值转换为字符串
+ * ultoa() 将无符号长整型值转换为字符串 
 */
 uint32_t StringToDec(uint8_t *pBuf, uint8_t len)
 {
@@ -65,7 +64,6 @@ void DecToString(uint8_t *pBuf, uint8_t len, int32_t dat)
     pBuf[0] = '-'; 
 }
 //整数转字符串,整数(最大长度 10 位) + (符号位 1 位 [-]) + (字符串结束'\0' [1位])
-// Integer to string, integer (maximum length 10 bits) + (sign bit 1 bit [-]) + (string end'\0' [1 bit])
 void Myitoa(int32_t n, uint8_t str[]) 
 { 
     int32_t i, sign; 
@@ -117,7 +115,7 @@ void Kenwood_BuildTransceiverStatus()
 	buf[len ++] = 'I';
 	buf[len ++] = 'F';
 
-	// P1 显示频率 display frequency
+	// P1 显示频率
 	buf[len ++] = '0';
 	buf[len ++] = '0';
 	buf[len ++] = '0';
@@ -209,7 +207,7 @@ void Kenwood_BuildTransceiverStatus()
 		  buf[len ++] = '1';
 		}
 	}
-	else//信道模式 channel mode
+	else//信道模式
 	{
 		buf[len ++] = '2';
 	}
@@ -367,8 +365,8 @@ void Kenwood_MemoryDataAnswer()
 //    MEM_Get();
 //  }
 
-//  DRMgr.item |= RADIOItem;  // 更新模式 update mode
-//  DRMgr.item |= FREQItem;   // 更新主频和波段 Update main frequency and band
+//  DRMgr.item |= RADIOItem;  // 更新模式
+//  DRMgr.item |= FREQItem;   // 更新主频和波段
 //  DRMgr.item |= FILItem;
 //}
 //
@@ -397,24 +395,21 @@ void Kenwood_VMAnswer()
 
 u8 Kenwood_ModeSwithced(u8 mode)
 {
-//	static u8 dig_l,dig_u;
-
+	static u8 dig_l,dig_u;
 	if (TR_READ==CONTROL_TX || mode==0|| mode >6)
 	{
 		return 0;
 	}
 	if( mode == 1 )
 	{
-/*		dig_l =(~dig_l)&0x1;
-		if(dig_l ==0)vfo[VFO_A].Mode = DEMOD_LSB;
-		else */
+		//dig_l =(~dig_l)&0x1;
+		//if(dig_l ==0)vfo[VFO_A].Mode = DEMOD_LSB;
 		vfo[VFO_A].Mode = DEMOD_LSB_DIG;
 	}
 	if( mode == 2 )
 	{
-/*		dig_u = (~dig_u)&0x1;
-		if(dig_u ==0)vfo[VFO_A].Mode = DEMOD_USB;
-		else */
+		//dig_u = (~dig_u)&0x1;
+		//if(dig_u ==0)vfo[VFO_A].Mode = DEMOD_USB;
 		vfo[VFO_A].Mode = DEMOD_USB_DIG;
 	}
 	if( mode == 3 )
@@ -553,7 +548,7 @@ u8 Kenwood_VFOSet(u8 vfo_name,int32_t freq)
 			else m = i;
 		}
 		else if(i ==10)m=1;
-		if(freq >= Band_Info[m].start && freq <= Band_Info[m].end)	//下边界 lower boundary
+		if(freq >= Band_Info[m].start && freq <= Band_Info[m].end)	//下边界
 		{
 			vfo[vfo_name].Band_id =m;
 			vfo[vfo_name].Freq = freq;
@@ -570,8 +565,8 @@ void Kenwood_AFGainSet(uint8_t vol)
 	{
 		return;
 	}
-	// 软件界面0-100：发送数据0-255 Software interface 0-100: send data 0-255
-	// 音量0-60 Volume 0-60
+	// 软件界面0-100：发送数据0-255
+	// 音量0-60
 	uint16_t tmp = vol * 100 / 255;
 	if(tmp >= 60)
 	{
@@ -674,14 +669,13 @@ void Kenwodd_KeyingSpeedAnswer()
   UartTx(buf, len);
 }
 //len : 指令及数据, 末尾的分号不计算在len内    BG6RDF
-len: instructions and data, the semicolon at the end is not counted in len BG6RDF
 void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 { 
 	//static u32 freqA,freqB;
 	u32 tmp = 0;
 	uint8_t buf[15];
   
-  // 设置和读取电源开关状态 Set and read power switch status
+  // 设置和读取电源开关状态
 	if(pBuf[0] == 'P' && pBuf[1] == 'S')
 	{
 		if( len > 2)
@@ -706,12 +700,12 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 			UartTx("AI0;", 4); // AI OFF
 		}
 	}
-	// 读取发送器的状态 read the status of the transmitter
+	// 读取发送器的状态
 	if(pBuf[0] == 'I' && pBuf[1] == 'F')
 	{
 		Kenwood_BuildTransceiverStatus();
 	}
-	// 设置频率波段 set frequency band
+	// 设置频率波段
 	if((pBuf[0] == 'B' && pBuf[1] == 'D') || (pBuf[0] == 'B' && pBuf[1] == 'U'))
 	{
 		//Sets a frequency band.
@@ -726,7 +720,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	if(pBuf[0] == 'B' && pBuf[1] == 'Y')
 	{
 	// Reads the busy signal status.
-	// 未使用 Unused
+	// 未使用
 		if( len > 2)
 		{
 
@@ -752,7 +746,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 			}
 		}
 	}
-  // 设置或读取VFOA/VFOB的频率 Set or read the frequency of VFOA/VFOB
+  // 设置或读取VFOA/VFOB的频率
 	if(pBuf[0] == 'F' && pBuf[1] == 'A')
 	{
     // Sets or reads the VFO A/ VFO B frequency
@@ -799,7 +793,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 //			freqA = vfo[VFO_A].Freq;
 //		}
 	
-  // 选择或读取VFO 或 寄存器通道 Select or read VFO or register channel
+  // 选择或读取VFO 或 寄存器通道
 	if(pBuf[0] == 'F' && pBuf[1] == 'R')
 	{
 		// Selects or reads the VFO or Memory channel
@@ -838,7 +832,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	if(pBuf[0] == 'F' && pBuf[1] == 'T')
 	{
 		// Selects or reads the VFO or Memory channel
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -851,7 +845,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'F' && pBuf[1] == 'L')
 	{
-    // 未使用 Unused
+    // 未使用
 		if( len > 2)
 		{
     
@@ -864,7 +858,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'F' && pBuf[1] == 'V')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
     
@@ -877,7 +871,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'D' && pBuf[1] == 'A')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
     
@@ -890,7 +884,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'F' && pBuf[1] == 'S')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -903,7 +897,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'N' && pBuf[1] == 'B')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -916,7 +910,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'N' && pBuf[1] == 'R')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -929,7 +923,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'P' && pBuf[1] == 'A')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -942,7 +936,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'P' && pBuf[1] == 'R')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -955,7 +949,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'R' && pBuf[1] == 'A')
 	{
-		// Sets and reads the RF Attenuator status. 未使用 Unused
+		// Sets and reads the RF Attenuator status. 未使用
 		if( len > 2)
 		{
 		
@@ -968,7 +962,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'V' && pBuf[1] == 'X')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -981,7 +975,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'B' && pBuf[1] == 'C')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -994,7 +988,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'C' && pBuf[1] == 'A')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -1007,20 +1001,20 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'I' && pBuf[1] == 'D')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
 		}
 		else
 		{
-		  UartTx("ID020;", 6); // TS-590S
+		  UartTx("ID021;", 6); // TS-590S
 		}
 	}
 	//
 	if(pBuf[0] == 'T' && pBuf[1] == 'O')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -1033,7 +1027,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'T' && pBuf[1] == 'N')
 	{
-		// Sets and reads the Tone frequency. 未使用 Unused
+		// Sets and reads the Tone frequency. 未使用
 		if( len > 2)
 		{
 		
@@ -1046,7 +1040,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'C' && pBuf[1] == 'T')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -1059,7 +1053,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'C' && pBuf[1] == 'N')
 	{
-		// Sets and reads the CTCSS frequency 未使用 Unused
+		// Sets and reads the CTCSS frequency 未使用
 		if( len > 2)
 		{
 		
@@ -1104,7 +1098,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'M' && pBuf[1] == 'F')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -1117,7 +1111,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'A' && pBuf[1] == 'C')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -1130,7 +1124,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'N' && pBuf[1] == 'T')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -1140,7 +1134,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 			UartTx("NT00;", 5); // 0: Notch OFF  0: Normal
 		}
 	}
-	// 音量控制 volume control
+	// 音量控制
 	if(pBuf[0] == 'A' && pBuf[1] == 'G')
 	{
 		// Sets or reads the AF gain
@@ -1157,7 +1151,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'R' && pBuf[1] == 'G')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -1170,7 +1164,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'G' && pBuf[1] == 'C')
 	{
-		// Sets or reads the AGC 未使锟斤拷
+		// Sets or reads the AGC 未使用
 		if( len > 2)
 		{
 		
@@ -1183,7 +1177,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'P' && pBuf[1] == 'C')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -1196,7 +1190,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
   //
 	if(pBuf[0] == 'M' && pBuf[1] == 'G')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -1206,7 +1200,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 		  UartTx("MG000;", 6); // The microphone gain
 		}
 	}
-	// 读取寄存器通道的数据 Read the data of the register channel
+	// 读取寄存器通道的数据
 	if(pBuf[0] == 'M' && pBuf[1] == 'R')
 	{
 		// Reads the Memory channel data.
@@ -1218,7 +1212,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'N' && pBuf[1] == 'L')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -1231,7 +1225,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'V' && pBuf[1] == 'G')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -1243,7 +1237,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	}
 	if(pBuf[0] == 'V' && pBuf[1] == 'D')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 2)
 		{
 		
@@ -1253,7 +1247,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 			UartTx("VD0000;", 7); // the VOX Gain 
 		}
 	}
-   // 读取RX和TX的电平指示格子 Read the level indication grid of RX and TX
+   // 读取RX和TX的电平指示格子
 	if(pBuf[0] == 'S' && pBuf[1] == 'M')
 	{
 		// Reads the S-meter value. 
@@ -1266,7 +1260,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'S' && pBuf[1] == 'Q')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 3)
 		{
 		
@@ -1279,7 +1273,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'Q' && pBuf[1] == 'R')
 	{
-		// 未使用 Unused
+		// 未使用
 		if( len > 3)
 		{
 		
@@ -1292,7 +1286,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'I' && pBuf[1] == 'S')
 	{
-		// Sets and reads the DSP Filter Shift 未使用 Unused
+		// Sets and reads the DSP Filter Shift 未使用
 		if( len > 2)
 		{
 		
@@ -1302,7 +1296,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 			UartTx("IS 0000;", 8); // 
 		}
 	}
-	// 设置和读取电键键速 Set and read key speed
+	// 设置和读取电键键速
 	if(pBuf[0] == 'K' && pBuf[1] == 'S')
 	{
 		// Sets and reads the Keying speed
@@ -1319,7 +1313,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'S' && pBuf[1] == 'D')
 	{
-		// Sets and reads the CW break-in time delay. 未使用 Unused
+		// Sets and reads the CW break-in time delay. 未使用
 		if( len > 2)
 		{
 		
@@ -1332,7 +1326,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'A' && pBuf[1] == 'N')
 	{
-		// Selects the antenna connector ANT1/ ANT2 未使用 Unused
+		// Selects the antenna connector ANT1/ ANT2 未使用
 		if( len > 2)
 		{
 		
@@ -1359,7 +1353,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 		  
 		}
 	}
-	// 设置和读取寄存器通道号 Set and read register channel number
+	// 设置和读取寄存器通道号
 	if(pBuf[0] == 'M' && pBuf[1] == 'C')
 	{
 		// Sets and reads the Memory Channel number
@@ -1376,7 +1370,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 			Kenwood_MemoryChannelAnswer();
 		}
 	}
-	// 设置和读取操作模式 Set and read operating mode
+	// 设置和读取操作模式
 	if(pBuf[0] == 'M' && pBuf[1] == 'D')
 	{
 		// Sets and reads the operating mode status.
@@ -1395,14 +1389,14 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 	//
 	if(pBuf[0] == 'R' && pBuf[1] == 'C')
 	{
-    // Clears the RIT/XIT frequency. -注：处于RIT/XIT模式时，起作用 -Note: Works when in RIT/XIT mode
+    // Clears the RIT/XIT frequency. -注：处于RIT/XIT模式时，起作用
 //    if (FREQ.item & RITItem)    //BG6RDF
 //      VFO.RIT=0;
 //    if (FREQ.item & XITItem)
 //      VFO.XIT=0;
 //    DRMgr.item |= FREQItem;
 	}
-	// 读取 read
+	// 读取
 	if(pBuf[0] == 'R' && pBuf[1] == 'M')
 	{
 		// Sets and reads the Meter function.
@@ -1524,14 +1518,14 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 			{
 				if( vfo[VFO_A].Mode == DEMOD_LSB || vfo[VFO_A].Mode == DEMOD_USB )
 				{    
-					ks.RIT_key =0;//进入XIT Enter XIT
+					ks.RIT_key =0;//进入XIT
 				}
 			}
 			else
 			{
 				if( vfo[VFO_A].Mode == DEMOD_LSB || vfo[VFO_A].Mode == DEMOD_USB )
 				{    
-					ks.RIT_key =1;//退出XIT Exit XIT
+					ks.RIT_key =1;//退出XIT
 				}
 			}
 		}
