@@ -27,8 +27,8 @@
 
 
 #define FX_4CR  			"FX-4CR"
-#define EXAMPLE_DATE	"2023/04/15"
-#define DEMO_VER 		"V_1.2"
+#define EXAMPLE_DATE	"2023/07/05"
+#define DEMO_VER 		"V_1.4"
 extern u32 m;
 extern u32 n;
 u8 Uart_tx[]={"FX_4C DMA 串口实验"};
@@ -60,7 +60,7 @@ int main(void)
     bsp_InitDWT();					//延时初始化  
 	MPU_Memory_Protection();		//保护相关存储区域 
 	GPIO_Init();
-	TR_CONTROL(CONTROL_RX);/* 发射开启 */
+	TR_CONTROL(CONTROL_RX);/* 发射关闭 */
 	//AF_SQL(1);
 	bsp_InitKey();					//初始化按键 
 	Lcd_Init();		//初始化LCD
@@ -113,17 +113,20 @@ int main(void)
 		LCD_ShowString(50,155,YELLOW1,BLACK ,24,0,"suppression");
 		while(PIN_K7==0);
 	}
-	
+	TR_CONTROL(CONTROL_RX);/* 发射关闭 */
 	//ui_TopBackground(0,0,320,24);
 	//GPIO_Init();
 	SI5351A_Init();
 	Encode_Init(0);
 	
-	Audio_hardware_init();
+	//Audio_hardware_init();
 	Data_init();
 	uart1_init(120,115200);		//串口初始化为115200
 	uart3_init(120,115200);		//串口初始化为115200
 	SysTick_init(SYSTEM_CLK,1);
+	TR_CONTROL(CONTROL_RX);/* 发射关闭 */
+	Audio_hardware_init();
+	TR_CONTROL(CONTROL_RX);/* 发射关闭 */
 	bsp_StartAutoTimer(0, 25); /* 启动1个100ms的自动重装的定时器 */
 	sd.key_BL_delay = 200;//按键背光延迟10秒关闭；
 	delay_ms(1000);
@@ -260,8 +263,8 @@ int main(void)
 		//UART3_Task();
 		//UART_Task();
 		//UART_DMAEnd();
-		//LCD_ShowNum(150,150,GRAY1,BLACK, 10,16,PTT_RT);
-		//LCD_ShowNum(100,150,GRAY1,BLACK, 4,24,spk_vol);
+		//LCD_ShowNum(150,150,GRAY1,BLACK, 10,16,ads.pow_gain [vfo[VFO_A].Band_id ]);
+		//LCD_ShowNum(100,150,GRAY1,BLACK, 4,24,nr.reset_dsp_nr);
 //		if(USART_RX_STA&0x8000)
 //		{					   
 //			len=USART_RX_STA&0x3fff;//得到此次接收到的数据长度

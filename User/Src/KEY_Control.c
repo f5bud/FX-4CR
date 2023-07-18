@@ -1377,7 +1377,7 @@ void key_Mode_Control()
 //			}
 //		}
 //		//AT24CXX_WriteOneByte(MENU_POW, sd.Pow );
-//		pow_gain_set();
+		//pow_gain_set();
 		
 		softdds_setfreq(DDS_TX_LO,(float32_t)(sd.Dsp_Lo1), SAMPLING_RETE, 1);
 		softdds_setfreq(DDS_LO1,(float32_t)(sd.Dsp_Lo1+sd.rit), SAMPLING_RETE, 1);
@@ -1626,8 +1626,8 @@ void key_Filter_Control(u8 idx)
 			sd.fm_fil_id =   vfo[VFO_A].FilterSelected_id;
 			switch(vfo[VFO_A].FilterSelected_id)
 			{
-				case 0:  { Filter_idx = FM_5K;  sd.fm_offset = FM_OFFSET_2K5; }break;
-				case 1:  { Filter_idx = FM_10K; sd.fm_offset = FM_OFFSET_5K; }break;
+				case 0:  { Filter_idx = FM_5K;  sd.fm_offset = FM_OFFSET_2K5; ads.fm_gain =FM_GAIN_2K5;}break;
+				case 1:  { Filter_idx = FM_10K; sd.fm_offset = FM_OFFSET_5K; ads.fm_gain =FM_GAIN_5K;}break;
 				//case 2:  Filter_idx = FM_5K  ;break;
 				//case 3:  Filter_idx = FM_10K   ;break;
 			}
@@ -1897,12 +1897,12 @@ void key_ATT_Control()
 			}
 			k50 =PIN_K5;			
 		}
-		if(sd.ritatt_ptt ==2)
-		{
-			if( PIN_K7==1)ks.cat_ptt =RX;//RX
-			else
-			if(PIN_K7==0 )ks.cat_ptt =TX;//TX			
-		}
+		//if(sd.ritatt_ptt ==2)
+		//{
+		//	if( PIN_K7==1)ks.cat_ptt =RX;//RX
+		//	else
+		//	if(PIN_K7==0 )ks.cat_ptt =TX;//TX			
+		//}
 	}
 	if(clk ==0 || ATT_Key0 != ks.ATT_key||ptt != TR_READ)
 	{
@@ -2108,7 +2108,7 @@ void Pow_max_set(void)
 			}
 		}
 		//if(sd.Pow !=50)
-			ads.pow_gain [vfo[VFO_A].Band_id] = AT24CXX_ReadLenByte(vfo[VFO_A].Band_id*2 + ADDRPOWER_GAIN ,2);
+			//ads.pow_gain [vfo[VFO_A].Band_id] = AT24CXX_ReadLenByte(vfo[VFO_A].Band_id*2 + ADDRPOWER_GAIN ,2);
 		//if(sd.Pow < 1)sd.Pow =1;
 		pow_gain_set();
 		pow_0 =sd.Pow;
@@ -2563,6 +2563,7 @@ void RXandTX_Control_Management()
 		else
 		{
 			AT24CXX_WriteOneByte( BAND_CH(sd.num_a) + Addr_OFFSET[ks.rt_rx ],vfo[VFO_A].Band_id );
+			pow_gain_set();
 			band_a = vfo[VFO_A].Band_id;
 		}
 		sd.Riss = ads.IF_gain;
@@ -2706,9 +2707,9 @@ Menu_GenInfo User[] = //***此数组必须为4的倍数
 	{ "4 BLUETOOTH    ", 	       0,	       1,           1,  MENU_BLUETOOTH, 	1}, //5
 	{ "5 RIT_PTT      ", 	       0,	       0,           1,  MENU_RITATT_PTT, 	1}, //6
 	{ "6 ENCODE_FREQ  ", 	       0,	       1,           5,  MENU_ENC_FREQ, 		1}, //7
-	{ "7 TX_FILTER    ", 	       0,	       5,           5, 	MENU_TX_FILTER,     1}, //9
+	{ "7 TX_FILTER    ", 	       0,	       4,           5, 	MENU_TX_FILTER,     1}, //9
 	
-	//{ "8 TR_DIFFERE   ", 	       0,	       0,           1, 	MENU_ENC_EXTI,     1}, //9
+	{ "8 TX_AF_COMP   ", 	       1,	      10,          99, 	MENU_TX_AF_COMP,     1}, //9
 	{ "END            ",	0,	0,	0,	0,	0,},
 	{ "END            ",	0,	0,	0,	0,	0,},
 	{ "END            ",	0,	0,	0,	0,	0,},
@@ -2716,19 +2717,19 @@ Menu_GenInfo User[] = //***此数组必须为4的倍数
 //	{ "END            ",	0,	0,	0,	0,	0,},
 //	{ "END            ",	0,	0,	0,	0,	0,},
 //	{ "END            ",	0,	0,	0,	0,	0,},
-};	
+};
 
 	/* 以下是开发者项目*/
 Menu_GenInfo Deve[] = //***此数组必须为4的倍数
 {	
-	{ "0 POW_CORRE     ",	      50,         72,         100,	MENU_POW_CORRE,  	1}, //0
+	{ "0 POW_CORRE     ",	      50,         70,         100,	MENU_POW_CORRE,  	1}, //0
 	{ "1 AGC_STARE     ",		   2,		 127,         200,  MENU_AGC_START, 	1}, //10
 	{ "2 S_CORRECT     ", 	       0,	      5,          63, 	MENU_S_CORRECT,     1}, //11
 	{ "3 TCXO          ",    24900000,	25000000,    27100000,	MENU_TCXO,			4}, //12 
 	
 	{ "4 SPE_DISPALY   ", 	       0,	       0,          1,   MENU_SPE_DISPALY, 	1},
 	{ "5 RX_AMP_MA     ", 	       0,	       0,          1,   MENU_RX_PHASE, 	    1}, 	//19
-	{ "6 ALC_START     ", 	       0,	       1,          15,  MENU_ALC_START, 	1}, //15
+	{ "6 ALC_START     ", 	       0,	      15,          15,  MENU_ALC_START, 	1}, //15
 	{ "7 ALC_MIC       ", 	       0,	      32,          63,  MENU_ALC_MIC, 		1}, 	//16
 	
 	{ "8 TX_AMP_80M    ", 	    500,	   1000,       2000,  MENU_TX_AMP_80M, 	2}, //13
@@ -2991,7 +2992,7 @@ void Menus_Set(void)
 					sd.enc_freq = Menu_user[0][6];
 					//sd.enc_exti = Menu_user[0][7];
 					sd.tx_filter = Menu_user[0][7];
-					//ks.sim_dif =  Menu_user[0][8];
+					sd.tx_af_comp =  Menu_user[0][8];
 				//}
 				/*
 				*	以下是开发者项目
@@ -3175,16 +3176,16 @@ void Data_init()
 	ks.StepSelected_idx = T_STEP_1KHZ_IDX;
 	
     sd.cw_fil_id = AT24CXX_ReadLenByte(ADDR_FIL_CW ,1);
-    if(sd.cw_fil_id >5)sd.cw_fil_id = 5;
-	if(sd.cw_fil_id <1)sd.cw_fil_id = 1;
+    if(sd.cw_fil_id >5)sd.cw_fil_id = 4;
+	if(sd.cw_fil_id <1)sd.cw_fil_id = 4;
     //AT24CXX_WriteOneByte(ADDR_FIL_CW, sd.cw_fil_id ); 
     sd.lsb_fil_id = AT24CXX_ReadLenByte(ADDR_FIL_LSB ,1);
-    if(sd.lsb_fil_id >5)sd.lsb_fil_id = 5;
-	if(sd.lsb_fil_id <1)sd.lsb_fil_id = 1;
+    if(sd.lsb_fil_id >5)sd.lsb_fil_id = 2;
+	if(sd.lsb_fil_id <1)sd.lsb_fil_id = 2;
     //AT24CXX_WriteOneByte(ADDR_FIL_LSB, sd.lsb_fil_id ); 
     sd.usb_fil_id = AT24CXX_ReadLenByte(ADDR_FIL_USB ,1);
-    if(sd.usb_fil_id >5)sd.usb_fil_id = 5;
-	if(sd.usb_fil_id <1)sd.usb_fil_id = 1;
+    if(sd.usb_fil_id >5)sd.usb_fil_id = 2;
+	if(sd.usb_fil_id <1)sd.usb_fil_id = 2;
     //AT24CXX_WriteOneByte(ADDR_FIL_USB, sd.usb_fil_id );
     sd.am_fil_id = AT24CXX_ReadLenByte(ADDR_FIL_AM ,1);
     if(sd.am_fil_id > 1)sd.am_fil_id = 1;
@@ -3218,9 +3219,9 @@ void Data_init()
 	for(i=0; i<10;i++)
 	{
 		ads.pow_gain [i] = AT24CXX_ReadLenByte(i*2 + ADDRPOWER_GAIN ,2);
-		if(ads.pow_gain [i]<1)ads.pow_gain[i] = 2;
-		if(ads.pow_gain [i]>POW_GAIN_MAX)ads.pow_gain[i] = 2;
-//		ads.cw_gain[i] = AT24CXX_ReadLenByte( ADDR_CW_POW_GAIN(i), 2 );
+		if(ads.pow_gain [i]<1000)ads.pow_gain[i] = 10000;
+		if(ads.pow_gain [i]>POW_GAIN_MAX)ads.pow_gain[i] = 10000;
+		AT24CXX_WriteLenByte(i*2 + ADDRPOWER_GAIN , ads.pow_gain [i],2);
 //		if(ads.cw_gain[i]>10000)ads.cw_gain[i] =10000;
 //		if(ads.cw_gain[i]<1)ads.cw_gain[i] =1;
 	}
@@ -3242,7 +3243,7 @@ void Data_init()
 	sd.enc_freq = Menu_user[0][6];
 	//sd.enc_exti = Menu_user[0][7];
 	sd.tx_filter = Menu_user[0][7];
-	//Menu_user[0][8] =0;
+	sd.tx_af_comp =  Menu_user[0][8];
 	//ks.sim_dif =  Menu_user[0][8];
 	//AT24CXX_WriteLenByte( MENU_ENC_EXTI  ,Menu_user[0][8] ,1);
 	/*
@@ -3358,8 +3359,8 @@ void Data_init()
 //	if(sd.Pow < 1)sd.Pow =1;
 				
 	sd.mic_gain = AT24CXX_ReadLenByte( MENU_MIC_GAIN, 1 );
-	if(sd.mic_gain >99)sd.mic_gain =80;
-	if(sd.mic_gain < 1)sd.mic_gain =80;
+	if(sd.mic_gain >99)sd.mic_gain =20;
+	if(sd.mic_gain < 1)sd.mic_gain =20;
 	
 	nr.dsp_nr_strength = AT24CXX_ReadLenByte( MENU_NR_STRONG, 1 );
 	if(nr.dsp_nr_strength >55)nr.dsp_nr_strength =15;
@@ -3369,7 +3370,8 @@ void Data_init()
 	if(nr.dsp_nr_delaybuf_len >512)nr.dsp_nr_delaybuf_len =60;
 	if(nr.dsp_nr_delaybuf_len < 32)nr.dsp_nr_delaybuf_len =60;
 	
-	nr.dsp_nr_numtaps = 48;//AT24CXX_ReadLenByte( MENU_NR_NUMTAPS, 1 );
+	nr.dsp_nr_numtaps = 32;//AT24CXX_ReadLenByte( MENU_NR_NUMTAPS, 1 );
+	
 	for(i=0; i<10;i++)
 	{
 		Filte_Center[i] = filte_center[i].Default;
@@ -3644,6 +3646,7 @@ void Enc0_UseManagement(void)
 						sd.Rx_amp_ma = Menu_user[1][5];	//幅度平衡手动/自动模式转换
 						sd.alc_start = Menu_user[1][6];
 						sd.alc_mic = Menu_user[1][7];
+						sd.tx_af_comp =  Menu_user[0][8];
 					
 						ads.tx_amp[0] = Menu_user[1][8]*0.001f;
 						ads.tx_phase[0] = (Menu_user[1][9]-100) *0.001f;
@@ -3719,18 +3722,16 @@ void pow_gain_set()
 	*	根据功率公式，sd.Pow应该是乘以50，
 	*	菜单标定的功率放大了十倍，所以是sd.Pow*5.0f	
 	*/
-	//ads.pow_gain [vfo[VFO_A].Band_id] = AT24CXX_ReadLenByte(vfo[VFO_A].Band_id*2 + ADDRPOWER_GAIN ,2);
-	//ads.cw_gain[0] =ads.pow_gain [vfo[VFO_A].Band_id ] *50.0f;
-	/*	计算设定功率下FWD的ADC数值	*/
-	arm_sqrt_f32 (sd.Pow*50, (float32_t *)&calc);//计算标定功率下的电压值
+	
 	//ads.cw_gain[3] =calc; 
 	/*	计算设定功率下各频段增益系数	*/
-	//ads.cw_gain[1] =ads.pow_gain [vfo[VFO_A].Band_id ] *calc*50.0f;
-	if(sd.Pow <=50)ads.cw_gain[1] =((100-sd.Pow*2)+ads.pow_gain [vfo[VFO_A].Band_id ]) *calc*50.0f;
+	arm_sqrt_f32 (sd.Pow, (float32_t *)&ads.cw_gain[0]);//计算标定功率下的电压值
+	//ads.cw_gain[1] =ads.pow_gain [vfo[VFO_A].Band_id ] *ads.cw_gain[0]*50.0f;
+	if(sd.Pow <=50)ads.cw_gain[1] =((1500-sd.Pow*30)+ads.pow_gain [vfo[VFO_A].Band_id ]) *ads.cw_gain[0]*10.0f;
 	else 
-	if(sd.Pow>50)ads.cw_gain[1] =((sd.Pow -50)*1.2f+ads.pow_gain [vfo[VFO_A].Band_id ]) *calc*50.0f;
+	if(sd.Pow>50)ads.cw_gain[1] =((sd.Pow -50)*30+ads.pow_gain [vfo[VFO_A].Band_id ]) *ads.cw_gain[0]*10.0f;
 	
-	ads.cw_gain[0] =calc;
+	//ads.cw_gain[0] =calc;
 	//if(sd.Pow <=50)ads.cw_gain[4] =(100-sd.Pow*2) *calc*50.0f;
 	//else 
 	//if(sd.Pow>50)ads.cw_gain[4] =(sd.Pow -50)*1.2f *calc*50.0f;
@@ -3739,7 +3740,8 @@ void pow_gain_set()
 	
 	/*	计算设定功率与最小功率的增益比值	*/
 	arm_sqrt_f32 (sd.Pow, (float32_t *)&calc);
-	
+	arm_sqrt_f32 (calc, (float32_t *)&calc);
+	arm_sqrt_f32 (calc, (float32_t *)&calc);
 	arm_sqrt_f32 (calc, (float32_t *)&calc);
 	arm_sqrt_f32 (calc , (float32_t *)&ads.cw_gain[2]);
 	//ads.cw_gain[0] = ads.pow_gain [vfo[VFO_A].Band_id ];
@@ -4066,7 +4068,7 @@ void Enc2_UseManagement(void)
 				if(ads.pow_gain[vfo[VFO_A].Band_id ]>POW_GAIN_MAX)
 					ads.pow_gain[vfo[VFO_A].Band_id ] = 2;
 				
-				AT24CXX_WriteLenByte(vfo[VFO_A].Band_id*2 + ADDRPOWER_GAIN , ads.pow_gain[vfo[VFO_A].Band_id],2);
+				//AT24CXX_WriteLenByte(vfo[VFO_A].Band_id*2 + ADDRPOWER_GAIN , ads.pow_gain[vfo[VFO_A].Band_id],2);
 			}
 			//pow_gain_set();//设定功率下各个波段的增益系数
 			//else
@@ -4219,6 +4221,7 @@ void Enc2_UseManagement(void)
 void key_DSP_NoiseProcessing()
 {
 	u16 i;
+	//static u8 Rt_key;
 	static float mu_calc;
 	static uint32_t	calc_taps;
 	static uint8_t band;
@@ -4231,6 +4234,7 @@ void key_DSP_NoiseProcessing()
 		if( ucKeyCode==KEY_1_LONG && vfo[VFO_A].Mode >= DEMOD_LSB )
 		{
 			ks.NR_key =~ks.NR_key &0x01;
+			nr.reset_dsp_nr =1;
 			//sd.Enc2_delay = 300;
 		}
 		if( ucKeyCode==KEY_2_LONG  )
@@ -4239,10 +4243,23 @@ void key_DSP_NoiseProcessing()
 			//sd.Enc2_delay = 200;
 		}
 	}
-	
-	
+	if(TR_READ ==CONTROL_TX && ads.nr_key ==ks.NR_key)nr.reset_dsp_nr =1;
+	if(band != vfo[VFO_A].Band_id && ads.nr_key ==ks.NR_key)
+	{
+		nr.reset_dsp_nr =1;
+		band = vfo[VFO_A].Band_id;
+	}
+
+//	if(nr.reset_dsp_nr)
+//	{
+//		for(i = 0; i < DSP_NR_NUMTAPS_MAX + BUFF_LEN; i++)	 		
+//		{
+//			
+//			lms1NormCoeff_f32[i] = 0;
+//		}
+//	}
     //
-	if(nr_strength0 !=nr.dsp_nr_strength || nr_delaybuf0 != nr.dsp_nr_delaybuf_len || band!=vfo[VFO_A].Band_id )
+	if(nr_strength0 !=nr.dsp_nr_strength || nr_delaybuf0 != nr.dsp_nr_delaybuf_len || ads.nr_key!=ks.NR_key )
 	{
 		//nr.dsp_nr_strength = Menu_Values[14];
 		//nr.dsp_nr_delaybuf_len = Menu_Values[15];
@@ -4277,13 +4294,13 @@ void key_DSP_NoiseProcessing()
 		for(i = 0; i < DSP_NR_NUMTAPS_MAX + BUFF_LEN; i++)	 		
 		{
 			lms1StateF32[i] = 0;			
-			if(nr.reset_dsp_nr)	 			
-			{
-				lms1NormCoeff_f32[i] = 0;		
-			}
+			//if(nr.reset_dsp_nr)	 			
+			//{
+				lms1NormCoeff_f32[i] = 0;
+			//}
 		}
 		//
-		arm_lms_norm_init_f32(&lms1Norm_instance, calc_taps, &lms1NormCoeff_f32[0], &lms1StateF32[0], (float32_t)mu_calc, 8);
+		arm_lms_norm_init_f32(&lms1Norm_instance, calc_taps, &lms1NormCoeff_f32[0], &lms1StateF32[0], (float32_t)mu_calc, 32);
 		//
 		//
 		if((nr.dsp_nr_delaybuf_len > DSP_NR_BUFLEN_MAX) || (nr.dsp_nr_delaybuf_len < DSP_NR_BUFLEN_MIN))
@@ -4293,6 +4310,7 @@ void key_DSP_NoiseProcessing()
 		nr_delaybuf0 = nr.dsp_nr_delaybuf_len;
 		band =vfo[VFO_A].Band_id;
 		//nr_numtaps0 = Menu_Values[16];
+		ads.nr_key =ks.NR_key;
 	}
 }
 

@@ -834,8 +834,8 @@ void ui_Signal_intensity_Display(u16 x,u16 y,u16 fc,u16 bc,u16 riss,u8 RT_key)
 		//if(sd.menu_page ==1)sd.Pow =50;
 		if(sd.Pow ==50&&vfo[VFO_A].Mode <  DEMOD_LSB)
 		{			
-			if(ads.pow>50&&ads.pow<53)AT24CXX_WriteLenByte(vfo[VFO_A].Band_id*2 + ADDRPOWER_GAIN , ads.pow_gain[vfo[VFO_A].Band_id],2);
-			if(sd.menu_page ==1)LCD_ShowNum(160,132,GRAY1,BLACK, 4,16,ads.pow_gain[vfo[VFO_A].Band_id ]);
+			if(ads.pow>=49&&ads.pow<=50)AT24CXX_WriteLenByte(vfo[VFO_A].Band_id*2 + ADDRPOWER_GAIN , ads.pow_gain [vfo[VFO_A].Band_id ],2);
+			if(sd.menu_page ==1)LCD_ShowNum(160,132,GRAY1,BLACK, 4,16,ads.pow_gain [vfo[VFO_A].Band_id ]);
 		}
 	}
 	else

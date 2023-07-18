@@ -35,7 +35,7 @@
 #define FIR_NUM_TAPS		96			/* FIR滤波器系数个数 */
 /*******************************************************************************/
 //
-#define POW_GAIN_MAX				2000
+#define POW_GAIN_MAX				60000
 #define ADC_SIZE					 SAMPLE_SIZE/4
 #define ADC_16LEN					16
 #define DAC_OFFSET_LEVEL			2048	// DAC输出偏置 
@@ -68,6 +68,8 @@
 //
 // FM Demodulator parameters
 //
+#define	FM_GAIN_2K5			0.001f			// Amplitude scaling factor of demodulated FM audio (normalized for +/- 2.5 kHz deviation at 1 kHZ)
+#define FM_GAIN_5K			0.0012f
 #define	FM_OFFSET_2K5			2500			// Amplitude scaling factor of demodulated FM audio (normalized for +/- 2.5 kHz deviation at 1 kHZ)
 #define FM_OFFSET_5K			5000			// Amplitude scaling factor of demodulated FM audio (normalized for +/- 2.5 kHz deviation at 1 kHZ)
 #define	FM_RX_SCALING_2K5		65536*8
@@ -157,7 +159,7 @@ typedef struct
 	/* AGC */
 	float32_t	agc_constant;
 		u32 	agc_gain;
-	//float32_t	band_gain;
+	float32_t	fm_gain;
 		u8 IF_gain;
 		//u8 IF_rxgain[15];
 	/* TX */
@@ -179,6 +181,7 @@ typedef struct
 	float32_t   power_v;
 		u32 pow_amp[10];
 		u16	pow_gain[10];
+		u16	pow_gain_save;
 		u16	pow_gain_temp;
 		u16 cw_alc_gain[10];
 		u16 cw_gain_time;
@@ -193,10 +196,11 @@ typedef struct
 		u8	Af_mute:2;
 		u8  cw_fant:2;
     //
-   // float					nb_agc_filt;			// used for the filtering/determination of the noise blanker AGC level
-   // float					nb_sig_filt;
-    uint32_t				dsp_zero_count;			// used for detecting zero output from DSP which can occur if it crashes
-    float					dsp_nr_sample;	
+   // float				nb_agc_filt;			// used for the filtering/determination of the noise blanker AGC level
+   // float				nb_sig_filt;
+    uint32_t			dsp_zero_count;			// used for detecting zero output from DSP which can occur if it crashes
+    float				dsp_nr_sample;
+	u8					nr_key:2;	
 }Audio_Digital_Signal; 
 extern  Audio_Digital_Signal	ads;
 
@@ -224,7 +228,7 @@ typedef struct
     int32_t	dsp_inhibit_mute;			// holder for "dsp_inhibit" during muting operations to allow restoration of previous state
     int32_t	dsp_timed_mute;				// TRUE if DSP is to be muted for a timed amount
     u32	dsp_inhibit_timing;				// used to time inhibiting of DSP when it must be turned off for some reason
-    int32_t	reset_dsp_nr;				// TRUE if DSP NR coefficients are to be reset when "audio_driver_set_rx_audio_filter()" is called
+    uint32_t	reset_dsp_nr;				// TRUE if DSP NR coefficients are to be reset when "audio_driver_set_rx_audio_filter()" is called
     //
 	u16 fm_Scaling:16;
 }Dspnr_typedef;

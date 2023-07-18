@@ -1008,7 +1008,7 @@ void Kenwood_CmdParser(uint8_t *pBuf, uint8_t len)
 		}
 		else
 		{
-		  UartTx("ID021;", 6); // TS-590S
+		  UartTx("ID020;", 6); // TS-590S
 		}
 	}
 	//

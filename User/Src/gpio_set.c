@@ -98,6 +98,8 @@ void GPIO_Init()
 	GPIO_Set(GPIOC,PIN10,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD); // 17M/15M
 	GPIO_Set(GPIOD,PIN2,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD); // 12M/10M
 	GPIO_Set(GPIOA,PIN14,GPIO_MODE_OUT,0,0,GPIO_PUPD_PD); // 6M
+	
+	TR_CONTROL(CONTROL_RX);
 /*
 ******************************************************************************
 *	ø’œ–IO

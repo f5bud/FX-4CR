@@ -176,8 +176,10 @@ typedef struct
 		 u8 enc_exti:8;
 		 u8 tx_filter:8;
 		 u16 fm_offset:16;
+		 //u8 fm_gain:8;
 		 int16_t IF_shift:16;
 		 u8 pow_corre:8;
+		 u8 tx_af_comp:8;
 	__IO uint16_t txband_no:16;	 
 }Storage_Data;
 //
@@ -366,6 +368,7 @@ extern CW_WPM_management	wpm_tab[46];
 #define MENU_ENC_EXTI		40	/* 23 外接光电编码器调整模式 */
 #define MENU_TX_FILTER		41	/* 24 SSB发射带宽设置 */
 #define MENU_S_CORRECT		42	/* 25 S表校准 */
+#define MENU_TX_AF_COMP		43	/* 26 语音压缩 */
 //开发菜单地址developers
 #define MENU_SPE_DISPALY	70//TX发射频谱显示 0：不显示，1显示
 #define MENU_RX_PHASE		71//TX发射IQ平衡
@@ -396,7 +399,7 @@ extern CW_WPM_management	wpm_tab[46];
 #define ADDR_ENC_DIR		130 /* 编码器方向 */
 #define ADDR_TX_BAND_NO		131 /* 编码器方向 */
 //
-#define MENU_END			8
+#define MENU_END			9
 #define MENU_HIDD_END		28//开发者菜单数量
 //
 //
@@ -496,7 +499,7 @@ extern __IO At24c_addr_GenInfo	vfo[2];
 /*
 *	POWER_MAX
 */
-#define	ADDRPOWER_GAIN		1800 
+#define	ADDRPOWER_GAIN		1770 
 typedef struct
 {
 	u16 min;

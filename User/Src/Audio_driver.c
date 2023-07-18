@@ -145,7 +145,7 @@ static float32_t SortData[MidFilterOrder];  /* 滤波排序 */
 static float32_t TempDate[ZeroSize + SAMPLE_SIZE +ZeroSize] = {0}; /* 滤波阶段用到的临时变量 */
 //extern  u16 Rx_amp_adjust[12];
 extern u16  Rx_amp_user[10];
-#if f5bud
+#if daniel
 /*
 *********************************************************************************************************
 *	函 数 名: MidFilterBlock
@@ -389,11 +389,12 @@ void Audio_Filter_init()
 //	{
 //		FIR_State_BPF[i] =0;
 //	}
+	
 	static uint32_t	calc_taps;
     //
-	nr.dsp_nr_strength=15;
-	nr.dsp_nr_delaybuf_len=110;
-	nr.dsp_nr_numtaps=48;
+	//nr.dsp_nr_strength=15;
+	//nr.dsp_nr_delaybuf_len=110;
+	nr.dsp_nr_numtaps=32;
     if((nr.dsp_nr_numtaps < DSP_NR_NUMTAPS_MIN) || (nr.dsp_nr_numtaps > DSP_NR_NUMTAPS_MAX))
         calc_taps = DSP_NR_NUMTAPS_DEFAULT;
     else
@@ -440,28 +441,43 @@ void Audio_Filter_init()
 static void audio_lms_noise_reduction(int16_t psize)
 {
     static uint32_t		lms1_inbuf = 0, lms1_outbuf = 0;
-
-    arm_copy_f32((float32_t *)ads.a_buffer, (float32_t *)&lms1_nr_delay[lms1_inbuf], psize);	// put new data into the delay buffer
+	u16 i;
 	
-	arm_lms_norm_f32(&lms1Norm_instance, (float32_t *)ads.a_buffer, (float32_t *)&lms1_nr_delay[lms1_outbuf], (float32_t *)ads.a_buffer, (float32_t *)errsig1 ,psize);	// do noise reduction
-	
-    if((((u32)fabs(ads.a_buffer[0])) * DSP_ZERO_DET_MULT_FACTOR) < DSP_OUTPUT_MINVAL)	// is DSP level too low?
-																						// DSP_ZERO_DET_MULT_FACTOR = 10000000;DSP_OUTPUT_MINVAL = 1
-    {
-        if(ads.dsp_zero_count < MAX_DSP_ZERO_COUNT)
-        {
-            ads.dsp_zero_count++;
-        }
-    }
-    else
-        ads.dsp_zero_count = 0;
-  //
-    ads.dsp_nr_sample = ads.a_buffer[0];		
-    //
-    lms1_inbuf += psize;	
-    lms1_outbuf = lms1_inbuf + psize;	
-    lms1_inbuf %= nr.dsp_nr_delaybuf_len;
-    lms1_outbuf %= nr.dsp_nr_delaybuf_len;
+	if(nr.reset_dsp_nr)
+	{
+		for(i = 0; i < DSP_NR_NUMTAPS_MAX + BUFF_LEN; i++)	 		
+		{
+			lms1StateF32[i] = 0;
+			lms1NormCoeff_f32[i] = 0;
+		}
+		nr.reset_dsp_nr =0;
+	}
+	else
+	{
+		arm_copy_f32((float32_t *)ads.a_buffer, (float32_t *)&lms1_nr_delay[lms1_inbuf], psize);	// put new data into the delay buffer
+		
+		arm_lms_norm_f32(&lms1Norm_instance, (float32_t *)ads.a_buffer, (float32_t *)&lms1_nr_delay[lms1_outbuf], (float32_t *)ads.a_buffer, (float32_t *)errsig1 ,psize);	// do noise reduction
+		
+		if((((uint32_t)fabs(ads.a_buffer[0])) * DSP_ZERO_DET_MULT_FACTOR) < DSP_OUTPUT_MINVAL)	// is DSP level too low?
+																							// DSP_ZERO_DET_MULT_FACTOR = 10000000;DSP_OUTPUT_MINVAL = 1
+		{
+			if(ads.dsp_zero_count < MAX_DSP_ZERO_COUNT)
+			{
+				ads.dsp_zero_count++;
+			}
+		}
+		else
+		{
+			ads.dsp_zero_count = 0;
+		}
+	  //
+		ads.dsp_nr_sample = ads.a_buffer[0];		
+		//
+		lms1_inbuf += psize;	
+		lms1_outbuf = lms1_inbuf + psize;	
+		lms1_inbuf %= nr.dsp_nr_delaybuf_len;
+		lms1_outbuf %= nr.dsp_nr_delaybuf_len;
+	}
 }
 /*
 *	函数名称：Gain_adjustment_control（）
@@ -495,7 +511,7 @@ void DMA2_Stream5_IRQHandler (void)
 	static u8 lock;
 	static float32_t vol;
    // static u16 dac_offset_level;
-	static float32_t ssb_mic_gain;
+	static float32_t ssb_mic_gain,ssb_mic_gain_1;
 	static float32_t mic_gain;
 	static float32_t agc_gain=1.0f;
 	static float32_t agc2_gain=1.0f,agc0;
@@ -522,7 +538,7 @@ void DMA2_Stream5_IRQHandler (void)
 	//static   float32_t bfo_i;
 	//static   float32_t bfo_q; 
 	//static   float32_t LO2_I;
-	//static   float32_t LO2_Q;
+	static   float32_t si_buf[SAMPLE_SIZE/2];
 	   float32_t add_I;/* 累加缓存 */
 	   float32_t add_Q;/* 累加缓存 */
 	static   float32_t Data_I1[SAMPLE_SIZE/2];/* DSP缓存 */
@@ -531,7 +547,7 @@ void DMA2_Stream5_IRQHandler (void)
 	static   float32_t Data_Q[SAMPLE_SIZE/2];/* DSP缓存 */
 	static   float32_t FM_I[2]; /* BP输入数组 */
 	static   float32_t FM_Q[2];/* BP滤波后的输出 */
-	static   float32_t Data_FM_I[SAMPLE_SIZE/2];
+	static   float32_t Data_FM[SAMPLE_SIZE/2];
 	//static   float32_t Data_FM_Q[SAMPLE_SIZE/2];
 	//static   float32_t Dac2_out_I[SAMPLE_SIZE];/* DSP缓存 */
 	//static   float32_t Dac2_out_Q[SAMPLE_SIZE];/* DSP缓存 */
@@ -615,7 +631,7 @@ void DMA2_Stream5_IRQHandler (void)
 					ads.hp_vol =55;
 				}
 				ads.tx_delay =0;
-				//ads.pow_gain_temp =0;
+				ads.pow_gain_temp =0;
 				if(vfo[VFO_A].Mode < DEMOD_LSB)TR_CONTROL(CONTROL_RX);/* 转换到接收状态 */
                 //if(rit_0!=sd.rit)
 				//{
@@ -867,9 +883,10 @@ void DMA2_Stream5_IRQHandler (void)
 					//
 					// DSP noise reduction using LMS (Least Mean Squared) algorithm
 					//
-					if(ks.NR_key ==1)// && ( vfo[VFO_A].Mode == DEMOD_LSB ||  vfo[VFO_A].Mode == DEMOD_USB))	 	// Do this if enabled and "Pre-AGC" DSP NR enabled
+					if(ads.nr_key )// && ( vfo[VFO_A].Mode == DEMOD_LSB ||  vfo[VFO_A].Mode == DEMOD_USB))	 	// Do this if enabled and "Pre-AGC" DSP NR enabled
 					{
-						audio_lms_noise_reduction(psize);	
+						audio_lms_noise_reduction(psize);
+						//ads.nr_key =0;
 					}
 					arm_biquad_cascade_df1_f32(&IIR_AF, (float32_t *)ads.a_buffer, (float32_t *)ads.a_buffer, psize);//LP低通滤波 Q通道
 					arm_scale_f32((float32_t *)ads.a_buffer, SSB_AF_ScaleValues, (float32_t *)ads.a_buffer,psize);
@@ -1215,19 +1232,19 @@ void DMA2_Stream5_IRQHandler (void)
 							{
 								calc = calc - sd.Pow;
 								calc = calc / sd.Pow;
-								arm_sqrt_f32 (calc, (float32_t *)&calc );
+								//arm_sqrt_f32 (calc, (float32_t *)&calc );
 								cw_alc_gain -= cw_alc_gain * calc * 0.01f;
-								if(cw_alc_gain  <0.1f )cw_alc_gain = 0.1f;
+								if(cw_alc_gain  <0.01f )cw_alc_gain = 0.01f;
 							}
 							if(calc < sd.Pow)	
 							{
 								calc =  sd.Pow -calc;
 								calc = calc/ sd.Pow;
-								arm_sqrt_f32 (calc, (float32_t *)&calc );
+								//arm_sqrt_f32 (calc, (float32_t *)&calc );
 								cw_alc_gain += cw_alc_gain * calc * 0.0001f;
 								if(cw_alc_gain >1.0f)cw_alc_gain = 1.0f;
 							}
-							ads.pow_gain_temp=0;
+							//ads.pow_gain_temp=0;
 						}
 						else
 						{
@@ -1236,22 +1253,30 @@ void DMA2_Stream5_IRQHandler (void)
 							{
 								if(ads.pow > sd.Pow )
 								{
-									ads.pow_gain [vfo[VFO_A].Band_id ] -=1;
-									if(ads.pow_gain [vfo[VFO_A].Band_id ]<1)ads.pow_gain [vfo[VFO_A].Band_id ]=1;
-									lock=100;
+									calc =ads.pow - sd.Pow;
+									calc/= sd.Pow;
+									ads.pow_gain [vfo[VFO_A].Band_id ] -=ads.pow_gain [vfo[VFO_A].Band_id ]*calc*0.01f;
+									if(ads.pow_gain [vfo[VFO_A].Band_id ]<1000)ads.pow_gain [vfo[VFO_A].Band_id ]=1000;
+									lock=10;
 								}
 								
-								if(ads.pow < sd.Pow )
+								if(ads.pow < sd.Pow-1 )
 								{
-									ads.pow_gain [vfo[VFO_A].Band_id ] +=1;
-									if(ads.pow_gain [vfo[VFO_A].Band_id ]>POW_GAIN_MAX)ads.pow_gain [vfo[VFO_A].Band_id ]=1;
-									lock=100;
+									calc = sd.Pow-ads.pow;
+									calc/= sd.Pow;
+									ads.pow_gain [vfo[VFO_A].Band_id ] +=ads.pow_gain [vfo[VFO_A].Band_id ]*calc*0.01f;
+									if(ads.pow_gain [vfo[VFO_A].Band_id ]>POW_GAIN_MAX)ads.pow_gain [vfo[VFO_A].Band_id ]=1000;
+									lock=10;
 								}
-							 	
-								if((ads.pow >= sd.Pow)&&(ads.pow <= sd.Pow+3))
+							 	//if(ads.pow == sd.Pow )
+								if((ads.pow >= sd.Pow-1)&&(ads.pow <= sd.Pow))
 								{
 									if(lock>0)lock--;
-									if(lock<1)ads.pow_gain_temp=1;	
+									if(lock<1)
+									{
+										lock=0;
+										ads.pow_gain_temp=1;
+									}										
 								}									
 							}
 							/*	计算设定功率下各频段增益系数	*/
@@ -1259,13 +1284,14 @@ void DMA2_Stream5_IRQHandler (void)
 							//if(sd.Pow <10)ads.cw_gain[1] =((10-sd.Pow)+ads.pow_gain [vfo[VFO_A].Band_id ]) *calc*500.0f;
 							//else
 							//if(sd.Pow>=10&&sd.Pow <=100)
-							ads.cw_gain[1] =ads.pow_gain [vfo[VFO_A].Band_id ]*2500.0f;
+							//ads.cw_gain[1] =ads.pow_gain [vfo[VFO_A].Band_id ]*2500.0f;
+							ads.cw_gain[1] =ads.pow_gain [vfo[VFO_A].Band_id ] *ads.cw_gain[0]*10.0f;
 							//else 
 							//if(sd.Pow>100)ads.cw_gain[1] =((sd.Pow -100)*0.12f+ads.pow_gain [vfo[VFO_A].Band_id ]) *calc*500.0f;
 						}
 						for(i=0;i<SAMPLE_SIZE/2;i++)
 						{	
-							ads.si_i [i] = ads.ddssi_i[i] * sd.CW_vol*63;
+							si_buf[i] = ads.ddssi_i[i] * (float32_t)(sd.CW_vol*63);
 						
 							Data_I[i] = ads.ddslo_i_tx[i] * cw_alc_gain*ads.cw_gain[1];//*ads.cw_gain[2];//*ads.tx_amp ;//
 							Data_Q[i] = ads.ddslo_q_tx[i] * cw_alc_gain*ads.cw_gain[1];//*ads.cw_gain[2];//
@@ -1298,8 +1324,10 @@ void DMA2_Stream5_IRQHandler (void)
 					{
 						if(ads.tx_delay)
 						{
+							softdds_setfreq(DDS_SI,(float32_t)sd.Dsp_Bfo, SAMPLING_RETE, 0);
 							for(i=0;i<SAMPLE_SIZE/2;i++)
 							{	
+								si_buf[i] =0;
 								ads.si_i[i] = 0;
 								Data_I[i] = 0;
 								Data_Q[i] = 0;
@@ -1366,22 +1394,22 @@ void DMA2_Stream5_IRQHandler (void)
 							{
 								calc = calc - sd.Pow;
 								calc = calc / sd.Pow;
-								arm_sqrt_f32 (calc, (float32_t *)&calc );
+								//arm_sqrt_f32 (calc, (float32_t *)&calc );
 								cw_alc_gain -= cw_alc_gain * calc * 0.01f;
-								if(cw_alc_gain  <0.1f )cw_alc_gain = 0.1f;
+								if(cw_alc_gain  <0.01f )cw_alc_gain = 0.01f;
 							}
 							if(calc < sd.Pow)	
 							{
 								calc =  sd.Pow -calc;
 								calc = calc/ sd.Pow;
-								arm_sqrt_f32 (calc, (float32_t *)&calc );
+								//arm_sqrt_f32 (calc, (float32_t *)&calc );
 								cw_alc_gain += cw_alc_gain * calc * 0.0001f;
 								if(cw_alc_gain >1.0f)cw_alc_gain = 1.0f;
 							}
 							//
 							for(i=0;i<SAMPLE_SIZE/2;i++)
 							{
-								ads.si_i [i] = ads.ddssi_i[i] * sd.CW_vol*63;
+								si_buf[i] = ads.ddssi_i[i] * (float32_t)(sd.CW_vol*63);
 								//ads.a_buffer[i] = ads.ddssi_q[i] * cw_alc_gain*500;//
 								//if(ks.CW_Exercise <1)//如果不在练习模式
 								//{
@@ -1399,11 +1427,13 @@ void DMA2_Stream5_IRQHandler (void)
 						{
 							if(ads.tx_delay)
 							{
+								softdds_setfreq(DDS_SI,(float32_t)sd.Dsp_Bfo, SAMPLING_RETE, 0);
 								for(i=0;i<SAMPLE_SIZE/2;i++)
 								{
 									Data_I[i] = 0;
 									Data_Q[i] = 0;
-									ads.si_i[i] *= 0;//sd.CW_vol*500;
+									si_buf[i] =0;
+									ads.si_i[i] = 0;//sd.CW_vol*500;
 								}
 							}
 				
@@ -1508,11 +1538,13 @@ void DMA2_Stream5_IRQHandler (void)
 					ads.spk_vol =0;/* 音频关闭 */
 					ads.hp_vol =0;
 					ads.tx_delay = 300;
-					for(i=0;i<SAMPLE_SIZE/2 ;i++)
-					{	
-						ads.out_buff [i*2] = 0;
-						ads.out_buff [i*2+1] = 0;
-					}
+					//for(i=0;i<SAMPLE_SIZE/2 ;i++)
+					//{	
+						//ads.out_buff [i*2] = 0;
+						//ads.out_buff [i*2+1] = 0;
+						//Data_Q1[i]=0;
+						//Data_I1[i]=0;
+					//}
 					if(ks.cat_ptt ==TX)MIC_POWER(1);
 					else MIC_POWER(0);
 					
@@ -1526,8 +1558,9 @@ void DMA2_Stream5_IRQHandler (void)
 					}
 					if(ads.rx_delay<=2)
 					{
-						ssb_mic_gain=0.5f;
-						ssb_alc_gain =0.53f;
+						ssb_mic_gain=0.8f;
+						ssb_alc_gain =0.7f;
+						ssb_mic_gain_1=1.0f;
 					}
 				}
 				if(ads.rx_delay<200)
@@ -1543,48 +1576,74 @@ void DMA2_Stream5_IRQHandler (void)
 					else arm_fir_decimate_f32(&DECIMATE_I, (float32_t *)Data_I1,ads.a_buffer, SAMPLE_SIZE/2);
 					arm_biquad_cascade_df1_f32(&IIR_AF, ads.a_buffer, ads.a_buffer, psize);//LP低通滤波 Q通道
 					
-					if(ks.cat_ptt ==TX)//声卡
-						arm_scale_f32(ads.a_buffer,  AF_ScaleValues*30.0f, ads.a_buffer,psize);
-					else 
+					//if(sd.Pow >100)
+					//arm_scale_f32(ads.a_buffer,  AF_ScaleValues*(sd.Pow-100)*0.1f, ads.a_buffer,psize);
+					//else
+					arm_scale_f32(ads.a_buffer,  AF_ScaleValues, ads.a_buffer,psize);
+					if(ks.cat_ptt ==TX)
 					{
-						if(sd.Pow >100)
-						arm_scale_f32(ads.a_buffer,  AF_ScaleValues*(sd.mic_gain*1.4f+(sd.Pow-100)*0.1f), ads.a_buffer,psize);
+						if(ks.bt_key==1 )arm_scale_f32(ads.a_buffer, 50.0f, ads.a_buffer,psize);
 						else
-						arm_scale_f32(ads.a_buffer,  AF_ScaleValues*sd.mic_gain*1.4f, ads.a_buffer,psize);	
+						if(ks.bt_key==0 )arm_scale_f32(ads.a_buffer, 20.0f, ads.a_buffer,psize);
 					}
+					else 
+					arm_scale_f32(ads.a_buffer,  sd.mic_gain*0.33f, ads.a_buffer,psize);
+					arm_scale_f32(ads.a_buffer,  ssb_mic_gain*ads.cw_gain[0], ads.a_buffer,psize);
 					
 					//arm_mean_f32(ads.a_buffer,psize, (float32_t *)&calc );
-					//arm_max_f32(ads.a_buffer, psize, (float32_t *)&calc, 0);/* AGC样品，提取最大值 */
+					arm_max_f32(ads.a_buffer, psize, (float32_t *)&calc, 0);/* AGC样品，提取最大值 */
+					
 					/*
 					*	ALC 
 					*/
 					
-					for(i=0;i<psize;i++)
-					{
-						ads.a_buffer[i] *=ssb_mic_gain*ads.cw_gain[0]*2.0f;
-						calc = ads.a_buffer[i];				
-						if(calc<0)calc*=-1.0f;
-						
+					//for(i=0;i<psize;i++)
+					//{
+					//	ads.a_buffer[i] *=ssb_mic_gain*ads.cw_gain[0];
+						calc = fabs(calc);				
+						//if(calc<0)calc*=-1.0f;
+						//calc *=1.0f;
 						if(calc > ads.cw_gain[1])
 						{
-							calc = calc - ads.cw_gain[1];
-							calc = calc / ads.cw_gain[1];
+							calc -= ads.cw_gain[1];
+							calc /= ads.cw_gain[1];
 							//arm_sqrt_f32 (calc, (float32_t *)&calc );
-							ssb_mic_gain -= ssb_mic_gain * calc*0.01f;
-							if(ssb_mic_gain  < 0.01f )ssb_mic_gain = 0.01f;
-							//ads.a_buffer[i] *=ssb_mic_gain;//MIC幅度过大，衰减加大
+							ssb_mic_gain -= ssb_mic_gain * calc*0.1f;
+							if(ssb_mic_gain  < 0.1f)ssb_mic_gain = 0.1f;
 						}
-						else
-						//if(calc < ads.cw_gain[1])	
+						//else
+						if(calc < ads.cw_gain[1])	
 						{
 							calc = ads.cw_gain[1] -calc;
-							calc = calc/ ads.cw_gain[1];
+							calc /= ads.cw_gain[1];
 							//arm_sqrt_f32 (calc, (float32_t *)&calc );
-							ssb_mic_gain += ssb_mic_gain * calc * 0.0001f;
+							ssb_mic_gain += ssb_mic_gain * calc *(float32_t)(1.0f/sd.tx_af_comp) *0.1f;
 							if(ssb_mic_gain >1.0f)ssb_mic_gain = 1.0f;
 						}
 						//if(ads.a_buffer[i] > (ads.cw_gain[1]*2.0f))ads.a_buffer[i] *=ssb_mic_gain;
-					}
+					//}
+//					arm_scale_f32(ads.a_buffer,  ssb_mic_gain_1, ads.a_buffer,psize);
+//					//arm_max_f32(ads.a_buffer, psize, (float32_t *)&calc,0);/* AGC样品，提取最大值 */
+//					arm_mean_f32(ads.a_buffer, psize, (float32_t *)&calc);/* AGC样品，提取最大值 */	
+//					calc *=1.414f;
+//					if(calc > ads.cw_gain[1])
+//					{
+//						calc -= ads.cw_gain[1];
+//						calc /= ads.cw_gain[1];
+//						//arm_sqrt_f32 (calc, (float32_t *)&calc );
+//						ssb_mic_gain_1 -= ssb_mic_gain_1 * calc*0.1f;
+//						if(ssb_mic_gain_1  < 0.1f)ssb_mic_gain_1 = 0.1f;
+//					}
+//					//else
+//					if(calc < ads.cw_gain[1])	
+//					{
+//						calc = ads.cw_gain[1] -calc;
+//						calc /= ads.cw_gain[1];
+//						//arm_sqrt_f32 (calc, (float32_t *)&calc );
+//						ssb_mic_gain_1 += ssb_mic_gain_1 * calc *0.01f;
+//						if(ssb_mic_gain_1 >1.0f)ssb_mic_gain_1 = 1.0f;
+//					}
+						
 					softdds_runf(DDS_BFO,ads.ddsbfo_i ,ads.ddsbfo_q , psize);
 					softdds_runf(DDS_TX_LO,ads.ddslo_i_tx ,ads.ddslo_q_tx, SAMPLE_SIZE/2);//SSB本振
 					for(i=0;i<psize;i++)
@@ -1624,19 +1683,19 @@ void DMA2_Stream5_IRQHandler (void)
 						if(calc<0)calc*=-1;
 						if(calc > sd.Pow)
 						{
-							calc = calc -sd.Pow;
+							calc = calc - sd.Pow;
 							calc = calc / sd.Pow;
-							arm_sqrt_f32 (calc, &calc );
-							ssb_alc_gain -= ssb_alc_gain * calc * 0.01f;
-							if(ssb_alc_gain  <0.01f )ssb_alc_gain = 0.01f;
+							//arm_sqrt_f32 (calc, &calc );
+							ssb_alc_gain -= ssb_alc_gain * calc *0.1f;
+							if(ssb_alc_gain  <0.1f )ssb_alc_gain = 0.1f;
 						}
 						//else
 						if(calc < sd.Pow)	
 						{
 							calc = sd.Pow -calc;
 							calc = calc/ sd.Pow;
-							arm_sqrt_f32 (calc, (float32_t *)&calc );
-							ssb_alc_gain += ssb_alc_gain * calc * 0.0001f;
+							//arm_sqrt_f32 (calc, (float32_t *)&calc );
+							ssb_alc_gain += ssb_alc_gain * calc * 0.0033f;
 							if(ssb_alc_gain >1.0f)ssb_alc_gain = 1.0f;
 						}
 					//}
@@ -1673,10 +1732,10 @@ void DMA2_Stream5_IRQHandler (void)
 					ads.spk_vol =0;/* 音频关闭 */
 					ads.hp_vol =0;
 					ads.tx_delay = 300;
-					for(i=0;i<SAMPLE_SIZE ;i++)
-					{	
-						ads.out_buff [i] = 0;
-					}
+					//for(i=0;i<SAMPLE_SIZE ;i++)
+					//{	
+					//	ads.out_buff [i] = 0;
+					//}
 					if(PTT_RT == TX||ks.rit_tx==TX)MIC_POWER(0);
 					
 					ads.rx_delay--;
@@ -1725,7 +1784,7 @@ void DMA2_Stream5_IRQHandler (void)
 						{
 							calc = calc - ads.cw_gain[1];
 							calc = calc / ads.cw_gain[1];
-							mic_gain -= mic_gain * calc*0.1f;
+							mic_gain -= mic_gain * calc*0.01f;
 							if(mic_gain  < 0.01f )mic_gain = 0.01f;
 							//ads.a_buffer[i] *=mic_gain;//MIC幅度过大，衰减加大
 						}
@@ -1734,7 +1793,7 @@ void DMA2_Stream5_IRQHandler (void)
 						{
 							calc = ads.cw_gain[1] -calc;
 							calc = calc/ ads.cw_gain[1];
-							mic_gain += mic_gain * calc * 0.001f;
+							mic_gain += mic_gain * calc * 0.0001f;
 							if(mic_gain >1.0f)mic_gain = 1.0f;
 						}
 						if(ads.a_buffer[i]>ads.cw_gain[1])ads.a_buffer[i] *=mic_gain;
@@ -1762,16 +1821,16 @@ void DMA2_Stream5_IRQHandler (void)
 					{
 						calc = calc - sd.Pow;
 						calc = calc / sd.Pow;
-						arm_sqrt_f32 (calc, (float32_t *)&calc );
+						//arm_sqrt_f32 (calc, (float32_t *)&calc );
 						am_alc_gain -= am_alc_gain * calc * 0.1f;
-						if(am_alc_gain  <0.1f )am_alc_gain = 0.1f;
+						if(am_alc_gain  <0.01f )am_alc_gain = 0.01;
 					}
 					//else
 					if(calc < sd.Pow)	
 					{
 						calc =  sd.Pow -calc;
 						calc = calc/ sd.Pow;
-						arm_sqrt_f32 (calc, (float32_t *)&calc );
+						//arm_sqrt_f32 (calc, (float32_t *)&calc );
 						am_alc_gain += am_alc_gain * calc * 0.001f;
 						if(am_alc_gain >1.0f)am_alc_gain = 1.0f;
 					}
@@ -1806,11 +1865,11 @@ void DMA2_Stream5_IRQHandler (void)
 					ads.spk_vol =0;/* 音频关闭 */
 					ads.hp_vol =0;
 					ads.tx_delay = 300;
-					for(i=0;i<SAMPLE_SIZE/2 ;i++)
-					{	
-						ads.out_buff [i*2] = 0;
-						ads.out_buff [i*2+1] = 0;
-					}
+					//for(i=0;i<SAMPLE_SIZE/2 ;i++)
+					//{	
+					//	ads.out_buff [i*2] = 0;
+					//	ads.out_buff [i*2+1] = 0;
+					//}
 					if(PTT_RT == TX||ks.rit_tx==TX)MIC_POWER(0);
 					
 					ads.rx_delay--;
@@ -1838,7 +1897,7 @@ void DMA2_Stream5_IRQHandler (void)
 					else arm_fir_decimate_f32(&DECIMATE_I, (float32_t *)Data_I1,ads.a_buffer, SAMPLE_SIZE/2);
 					
 					arm_biquad_cascade_df1_f32(&IIR_AF, (float32_t *)ads.a_buffer, (float32_t *)ads.a_buffer, psize);//LP低通滤波 Q通道
-					arm_scale_f32((float32_t *)ads.a_buffer, AF_ScaleValues *sd.mic_gain *0.00033f , (float32_t *)ads.a_buffer,psize);
+					arm_scale_f32((float32_t *)ads.a_buffer, AF_ScaleValues *ads.fm_gain, (float32_t *)ads.a_buffer,psize);
 					/*	频偏限制	  */
 					//arm_max_f32(ads.a_buffer, SAMPLE_SIZE, &varI_1, 0);/* AGC样品，提取最大值 */
 					//arm_min_f32(ads.a_buffer, SAMPLE_SIZE, &varI_0, 0);/* AGC样品，提取最大值 */
@@ -1864,7 +1923,7 @@ void DMA2_Stream5_IRQHandler (void)
 							fm_gain += fm_gain * calc* 0.0001f;
 							if(fm_gain >1.0f)fm_gain =1.0f;
 						}
-						if(ads.a_buffer[i]> sd.fm_offset)ads.a_buffer[i] *= fm_gain;
+						//if(ads.a_buffer[i]> sd.fm_offset)ads.a_buffer[i] *= fm_gain;
 					}
 					//arm_fir_interpolate_f32(&INTERPOLATE_Q,(float32_t *)ads.a_buffer, (float32_t *)ads.b_buffer, psize);
 					/*	
@@ -1875,14 +1934,17 @@ void DMA2_Stream5_IRQHandler (void)
 					softdds_runf(DDS_TX_LO,ads.ddslo_i_tx ,ads.ddslo_q_tx, SAMPLE_SIZE/2);//SSB本振
 					for(i=0;i<psize;i++)
 					{
-						A++;if(A>SAMPLE_SIZE/2)A=0;
 						/* (X(n)+X(n-1) */
-						Data_FM_I[i] = ads.a_buffer[i]+FM_I[1];
-
-						Data_I1[i] = arm_cos_f32(PI_CALC*Data_FM_I[i]*A/8);
-						Data_Q1[i] = arm_sin_f32(PI_CALC*Data_FM_I[i]*A/8);
-						 
-						FM_I[1] =ads.a_buffer[i];
+						Data_FM[i] = ads.a_buffer[i] + FM_I[1]; 
+						
+						/* Cos[2π((X(n)+X(n-1))/k]*/
+						Data_I1[i] = arm_cos_f32 (2*PI * Data_FM[i]/12000);
+						
+						/* Sin[2π((X(n)+X(n-1))/k]*/
+						Data_Q1[i] = arm_sin_f32 (2*PI * Data_FM[i]/12000);
+						
+						/* X(n-1) */
+						FM_I[1]=ads.a_buffer[i];
 					}
 					/* 内插低通滤波以限制带宽 */
 					arm_fir_interpolate_f32(&INTERPOLATE_I,(float32_t *)Data_I1, (float32_t *)ads.a_buffer, psize);
@@ -1890,7 +1952,9 @@ void DMA2_Stream5_IRQHandler (void)
 					for(i=0;i<SAMPLE_SIZE/2;i++)
 					{
 						Data_I1[i] = ads.a_buffer[i]*ads.ddslo_i_tx[i] - ads.b_buffer[i]*ads.ddslo_q_tx[i];
-						Data_I1[i] *= ads.cw_gain[1]*fm_alc_gain*8;
+						Data_I1[i] *= ads.cw_gain[1]*fm_alc_gain*8.0f;
+						//Data_Q[i] = ads.b_buffer[i]*ads.ddslo_q_tx[i];
+						//Data_Q[i] *= -ads.cw_gain[1]*fm_alc_gain*8.0f;
 					}
 					/* 
 					*	Hilbert Transform 
@@ -1911,7 +1975,7 @@ void DMA2_Stream5_IRQHandler (void)
 					{
 						calc = calc - sd.Pow;
 						calc = calc / sd.Pow;
-						arm_sqrt_f32 (calc, (float32_t *)&calc );
+						//arm_sqrt_f32 (calc, (float32_t *)&calc );
 						fm_alc_gain -= fm_alc_gain * calc * 0.01f;
 						if(fm_alc_gain  <0.01f )fm_alc_gain = 0.01f;
 					}
@@ -1920,8 +1984,8 @@ void DMA2_Stream5_IRQHandler (void)
 					{
 						calc =  sd.Pow -calc;
 						calc = calc/ sd.Pow;
-						arm_sqrt_f32 (calc, (float32_t *)&calc );
-						fm_alc_gain += fm_alc_gain * calc * 0.001f;
+						//arm_sqrt_f32 (calc, (float32_t *)&calc );
+						fm_alc_gain += fm_alc_gain * calc * 0.0001f;
 						if(fm_alc_gain >1.0f)fm_alc_gain = 1.0f;
 					}
 //					for(i=0;i<SAMPLE_SIZE/2;i++)
@@ -1968,6 +2032,14 @@ void DMA2_Stream5_IRQHandler (void)
 						ads.out_buff[i*2+1]= Data_Q[i];
 					}
 				}
+				else
+				{
+					for(i=0;i<SAMPLE_SIZE/2;i++)
+					{
+						ads.out_buff[i*2]  = 0;
+						ads.out_buff[i*2+1]= 0;
+					}	
+				}	
 			}
 		}
 		/*
@@ -2017,14 +2089,14 @@ void DMA2_Stream5_IRQHandler (void)
 			{
 				for(i=0;i<SAMPLE_SIZE/2;i++)
 				{
-					DAC2_Buff0 [i] = (int16_t)ads.si_i[i]+DAC_OFFSET_LEVEL;
+					DAC2_Buff0 [i] = (int16_t)si_buf[i]+DAC_OFFSET_LEVEL;
 				}
 			}
 			else
 			{
 				for(i=0;i<SAMPLE_SIZE/2;i++)
 				{
-					DAC2_Buff1 [i] = (int16_t)ads.si_i [i]+DAC_OFFSET_LEVEL;
+					DAC2_Buff1 [i] = (int16_t)si_buf [i]+DAC_OFFSET_LEVEL;
 				}
 			}
 		}
@@ -2062,9 +2134,9 @@ void DMA2_Stream5_IRQHandler (void)
 			
 			arm_mean_f32(temp,ADC_SIZE, &ads.fwd);
 			if(vfo[VFO_A].Mode >= DEMOD_LSB && vfo[VFO_A].Mode <= DEMOD_USB_DIG)
-				ads.pow = ads.fwd *ads.pow_corre * ads.fwd *ads.pow_corre * 0.2f*(3.0f-ads.cw_gain[2])*1.5f;/* 16位ADC */
+				ads.pow = ads.fwd *ads.pow_corre * ads.fwd *ads.pow_corre * 0.22f/*(3.0f-ads.cw_gain[2])*/*1.5f;/* 16位ADC */
 			else
-				ads.pow = ads.fwd *ads.pow_corre * ads.fwd *ads.pow_corre * 0.2f*(3.0f-ads.cw_gain[2]);/* 16位ADC */
+				ads.pow = ads.fwd *ads.pow_corre * ads.fwd *ads.pow_corre * 0.22f;//*(3.0f-ads.cw_gain[2]);/* 16位ADC */
 			//ads.pow = ads.fwd * 0.01221f * ads.fwd *0.01221f * 0.2f;/* 12位ADC */
 			arm_mean_f32(temp1,ADC_SIZE, &ads.ref);
 			ads.pwr_rev = ads.ref * 0.00068f * ads.ref *0.00068f * 0.2f*(3.0f-ads.cw_gain[2]);/* 16位ADC */
