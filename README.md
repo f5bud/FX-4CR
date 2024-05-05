@@ -1,7 +1,7 @@
 # FX-4CR
 Developed by BG2FX and hosted by F5BUD
 
-Check [Releases](https://github.com/f5bud/FX-4CR/releases) to download the latest hex file.
+Check [Releases](https://github.com/f5bud/FX-4CR/releases) to download user manual and hex files.
 ```
 For those who want to invest in the development, BG2FX offers the source code of this radio.
 
